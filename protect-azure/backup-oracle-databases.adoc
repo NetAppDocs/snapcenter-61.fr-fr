@@ -1,0 +1,45 @@
+---
+permalink: protect-azure/backup-oracle-databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Oracle Database, back up, databases, Azure NetApp Files 
+summary: Sauvegardez la ressource à partir de la page Ressources. 
+---
+= Sauvegarder les bases de données Oracle exécutées sur Azure NetApp Files
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une ressource ne fait pas encore partie d’un groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressource, sélectionnez *Base de données* dans la liste déroulante Affichage.
+. Dans la page Ressource, sélectionnez *Utiliser un format de nom personnalisé pour la copie d'instantané*, puis saisissez un format de nom personnalisé que vous souhaitez utiliser pour le nom d'instantané.
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
+.. Sélectionner *image:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] * dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer une planification.
+.. Dans la boîte de dialogue Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis sélectionnez *OK*.
+
+
+. Dans la page de vérification, effectuez les étapes suivantes :
++
+.. Sélectionnez le serveur de vérification.
+.. Sélectionnez la politique pour laquelle vous souhaitez configurer votre calendrier de vérification, puis cliquez sur *image:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] *.
+.. Sélectionnez *Exécuter la vérification après la sauvegarde* ou *Exécuter la vérification planifiée*.
+.. Cliquez sur OK.
+
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
+. Consultez le résumé, puis cliquez sur *Terminer*.
+. Sélectionnez *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si plusieurs politiques sont associées à la ressource, dans la liste déroulante *Politique*, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

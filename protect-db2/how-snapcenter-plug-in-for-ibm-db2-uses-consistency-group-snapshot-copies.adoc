@@ -1,0 +1,16 @@
+---
+permalink: protect-db2/how-snapcenter-plug-in-for-ibm-db2-uses-consistency-group-snapshot-copies.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: 'Vous pouvez utiliser le plug-in pour créer des instantanés de groupe de cohérence pour les groupes de ressources.  Un groupe de cohérence est un conteneur qui peut héberger plusieurs volumes afin que vous puissiez les gérer comme une seule entité.  Un groupe de cohérence est constitué d"instantanés simultanés de plusieurs volumes, fournissant des copies cohérentes d"un groupe de volumes.' 
+---
+= Comment le plug-in SnapCenter pour IBM Db2 utilise les instantanés de groupe de cohérence
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser le plug-in pour créer des instantanés de groupe de cohérence pour les groupes de ressources.  Un groupe de cohérence est un conteneur qui peut héberger plusieurs volumes afin que vous puissiez les gérer comme une seule entité.  Un groupe de cohérence est constitué d'instantanés simultanés de plusieurs volumes, fournissant des copies cohérentes d'un groupe de volumes.
+
+Vous pouvez également spécifier le temps d'attente pour que le contrôleur de stockage regroupe systématiquement les snapshots.  Les options de temps d'attente disponibles sont *Urgent*, *Moyen* et *Détendu*.  Vous pouvez également activer ou désactiver la synchronisation WAFL(Write Anywhere File Layout) pendant l'opération de capture instantanée de groupe cohérente.  La synchronisation WAFL améliore les performances d’un instantané de groupe de cohérence.

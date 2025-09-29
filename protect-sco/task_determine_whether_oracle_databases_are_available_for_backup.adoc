@@ -1,0 +1,105 @@
+---
+permalink: protect-sco/task_determine_whether_oracle_databases_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: credentials,SnapCenter Plug-in for Oracle Databases, non-database entries, oratab 
+summary: 'Les ressources sont des bases de données Oracle sur l"hôte qui sont gérées par SnapCenter.  Vous pouvez ajouter ces bases de données à des groupes de ressources pour effectuer des opérations de protection des données après avoir découvert les bases de données disponibles.' 
+---
+= Découvrez les bases de données Oracle disponibles pour la sauvegarde
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les ressources sont des bases de données Oracle sur l'hôte qui sont gérées par SnapCenter.  Vous pouvez ajouter ces bases de données à des groupes de ressources pour effectuer des opérations de protection des données après avoir découvert les bases de données disponibles.
+
+.Avant de commencer
+* Vous devez avoir effectué des tâches telles que l’installation du serveur SnapCenter , l’ajout d’hôtes, la création de connexions au système de stockage et l’ajout d’informations d’identification.
+* Si les bases de données résident sur un disque de machine virtuelle (VMDK) ou un mappage de périphériques bruts (RDM), vous devez déployer le SnapCenter Plug-in for VMware vSphere et enregistrer le plug-in auprès de SnapCenter.
++
+Pour plus d'informations, consultez la section  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["Déployer le SnapCenter Plug-in for VMware vSphere"^] .
+
+* Si les bases de données résident sur un système de fichiers VMDK, vous devez vous être connecté à vCenter et avoir accédé à *Options VM* > *Avancé* > *Modifier la configuration* pour définir la valeur de _disk.enableUUID_ sur true pour la VM.
+* Vous devez avoir examiné le processus suivi par SnapCenter pour découvrir différents types et versions de bases de données Oracle.
+
+
+
+
+== Étape 1 : Empêcher SnapCenter de détecter des entrées hors base de données
+
+Vous pouvez empêcher SnapCenter de découvrir les entrées non liées à la base de données ajoutées dans le fichier oratab.
+
+.Étapes
+. Après avoir installé le plug-in pour Oracle, l'utilisateur root doit créer le fichier *sc_oratab.config* sous le répertoire _/var/opt/snapcenter/sco/etc/_.
++
+Accordez l'autorisation d'écriture au propriétaire et au groupe du binaire Oracle afin que le fichier puisse être conservé à l'avenir.
+
+. L'administrateur de base de données doit ajouter les entrées non liées à la base de données dans le fichier *sc_oratab.config*.
++
+Il est recommandé de conserver le même format défini pour les entrées hors base de données dans le fichier _/etc/oratab_ ou l'utilisateur peut simplement ajouter la chaîne d'entité hors base de données.
+
++
+
+NOTE: La chaîne est sensible à la casse.  Tout texte avec # au début est traité comme un commentaire.  Le commentaire peut être ajouté après le nom non lié à la base de données.
+
++
+....
+For example:
+--------------------------------------------
+# Sample entries
+# Each line can have only one non-database name
+# These are non-database name
+oratar  # Added by the admin group -1
+#Added by the script team
+NEWSPT
+DBAGNT:/ora01/app/oracle/product/agent:N
+-----------------------------------------------
+....
+. Découvrez les ressources.
++
+Les entrées non liées à la base de données ajoutées dans *sc_oratab.config* ne seront pas répertoriées dans la page Ressources.
+
+
+
+
+IMPORTANT: Il est toujours recommandé d'effectuer une sauvegarde du fichier sc_oratab.config avant de mettre à niveau le plug-in SnapCenter .
+
+
+
+== Étape 2 : Découvrir les ressources
+
+Après l’installation du plug-in, toutes les bases de données sur cet hôte sont automatiquement découvertes et affichées dans la page Ressources.
+
+Les bases de données doivent être au moins dans l'état monté ou supérieur pour que la découverte des bases de données réussisse.  Dans un environnement Oracle Real Application Clusters (RAC), l'instance de base de données RAC dans l'hôte où la découverte est effectuée doit être au moins dans l'état monté ou supérieur pour que la découverte de l'instance de base de données réussisse.  Seules les bases de données découvertes avec succès peuvent être ajoutées aux groupes de ressources.
+
+Si vous avez supprimé une base de données Oracle sur l'hôte, SnapCenter Server ne le saura pas et répertoriera la base de données supprimée.  Vous devez actualiser manuellement les ressources pour mettre à jour la liste des ressources SnapCenter .
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* dans la liste *Affichage*.
++
+Cliquezimage:../media/filter_icon.gif["icône de filtre"] [icône de filtre], puis sélectionnez le nom d'hôte et le type de base de données pour filtrer les ressources.  Vous pouvez ensuite cliquer sur l'icône imagfilter_icon.gif[icône de filtre]_icon.png[] pour fermer le volet de filtre.
+
+. Cliquez sur *Actualiser les ressources*.
++
+Dans un scénario RAC One Node, la base de données est découverte comme base de données RAC sur le nœud où elle est actuellement hébergée.
+
+
+
+*Résultats*
+
+Les bases de données sont affichées avec des informations telles que le type de base de données, le nom de l'hôte ou du cluster, les groupes de ressources et les politiques associés, ainsi que l'état.
+
+
+IMPORTANT: Vous devez actualiser les ressources si les bases de données sont renommées en dehors de SnapCenter.
+
+* Si la base de données se trouve sur un système de stockage non NetApp , l'interface utilisateur affiche un message Non disponible pour la sauvegarde dans la colonne État général.
++
+Vous ne pouvez pas effectuer d'opérations de protection des données sur la base de données qui se trouve sur un système de stockage non NetApp .
+
+* Si la base de données se trouve sur un système de stockage NetApp et n'est pas protégée, l'interface utilisateur affiche un message Non protégé dans la colonne État général.
+* Si la base de données se trouve sur un système de stockage NetApp et est protégée, l'interface utilisateur affiche un message Disponible pour la sauvegarde dans la colonne État général.
+
+
+
+NOTE: Si vous avez activé une authentification de base de données Oracle, une icône de cadenas rouge s'affiche dans la vue des ressources.  Vous devez configurer les informations d’identification de la base de données pour pouvoir protéger la base de données ou l’ajouter au groupe de ressources pour effectuer des opérations de protection des données.

@@ -1,0 +1,166 @@
+---
+permalink: protect-hana/task_restore_and_recover_an_auto_discovered_database_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Vous pouvez utiliser SnapCenter pour restaurer et récupérer des données à partir d’une ou plusieurs sauvegardes. 
+---
+= Restaurer et récupérer une sauvegarde de base de données découverte automatiquement
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour restaurer et récupérer des données à partir d’une ou plusieurs sauvegardes.
+
+.Avant de commencer
+* Vous devez avoir sauvegardé la ressource ou les groupes de ressources.
+* Vous devez avoir annulé toute opération de sauvegarde actuellement en cours pour la ressource ou le groupe de ressources que vous souhaitez restaurer.
+* Pour les commandes de pré-restauration, de post-restauration, de montage et de démontage, vous devez vérifier si les commandes existent dans la liste de commandes disponible sur l'hôte du plug-in à partir des chemins suivants :
++
+** Emplacement par défaut sur l'hôte Windows : _C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Emplacement par défaut sur l'hôte Linux : _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Si les commandes n'existent pas dans la liste des commandes, l'opération échouera.
+
+.À propos de cette tâche
+* Les copies de sauvegarde basées sur des fichiers ne peuvent pas être restaurées à partir de SnapCenter.
+* Après la mise à niveau vers SnapCenter 4.3, les sauvegardes effectuées dans SnapCenter 4.2 peuvent être restaurées mais ne peuvent pas être récupérées.  Vous devez utiliser HANA Studio ou des scripts de récupération HANA externes à SnapCenter pour récupérer les sauvegardes effectuées dans SnapCenter 4.2.
+* Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des instantanés SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+* Pour l’opération de restauration de synchronisation active de SnapMirror , vous devez sélectionner la sauvegarde à partir de l’emplacement principal.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, filtrez les ressources de la liste déroulante *Afficher* en fonction du type de ressource.
++
+Les ressources sont affichées avec le type, l'hôte, les groupes de ressources et les politiques associés, ainsi que l'état.
+
++
+
+NOTE: Bien qu'une sauvegarde puisse concerner un groupe de ressources, lors de la restauration, vous devez sélectionner les ressources individuelles que vous souhaitez restaurer.
+
++
+Si la ressource n'est pas protégée, « Non protégé » s'affiche dans la colonne État général.  Cela peut signifier soit que la ressource n'est pas protégée, soit que la ressource a été sauvegardée par un autre utilisateur.
+
+. Sélectionnez la ressource ou sélectionnez un groupe de ressources, puis sélectionnez une ressource dans ce groupe.
++
+La page de topologie des ressources s'affiche.
+
+. Dans la vue Gérer les copies, sélectionnez *Sauvegardes* à partir des systèmes de stockage principal ou secondaire (en miroir ou en coffre).
+. Dans le tableau Sauvegarde(s) principale(s), sélectionnez la sauvegarde à partir de laquelle vous souhaitez effectuer la restauration, puis cliquez sur *image:../media/restore_icon.gif["icône de restauration"] *.
++
+image::../media/restoring_resource.gif[restaurer les ressources]
+
+. Dans la page Étendue de la restauration, sélectionnez *Ressource complète* pour restaurer les volumes de données configurés de la base de données SAP HANA.
++
+
+NOTE: Vous pouvez sélectionner soit *Ressource complète* (avec ou sans *Rétablissement du volume*), soit *Base de données des locataires*.
+
++
+L'opération de récupération n'est pas prise en charge par SnapCenter Server pour plusieurs locataires lorsque l'utilisateur sélectionne l'option *Base de données des locataires* ou *Restauration complète*.  Vous devez utiliser HANA Studio ou le script Python HANA pour effectuer l'opération de récupération.
+
++
+.. Sélectionnez *Rétablir le volume* si vous souhaitez restaurer l’intégralité du volume.
++
+Cette option est disponible pour les sauvegardes effectuées dans SnapCenter 4.3 dans les environnements NFS.
+
++
+Si la ressource contient des volumes ou des qtrees, les instantanés pris après l'instantané sélectionné pour la restauration sur ces volumes ou qtrees sont supprimés et ne peuvent pas être récupérés.  De plus, si une autre ressource est hébergée sur les mêmes volumes ou qtrees, cette ressource est également supprimée.  Ceci est applicable lorsque l'option *Ressource complète* avec *Rétablissement du volume* est sélectionnée pour la restauration.
+
+.. Sélectionnez *Base de données des locataires*.
++
+Cette option est disponible uniquement pour les ressources MDC.
+
++
+Assurez-vous d’arrêter la base de données du locataire avant d’effectuer l’opération de restauration.
+
++
+Si vous sélectionnez l'option *Base de données du locataire*, vous devez utiliser HANA Studio ou utiliser des scripts de récupération HANA externes à SnapCenter pour effectuer l'opération de récupération.
+
+
+
+. Dans la page Étendue de la récupération, sélectionnez l’une des options suivantes :
++
+|===
+| Si tu... | Fais ceci... 
+
+
+ a| 
+Vous souhaitez récupérer au plus près de l'heure actuelle
+ a| 
+Sélectionnez *Récupérer à l'état le plus récent*.  Pour les ressources de conteneur unique, spécifiez un ou plusieurs emplacements de sauvegarde de journaux et de catalogues.
+
+Pour les ressources de conteneur de base de données multilocataire (MDC), spécifiez un ou plusieurs emplacements de sauvegarde de journal et l'emplacement du catalogue de sauvegarde.
+
+Pour les ressources MDC, le chemin doit contenir à la fois les journaux de la base de données système et de la base de données du locataire.
+
+
+
+ a| 
+Vous souhaitez récupérer jusqu'au moment spécifié
+ a| 
+Sélectionnez *Récupérer jusqu'à un moment précis*.
+
+.. Sélectionnez le fuseau horaire.
++
+Le fuseau horaire du navigateur est renseigné par défaut.
+
++
+Le fuseau horaire sélectionné ainsi que l'heure d'entrée sont convertis en GMT absolu.
+
+.. Entrez la date et l'heure.  Par exemple, l'hôte HANA Linux est situé à Sunnyvale, en Californie, et l'utilisateur à Raleigh, en Caroline du Nord, récupère les journaux dans SnapCenter.
++
+Le décalage horaire entre ces deux emplacements est de 3 heures et, comme l'utilisateur s'est connecté depuis Raleigh, en Caroline du Nord, le fuseau horaire par défaut du navigateur qui sera sélectionné dans l'interface graphique est GMT-04:00.
+
++
+Si l'utilisateur souhaite effectuer une récupération à 5 heures du matin à Sunnyvale, en Californie, il doit définir le fuseau horaire du navigateur sur le fuseau horaire de l'hôte HANA Linux, qui est GMT-07:00 et spécifier la date et l'heure à 5h00 du matin.
+
++
+Pour les ressources de conteneur unique, spécifiez un ou plusieurs emplacements de sauvegarde de journaux et de catalogues.
+
++
+Pour les ressources MDC, spécifiez un ou plusieurs emplacements de sauvegarde de journaux et l’emplacement du catalogue de sauvegarde.
+
++
+Pour les ressources MDC, le chemin doit contenir à la fois les journaux de la base de données système et de la base de données du locataire.
+
+
+
+
+
+ a| 
+Vous souhaitez récupérer une sauvegarde de données spécifique
+ a| 
+Sélectionnez *Récupérer vers la sauvegarde de données spécifiée*.
+
+
+
+ a| 
+Je ne veux pas récupérer
+ a| 
+Sélectionnez *Aucune récupération*.  Vous devez effectuer l’opération de récupération manuellement à partir du studio HANA.
+
+|===
++
+Vous ne pouvez récupérer que les sauvegardes effectuées après la mise à niveau vers SnapCenter 4.3, à condition que l'hôte et le plug-in soient tous deux mis à niveau vers SnapCenter 4.3 et que les sauvegardes sélectionnées pour la restauration soient effectuées après la conversion ou la découverte de la ressource en tant que ressource découverte automatiquement.
+
+. Dans la page Pré-opérations, saisissez les commandes de pré-restauration et de démontage à exécuter avant d’effectuer une tâche de restauration.
++
+Les commandes de démontage ne sont pas disponibles pour les ressources découvertes automatiquement.
+
+. Dans la page Post-opérations, saisissez les commandes mount et post-restauration à exécuter après avoir effectué une tâche de restauration.
++
+Les commandes de montage ne sont pas disponibles pour les ressources découvertes automatiquement.
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire ainsi que l'objet de l'e-mail.  SMTP doit également être configuré sur la page *Paramètres* > *Paramètres globaux*.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

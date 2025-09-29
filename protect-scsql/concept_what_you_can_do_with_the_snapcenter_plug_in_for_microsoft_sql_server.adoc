@@ -1,0 +1,42 @@
+---
+permalink: protect-scsql/concept_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Lorsque le plug-in SnapCenter pour Microsoft SQL Server est installé dans votre environnement, vous pouvez utiliser SnapCenter pour sauvegarder, restaurer et cloner des bases de données SQL Server. 
+---
+= Ce que vous pouvez faire avec le plug-in SnapCenter pour Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lorsque le plug-in SnapCenter pour Microsoft SQL Server est installé dans votre environnement, vous pouvez utiliser SnapCenter pour sauvegarder, restaurer et cloner des bases de données SQL Server.
+
+Vous pouvez effectuer les tâches suivantes qui prennent en charge les opérations de sauvegarde, les opérations de restauration et les opérations de clonage des bases de données et des ressources de base de données SQL Server :
+
+* Sauvegarder les bases de données SQL Server et les journaux de transactions associés
++
+Vous ne pouvez pas créer de sauvegarde de journal pour les bases de données système master et msdb.  Cependant, vous pouvez créer des sauvegardes de journaux pour la base de données du système modèle.
+
+* Restaurer les ressources de la base de données
++
+** Vous pouvez restaurer les bases de données du système maître, les bases de données du système msdb et les bases de données du système modèle.
+** Vous ne pouvez pas restaurer plusieurs bases de données, instances et groupes de disponibilité.
+** Vous ne pouvez pas restaurer la base de données système vers un autre chemin.
+
+
+* Créer des clones ponctuels de bases de données de production
++
+Vous ne pouvez pas effectuer d’opérations de sauvegarde, de restauration, de clonage et de cycle de vie de clonage sur les bases de données système tempdb.
+
+* Vérifiez immédiatement les opérations de sauvegarde ou reportez la vérification à plus tard
++
+La vérification de la base de données système SQL Server n'est pas prise en charge.  SnapCenter clone les bases de données pour effectuer une opération de vérification.  SnapCenter ne peut pas cloner les bases de données système SQL Server et, par conséquent, la vérification de ces bases de données n'est pas prise en charge.
+
+* Planifier des opérations de sauvegarde et des opérations de clonage
+* Surveiller les opérations de sauvegarde, de restauration et de clonage
+
+
+
+NOTE: Le plug-in pour SQL Server ne prend pas en charge la sauvegarde et la récupération des bases de données SQL Server sur les partages SMB.

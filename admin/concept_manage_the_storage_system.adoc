@@ -1,0 +1,138 @@
+---
+permalink: admin/concept_manage_the_storage_system.html 
+sidebar: sidebar 
+keywords: Manage storage system 
+summary: Après avoir ajouté le système de stockage, vous pouvez modifier la configuration et les connexions du système de stockage, ou supprimer le système de stockage. 
+---
+= Gérer le système de stockage
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Après avoir ajouté le système de stockage, vous pouvez modifier la configuration et les connexions du système de stockage, ou supprimer le système de stockage.
+
+
+
+== Modifier la configuration du système de stockage
+
+Vous pouvez utiliser SnapCenter pour modifier la configuration de votre système de stockage si vous souhaitez modifier le nom d'utilisateur, le mot de passe, la plate-forme, le port, le protocole, le délai d'expiration, l'adresse IP préférée ou les options de messagerie.
+
+*À propos de cette tâche*
+
+Vous pouvez modifier les connexions de stockage pour un utilisateur individuel ou pour un groupe.  Si vous appartenez à un ou plusieurs groupes disposant d'une autorisation sur le même système de stockage, le nom de la connexion de stockage s'affiche plusieurs fois dans la liste des connexions de stockage, une fois pour chaque groupe disposant d'une autorisation sur le système de stockage.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Systèmes de stockage*.
+. Dans la page Systèmes de stockage, à partir de la liste déroulante *Type*, effectuez l'une des actions suivantes :
++
+|===
+| Sélectionner... | Mesures... 
+
+
+ a| 
+SVM ONTAP
+ a| 
+Pour afficher toutes les machines virtuelles de stockage (SVM) qui ont été ajoutées et modifier la configuration SVM requise.
+
+.. Dans la page Connexions de stockage, cliquez sur le nom de SVM approprié.
+.. Effectuez l’une des actions suivantes :
++
+*** Si le SVM ne fait partie d'aucun cluster, dans la page Modifier le système de stockage, modifiez les configurations telles que le nom d'utilisateur, le mot de passe, les paramètres EMS et AutoSupport , la plate-forme, le protocole, le port, le délai d'expiration et l'adresse IP préférée.
+*** Si le SVM fait partie d'un cluster, dans la page Modifier le système de stockage, sélectionnez *Gérer le SVM indépendamment* et modifiez les configurations telles que le nom d'utilisateur, le mot de passe, les paramètres EMS et AutoSupport , la plate-forme, le protocole, le port, le délai d'expiration et l'adresse IP préférée.
++
+Après avoir modifié le SVM pour qu'il soit géré indépendamment, si vous décidez de le gérer via un cluster, vous devez supprimer le SVM puis cliquer sur *Redécouvrir*.  Le SVM sera ajouté au cluster ONTAP .
+
++
+
+NOTE: Lorsqu'un mot de passe de système de stockage est mis à jour sur l'interface utilisateur graphique SnapCenter , vous devez redémarrer les services SMCore du plug-in correspondant ou de l'hôte du serveur, car le mot de passe mis à jour ne se reflète pas dans SMCore et les tâches de sauvegarde échoueront avec une erreur d'informations d'identification incorrectes.
+
+
+
+
+
+
+
+ a| 
+Clusters ONTAP
+ a| 
+Pour afficher tous les clusters qui ont été ajoutés et modifier la configuration de cluster requise.
+
+.. Dans la page Connexions de stockage, cliquez sur le nom du cluster.
+.. Dans la page Modifier le système de stockage, cliquez sur l’icône de modification en regard de Nom d’utilisateur et modifiez le nom d’utilisateur et le mot de passe.
+.. Sélectionnez ou effacez les paramètres EMS et AutoSupport .
+.. Cliquez sur *Plus d'options* et modifiez d'autres configurations telles que la plate-forme, le protocole, le port, le délai d'expiration et l'IP préférée.
+
+
+|===
+. Cliquez sur *Soumettre*.
+
+
+
+
+== Supprimer le système de stockage
+
+Vous pouvez utiliser SnapCenter pour supprimer tout système de stockage inutilisé.
+
+*À propos de cette tâche*
+
+Vous pouvez supprimer les connexions de stockage pour un utilisateur individuel ou pour un groupe.  Si vous appartenez à un ou plusieurs groupes disposant d'une autorisation sur le même système de stockage, le nom du système de stockage s'affiche plusieurs fois dans la liste des connexions de stockage, une fois pour chaque groupe disposant d'une autorisation sur le système de stockage.
+
+
+IMPORTANT: Lorsque vous supprimez un système de stockage, toutes les opérations effectuées sur ce système de stockage échoueront.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Systèmes de stockage*.
+. Dans la page Systèmes de stockage, dans la liste déroulante *Type*, sélectionnez * ONTAP SVM* ou * ONTAP Clusters*.
+. Dans la page Connexions de stockage, cochez la case en regard de la SVM ou du cluster que vous souhaitez supprimer.
++
+
+NOTE: Vous ne pouvez pas sélectionner le SVM qui fait partie d’un cluster.
+
+. Cliquez sur *Supprimer*.
+. Dans la page Supprimer les paramètres de connexion au système de stockage, cliquez sur *OK*.
++
+
+NOTE: Si un SVM est supprimé du cluster ONTAP à l'aide de l'interface graphique utilisateur ONTAP , dans l'interface graphique utilisateur SnapCenter , cliquez sur *Redécouvrir* pour mettre à jour la liste des SVM.
+
+
+
+
+
+== Prise en charge de l'API REST
+
+Toutes les connexions des systèmes ASA, AFF ou FAS à ONTAP passeront par défaut par ZAPI.  L'API REST peut être activée pour des versions ONTAP spécifiques.
+
+SnapCenter exploite les API REST pour effectuer toutes les opérations sur les systèmes ASA r2, qui ne prennent pas en charge les ZAPI.
+
+Vous pouvez modifier les clés de configuration dans les fichiers de configuration suivants :
+
+* Est-ce que RestEnabledForStorageConnection
++
+La valeur par défaut est faux.
+
+* Version minimale d'Ontap à utiliser REST
++
+La valeur par défaut est 9.13.1.
+
+
+
+.Activer la connexion via l'API REST
+. Définissez IsRestEnabledForStorageConnection sur true.
+. Ajoutez la clé dans SMCoreServiceHost.dll.config et SnapDriveService.dll.config sur le serveur et sur les hôtes du plug-in Windows.
++
+_<add key="IsRestEnabledForStorageConnection" value="true" />_
+
+
+
+.Limiter la connexion via l'API REST à une version spécifique d' ONTAP
+. Définissez le paramètre de configuration MinOntapVersionToUseREST sur true.
+. Ajoutez la clé dans SMCoreServiceHost.dll.config et SnapDriveService.dll.config sur le serveur et sur les hôtes du plug-in Windows.
++
+_<add key="MinOntapVersionToUseREST" value="9.13.1" />_
+
+. Redémarrez le service pour SmCore sur le serveur et le plug-in et le service SnapDrive sur la machine du plug-in.
+

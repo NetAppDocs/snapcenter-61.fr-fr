@@ -1,0 +1,193 @@
+---
+permalink: protect-sco/task_add_hosts_and_installing_the_snapcenter_plug_ins_package_for_linux_or_aix.html 
+sidebar: sidebar 
+keywords: credentials, install plug-in, Linux, AIX, GUI, add host, monitor 
+summary: Vous pouvez utiliser la page Ajouter un hôte de SnapCenter pour ajouter des hôtes, puis installer le package de plug-ins SnapCenter pour Linux ou le package de plug-ins SnapCenter pour AIX.  Les plug-ins sont automatiquement installés sur les hôtes distants. 
+---
+= Ajoutez des hôtes et installez le package de plug-ins pour Linux ou AIX à l'aide de l'interface graphique
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser la page Ajouter un hôte pour ajouter des hôtes, puis installer le package de plug-ins SnapCenter pour Linux ou le package de plug-ins SnapCenter pour AIX.  Les plug-ins sont automatiquement installés sur les hôtes distants.
+
+*À propos de cette tâche*
+
+Vous pouvez ajouter un hôte et installer des packages de plug-ins soit pour un hôte individuel, soit pour un cluster.  Si vous installez le plug-in sur un cluster (Oracle RAC), le plug-in est installé sur tous les nœuds du cluster.  Pour Oracle RAC One Node, vous devez installer le plug-in sur les nœuds actifs et passifs.
+
+
+NOTE: Seule l’authentification par mot de passe est prise en charge lorsque vous installez le plug-in sur un Oracle RAC.  L'authentification basée sur la clé SSH n'est pas prise en charge.
+
+Vous devez être affecté à un rôle disposant des autorisations d'installation et de désinstallation du plug-in, tel que le rôle d'administrateur SnapCenter .
+
+
+NOTE: Vous ne pouvez pas ajouter un serveur SnapCenter en tant qu’hôte de plug-in à un autre serveur SnapCenter .
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Hôtes*.
+. Vérifiez que l’onglet *Hôtes gérés* est sélectionné en haut.
+. Cliquez sur *Ajouter*.
+. Dans la page Hôtes, effectuez les actions suivantes :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Type d'hôte
+ a| 
+Sélectionnez *Linux* ou *AIX* comme type d’hôte.
+
+Le serveur SnapCenter ajoute l'hôte, puis installe le plug-in pour Oracle Database et le plug-in pour UNIX si les plug-ins ne sont pas déjà installés sur l'hôte.
+
+
+
+ a| 
+Nom d'hôte
+ a| 
+Saisissez le nom de domaine complet (FQDN) ou l'adresse IP de l'hôte.
+
+SnapCenter dépend de la configuration appropriée du DNS.  Par conséquent, la meilleure pratique consiste à saisir le FQDN.
+
+Vous pouvez saisir les adresses IP ou le FQDN de l'un des éléments suivants :
+
+** Hôte autonome
+** Tout nœud dans l'environnement Oracle Real Application Clusters (RAC)
++
+
+NOTE: Le nœud VIP ou l'IP d'analyse ne sont pas pris en charge
+
++
+Si vous ajoutez un hôte à l’aide de SnapCenter et que l’hôte fait partie d’un sous-domaine, vous devez fournir le nom de domaine complet.
+
+
+
+
+
+ a| 
+Informations d'identification
+ a| 
+Sélectionnez le nom des informations d’identification que vous avez créées ou créez de nouvelles informations d’identification.
+
+L'identifiant doit disposer de droits administratifs sur l'hôte distant.  Pour plus de détails, consultez les informations sur la création d'informations d'identification.
+
+Vous pouvez afficher les détails des informations d’identification en positionnant le curseur sur le nom des informations d’identification que vous avez spécifié.
+
+
+NOTE: Le mode d’authentification des informations d’identification est déterminé par le type d’hôte que vous spécifiez dans l’assistant Ajouter un hôte.
+
+|===
+. Dans la section Sélectionner les plug-ins à installer, sélectionnez les plug-ins à installer.
+. (Facultatif) Cliquez sur *Plus d'options*.
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Port
+ a| 
+Conservez le numéro de port par défaut ou spécifiez le numéro de port.
+
+Le numéro de port par défaut est 8145.  Si le serveur SnapCenter a été installé sur un port personnalisé, ce numéro de port sera affiché comme port par défaut.
+
+
+NOTE: Si vous avez installé manuellement les plug-ins et spécifié un port personnalisé, vous devez spécifier le même port.  Sinon, l’opération échoue.
+
+
+
+ a| 
+Chemin d'installation
+ a| 
+Le chemin par défaut est _/opt/ NetApp/snapcenter_.
+
+Vous pouvez éventuellement personnaliser le chemin.
+
+
+
+ a| 
+Ajouter tous les hôtes dans Oracle RAC
+ a| 
+Cochez cette case pour ajouter tous les nœuds de cluster dans un Oracle RAC.
+
+Dans une configuration Flex ASM, tous les nœuds, qu'il s'agisse d'un nœud Hub ou Leaf, seront ajoutés.
+
+
+
+ a| 
+Ignorer les vérifications de préinstallation facultatives
+ a| 
+Cochez cette case si vous avez déjà installé les plug-ins manuellement et que vous ne souhaitez pas valider si l'hôte répond aux exigences d'installation du plug-in.
+
+|===
+. Cliquez sur *Soumettre*.
++
+Si vous n'avez pas coché la case Ignorer les pré-vérifications, l'hôte est validé pour vérifier s'il répond aux exigences d'installation du plug-in.
+
++
+
+NOTE: Le script de pré-vérification ne valide pas l'état du pare-feu du port du plug-in s'il est spécifié dans les règles de rejet du pare-feu.
+
++
+Des messages d’erreur ou d’avertissement appropriés s’affichent si les exigences minimales ne sont pas respectées.  Si l'erreur est liée à l'espace disque ou à la RAM, vous pouvez mettre à jour le fichier web.config situé dans _C:\Program Files\ NetApp\ SnapCenter WebApp_ pour modifier les valeurs par défaut.  Si l’erreur est liée à d’autres paramètres, vous devez résoudre le problème.
+
++
+
+NOTE: Dans une configuration HA, si vous mettez à jour le fichier web.config, vous devez mettre à jour le fichier sur les deux nœuds.
+
+. Vérifiez l’empreinte digitale, puis cliquez sur *Confirmer et soumettre*.
++
+Dans une configuration de cluster, vous devez vérifier l’empreinte digitale de chacun des nœuds du cluster.
+
++
+
+NOTE: SnapCenter ne prend pas en charge l'algorithme ECDSA.
+
++
+
+NOTE: La vérification des empreintes digitales est obligatoire même si le même hôte a été ajouté précédemment à SnapCenter et que l'empreinte digitale a été confirmée.
+
+. Surveiller la progression de l'installation.
++
+Les fichiers journaux spécifiques à l'installation se trouvent dans _/custom_location/snapcenter/logs_.
+
+
+
+*Résultat*
+
+Toutes les bases de données sur l'hôte sont automatiquement découvertes et affichées dans la page Ressources.  Si rien ne s'affiche, cliquez sur *Actualiser les ressources*.
+
+
+
+== Surveiller l'état de l'installation
+
+Vous pouvez surveiller la progression de l'installation du package de plug-in SnapCenter à l'aide de la page Tâches.  Vous souhaiterez peut-être vérifier la progression de l’installation pour déterminer quand elle est terminée ou s’il y a un problème.
+
+.À propos de cette tâche
+Les icônes suivantes apparaissent sur la page Tâches et indiquent l’état de l’opération :
+
+* image:../media/progress_icon.gif["Icône en cours"]En cours
+* image:../media/success_icon.gif["Icône terminée"]Terminé avec succès
+* image:../media/failed_icon.gif["Icône d'échec"]Échoué
+* image:../media/warning_icon.gif["Terminé avec l'icône d'avertissement"]Terminé avec des avertissements ou n'a pas pu démarrer en raison d'avertissements
+* image:../media/verification_job_in_queue.gif["La tâche de vérification est en file d'attente"]En file d'attente
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Dans la page *Moniteur*, cliquez sur *Tâches*.
+. Dans la page *Tâches*, pour filtrer la liste afin que seules les opérations d'installation de plug-ins soient répertoriées, procédez comme suit :
++
+.. Cliquez sur *Filtre*.
+.. Facultatif : précisez la date de début et de fin.
+.. Dans le menu déroulant Type, sélectionnez *Installation du plug-in*.
+.. Dans le menu déroulant État, sélectionnez l’état de l’installation.
+.. Cliquez sur *Appliquer*.
+
+
+. Sélectionnez la tâche d’installation et cliquez sur *Détails* pour afficher les détails de la tâche.
+. Dans la page *Détails du travail*, cliquez sur *Afficher les journaux*.
+

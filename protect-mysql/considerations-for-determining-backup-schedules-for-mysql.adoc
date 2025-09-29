@@ -1,0 +1,26 @@
+---
+permalink: protect-mysql/considerations-for-determining-backup-schedules-for-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: 'Le facteur le plus critique dans la détermination d’un calendrier de sauvegarde est le taux de changement de la ressource.  Vous pouvez sauvegarder une ressource très utilisée toutes les heures, tandis que vous pouvez sauvegarder une ressource rarement utilisée une fois par jour.  D’autres facteurs incluent l’importance de la ressource pour votre organisation, votre accord de niveau de service (SLA) et votre objectif de point de récupération (RPO).' 
+---
+= Considérations pour déterminer les planifications de sauvegarde pour MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le facteur le plus critique dans la détermination d’un calendrier de sauvegarde est le taux de changement de la ressource.  Vous pouvez sauvegarder une ressource très utilisée toutes les heures, tandis que vous pouvez sauvegarder une ressource rarement utilisée une fois par jour.  D’autres facteurs incluent l’importance de la ressource pour votre organisation, votre contrat de niveau de service (SLA) et votre objectif de point de récupération (RPO).
+
+Les planifications de sauvegarde comportent deux parties, comme suit :
+
+* Fréquence de sauvegarde (à quelle fréquence les sauvegardes doivent être effectuées)
++
+La fréquence de sauvegarde, également appelée type de planification pour certains plug-ins, fait partie d'une configuration de politique.  Par exemple, vous pouvez configurer la fréquence de sauvegarde sur une base horaire, quotidienne, hebdomadaire ou mensuelle.
+
+* Planifications de sauvegarde (quand exactement les sauvegardes doivent être effectuées)
++
+Les planifications de sauvegarde font partie d’une configuration de ressource ou de groupe de ressources.  Par exemple, si vous disposez d'un groupe de ressources dont la politique est configurée pour des sauvegardes hebdomadaires, vous pouvez configurer la planification pour effectuer une sauvegarde tous les jeudis à 22h00.
+
+

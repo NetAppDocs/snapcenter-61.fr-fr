@@ -1,0 +1,42 @@
+---
+permalink: protect-sce/task_reseed_a_replica_using_powershell_cmdlets_for_exchange_database.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Vous pouvez utiliser les applets de commande PowerShell pour restaurer une réplique défectueuse en utilisant soit la copie la plus récente sur le même hôte, soit la copie la plus récente d’un autre hôte. 
+---
+= Réamorcer une réplique à l'aide des applets de commande PowerShell pour la base de données Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser les applets de commande PowerShell pour restaurer une réplique défectueuse en utilisant soit la copie la plus récente sur le même hôte, soit la copie la plus récente d’un autre hôte.
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+.Étapes
+. Lancer une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié en utilisant le `Open-SmConnection` applet de commande.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. Réensemencer la base de données en utilisant le `reseed-SmDagReplicaCopy` applet de commande.
++
+Cet exemple réamorce la copie défaillante de la base de données appelée execdb sur l'hôte « mva-rx200.netapp.com » en utilisant la dernière sauvegarde sur cet hôte.
+
++
+[listing]
+----
+reseed-SmDagReplicaCopy -ReplicaHost "mva-rx200.netapp.com" -Database execdb
+----
++
+Cet exemple réinitialise la copie défaillante de la base de données appelée execdb en utilisant la dernière sauvegarde de la base de données (production/copie) sur un autre hôte « mva-rx201.netapp.com ».
+
++
+[listing]
+----
+reseed-SmDagReplicaCopy -ReplicaHost "mva-rx200.netapp.com" -Database  execdb -BackupHost "mva-rx201.netapp.com"
+----
+

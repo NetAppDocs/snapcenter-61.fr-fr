@@ -1,0 +1,203 @@
+---
+permalink: protect-sce/task_restore_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Vous pouvez utiliser SnapCenter pour restaurer des bases de données Exchange sauvegardées. 
+---
+= Restaurer les bases de données Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour restaurer des bases de données Exchange sauvegardées.
+
+.Avant de commencer
+* Vous devez avoir sauvegardé les groupes de ressources, la base de données ou les groupes de disponibilité de base de données (DAG).
+* Lorsque la base de données Exchange est migrée vers un autre emplacement, l’opération de restauration ne fonctionne pas pour les anciennes sauvegardes.
+* Si vous répliquez des snapshots vers un miroir ou un coffre, l'administrateur SnapCenter doit vous avoir attribué les SVM pour les volumes sources et les volumes de destination.
+* Dans un DAG, si une copie de base de données active se trouve sur un stockage non NetApp et que vous souhaitez restaurer à partir de la sauvegarde de copie de base de données passive qui se trouve sur un stockage NetApp , faites de la copie passive (stockage NetApp ) une copie active, actualisez les ressources et effectuez l'opération de restauration.
++
+Exécutez le `Move-ActiveMailboxDatabase` commande pour faire de la copie passive de la base de données une copie active de la base de données.
+
++
+Le https://docs.microsoft.com/en-us/powershell/module/exchange/move-activemailboxdatabase?view=exchange-ps["Documentation Microsoft"^] contient des informations sur cette commande.
+
+
+
+.À propos de cette tâche
+* Lorsqu'une opération de restauration est effectuée sur une base de données, la base de données est remontée sur le même hôte et aucun nouveau volume n'est créé.
+* Les sauvegardes au niveau DAG doivent être restaurées à partir de bases de données individuelles.
+* La restauration complète du disque n'est pas prise en charge lorsque des fichiers autres que le fichier de base de données Exchange (.edb) existent.
++
+Le plug-in pour Exchange n’effectue pas de restauration complète sur un disque si celui-ci contient des fichiers Exchange tels que ceux utilisés pour la réplication.  Lorsqu'une restauration complète est susceptible d'avoir un impact sur la fonctionnalité Exchange, le plug-in pour Exchange effectue une opération de restauration de fichier unique.
+
+* Le plug-in pour Exchange ne peut pas restaurer les lecteurs chiffrés BitLocker.
+* SCRIPTS_PATH est défini à l'aide de la clé PredefinedWindowsScriptsDirectory située dans le fichier SMCoreServiceHost.exe.Config de l'hôte du plug-in.
++
+Si nécessaire, vous pouvez modifier ce chemin et redémarrer le service SMcore.  Il est recommandé d'utiliser le chemin par défaut pour des raisons de sécurité.
+
++
+La valeur de la clé peut être affichée depuis Swagger via l'API : API /4.7/configsettings
+
++
+Vous pouvez utiliser l'API GET pour afficher la valeur de la clé.  L'API SET n'est pas prise en charge.
+
+* Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des instantanés SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+* Pour l’opération de restauration de synchronisation active de SnapMirror , vous devez sélectionner la sauvegarde à partir de l’emplacement principal.
+
+
+[role="tabbed-block"]
+====
+.Interface utilisateur de SnapCenter
+--
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources* dans le coin supérieur gauche de la page Ressources.
+. Sélectionnez le plug-in Exchange Server dans la liste déroulante.
+. Dans la page Ressources, sélectionnez *Base de données* dans la liste Affichage.
+. Sélectionnez la base de données dans la liste.
+. Dans la vue Gérer les copies, sélectionnez *Sauvegardes*, dans le tableau Sauvegardes principales, puis cliquez sur *image:../media/restore_icon.gif["icône de restauration"] *.
+. Dans la page Options, sélectionnez l’une des options de sauvegarde de journal suivantes :
++
+|===
+| Option | Description 
+
+
+ a| 
+Toutes les sauvegardes de journaux
+ a| 
+Choisissez *Toutes les sauvegardes de journaux* pour effectuer une opération de restauration de sauvegarde à la minute près afin de restaurer toutes les sauvegardes de journaux disponibles après la sauvegarde complète.
+
+
+
+ a| 
+Par sauvegardes de journaux jusqu'à
+ a| 
+Choisissez *Par sauvegardes de journaux jusqu'à* pour effectuer une opération de restauration à un instant T, qui restaure la base de données en fonction des sauvegardes de journaux jusqu'au journal sélectionné.
+
+
+NOTE: Le nombre de journaux affichés dans la liste déroulante est basé sur UTM.  Par exemple, si la rétention de sauvegarde complète est de 5 et la rétention UTM de 3, le nombre de sauvegardes de journaux disponibles est de 5, mais dans la liste déroulante, seuls 3 journaux seront répertoriés pour effectuer l'opération de restauration.
+
+
+
+ a| 
+À une date précise jusqu'à
+ a| 
+Choisissez *Par date spécifique jusqu'à* pour spécifier la date et l'heure jusqu'à laquelle les journaux de transactions sont appliqués à la base de données restaurée.  Cette opération de restauration ponctuelle restaure les entrées du journal des transactions qui ont été enregistrées jusqu'à la dernière sauvegarde à la date et à l'heure spécifiées.
+
+
+
+ a| 
+Aucune
+ a| 
+Choisissez *Aucun* lorsque vous devez restaurer uniquement la sauvegarde complète sans aucune sauvegarde de journal.
+
+|===
++
+Vous pouvez effectuer l’une des actions suivantes :
+
++
+** *Récupérer et monter la base de données après la restauration* - Cette option est sélectionnée par défaut.
+** *Ne pas vérifier l'intégrité des journaux de transactions dans la sauvegarde avant la restauration* - Par défaut, SnapCenter vérifie l'intégrité des journaux de transactions dans une sauvegarde avant d'effectuer une opération de restauration.
++
+|===
+
+
+| *Meilleure pratique :* vous ne devez pas sélectionner cette option. 
+|===
+
+
+. Dans la page Script, entrez le chemin et les arguments du prescript ou du postscript qui doivent être exécutés respectivement avant ou après l'opération de restauration.
++
+Les arguments de prescript de restauration incluent $Database et $ServerInstance.
+
++
+Les arguments de restauration postscript incluent $Database, $ServerInstance, $BackupName, $LogDirectory et $TargetServerInstance.
+
++
+Vous pouvez exécuter un script pour mettre à jour les interruptions SNMP, automatiser les alertes, envoyer des journaux, etc.
+
++
+
+NOTE: Le chemin des prescripts ou des postscripts ne doit pas inclure de lecteurs ou de partages.  Le chemin doit être relatif à SCRIPTS_PATH.
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+. Vous pouvez afficher l’état de la tâche de restauration en développant le panneau Activité en bas de la page.
++
+Vous devez surveiller le processus de restauration en utilisant la page *Surveillance* > *Tâches*.
+
+
+
+Lorsque vous restaurez une base de données active à partir d'une sauvegarde, la base de données passive peut passer en état suspendu ou en échec s'il existe un décalage entre la réplique et la base de données active.
+
+Le changement d'état peut se produire lorsque la chaîne de journaux de la base de données active se divise et commence une nouvelle branche qui interrompt la réplication.  Exchange Server tente de réparer la réplique, mais s’il n’y parvient pas, après la restauration, vous devez créer une nouvelle sauvegarde, puis réamorcer la réplique.
+
+--
+.applets de commande PowerShell
+--
+.Étapes
+. Lancer une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié en utilisant le `Open-SmConnection` applet de commande.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
+. Récupérez les informations sur la ou les sauvegardes que vous souhaitez restaurer en utilisant le `Get-SmBackup` applet de commande.
++
+Cet exemple affiche des informations sur toutes les sauvegardes disponibles :
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+341                           ResourceGroup_36304978_UTM... 12/8/2017 4:13:24 PM          Full Backup
+342                           ResourceGroup_36304978_UTM... 12/8/2017 4:16:23 PM          Full Backup
+355                           ResourceGroup_06140588_UTM... 12/8/2017 6:32:36 PM          Log Backup
+356                           ResourceGroup_06140588_UTM... 12/8/2017 6:36:20 PM          Full Backup
+----
+. Restaurez les données à partir de la sauvegarde en utilisant le `Restore-SmBackup` applet de commande.
++
+Cet exemple restaure une sauvegarde à jour :
+
++
+[listing]
+----
+C:\PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true
+----
++
+Cet exemple restaure une sauvegarde à un moment précis :
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true -LogRestoreType ByTransactionLogs -LogCount 2
+----
++
+Cet exemple restaure une sauvegarde sur un stockage secondaire vers l'histoire principale :
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode 'SCE' -AppObjectId 'DB2' -BackupId 81 -IsRecoverMount:$true -Confirm:$false
+-archive @{Primary="paw_vs:vol1";Secondary="paw_vs:vol1_mirror"} -logrestoretype All
+----
++
+Le `-archive` Le paramètre vous permet de spécifier les volumes principaux et secondaires que vous souhaitez utiliser pour la restauration.
+
++
+Le `-IsRecoverMount:$true` le paramètre vous permet de monter la base de données après la restauration.
+
+
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+--
+====

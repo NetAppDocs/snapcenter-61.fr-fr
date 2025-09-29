@@ -1,0 +1,41 @@
+---
+permalink: protect-hana/task_back_up_resource_groups_sap_hana.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Un groupe de ressources est un ensemble de ressources sur un hôte.  Une opération de sauvegarde sur le groupe de ressources est effectuée sur toutes les ressources définies dans le groupe de ressources. 
+---
+= Sauvegarder les groupes de ressources
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est un ensemble de ressources sur un hôte.  Une opération de sauvegarde sur le groupe de ressources est effectuée sur toutes les ressources définies dans le groupe de ressources.
+
+.Avant de commencer
+* Vous devez avoir créé un groupe de ressources avec une politique associée.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle ONTAP attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+
+
+.À propos de cette tâche
+Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d'une politique associée et d'une planification configurée, les sauvegardes se produisent automatiquement selon la planification.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
++
+Vous pouvez rechercher le groupe de ressources soit en saisissant le nom du groupe de ressources dans la zone de recherche, soit en sélectionnantimage:../media/filter_icon.gif["icône de filtre"] , puis en sélectionnant la balise.  Vous pouvez ensuite sélectionnerimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Dans la page Groupes de ressources, sélectionnez le groupe de ressources que vous souhaitez sauvegarder, puis sélectionnez *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez associé plusieurs stratégies au groupe de ressources, dans la liste déroulante *Stratégie*, sélectionnez la stratégie que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Sélectionnez *Sauvegarde*.
+
+
+. Surveillez la progression de l’opération en sélectionnant *Surveillance* > *Tâches*.
+

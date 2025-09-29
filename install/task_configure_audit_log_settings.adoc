@@ -1,0 +1,70 @@
+---
+permalink: install/task_configure_audit_log_settings.html 
+sidebar: sidebar 
+keywords: audit, log, configure 
+summary: Vous pouvez configurer la journalisation des événements de sécurité des plates-formes logicielles et de tous les logiciels exécutés sur ces plates-formes. 
+---
+= Configurer les paramètres du journal d'audit
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Des journaux d’audit sont générés pour chaque activité du serveur SnapCenter .  Par défaut, les journaux d'audit sont sécurisés dans l'emplacement d'installation par défaut _C:\Program Files\ NetApp\ SnapCenter WebApp\audit\_.
+
+Les journaux d'audit sont sécurisés au moyen de la génération d'un condensé signé numériquement pour chaque événement d'audit afin de le protéger contre toute modification non autorisée.  Les résumés générés sont conservés dans le fichier de somme de contrôle d'audit séparé et sont soumis à des contrôles d'intégrité périodiques pour garantir l'intégrité du contenu.
+
+Vous devez vous être connecté avec le rôle « SnapCenterAdmin ».
+
+.À propos de cette tâche
+* Les alertes sont envoyées dans les scénarios suivants :
++
+** La planification de la vérification de l'intégrité du journal d'audit ou du serveur Syslog est activée ou désactivée
+** Vérification de l'intégrité du journal d'audit, journal d'audit ou échec du journal du serveur Syslog
+** Faible espace disque
+
+
+* Le courrier électronique est envoyé uniquement lorsque le contrôle d’intégrité échoue.
+* Vous devez modifier simultanément les chemins d'accès au répertoire du journal d'audit et au répertoire du journal de somme de contrôle d'audit.  Vous ne pouvez pas en modifier un seul.
+* Lorsque les chemins d'accès au répertoire du journal d'audit et au répertoire du journal de somme de contrôle d'audit sont modifiés, la vérification d'intégrité ne peut pas être effectuée sur les journaux d'audit présents à l'emplacement précédent.
+* Les chemins d'accès au répertoire du journal d'audit et au répertoire du journal de somme de contrôle d'audit doivent se trouver sur le lecteur local de SnapCenter Server.
++
+Les lecteurs partagés ou montés en réseau ne sont pas pris en charge.
+
+* Si le protocole UDP est utilisé dans les paramètres du serveur Syslog, les erreurs dues à un port hors service ou indisponible ne peuvent pas être capturées comme une erreur ou une alerte dans SnapCenter.
+* Vous pouvez utiliser les commandes Set-SmAuditSettings et Get-SmAuditSettings pour configurer les journaux d'audit.
++
+Les informations concernant les paramètres pouvant être utilisés avec l’applet de commande et leurs descriptions peuvent être obtenues en exécutant Get-Help command_name.  Alternativement, vous pouvez également vous référer au https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+
+
+.Étapes
+. Dans la page *Paramètres*, accédez à *Paramètres* > *Paramètres globaux* > *Paramètres du journal d'audit*.
+. Dans la section Journal d’audit, saisissez les détails.
+. Accédez au *répertoire du journal d'audit* et au *répertoire du journal de somme de contrôle d'audit*
++
+.. Entrez la taille maximale du fichier
+.. Entrez le nombre maximal de fichiers journaux
+.. Entrez le pourcentage d'utilisation de l'espace disque pour envoyer une alerte
+
+
+. (Facultatif) Activez *Enregistrer l'heure UTC*.
+. (Facultatif) Activez *Planification de vérification de l'intégrité du journal d'audit* et cliquez sur *Démarrer la vérification de l'intégrité* pour une vérification de l'intégrité à la demande.
++
+Vous pouvez également exécuter la commande *Start-SmAuditIntegrityCheck* pour démarrer la vérification d'intégrité à la demande.
+
+. (Facultatif) Activez les journaux d’audit transférés vers le serveur Syslog distant et entrez les détails du serveur Syslog.
++
+Vous devez importer le certificat du serveur Syslog dans la « racine de confiance » pour le protocole TLS 1.2.
+
++
+.. Entrez l'hôte du serveur Syslog
+.. Entrez le port du serveur Syslog
+.. Entrez le protocole du serveur Syslog
+.. Entrez le format RFC
+
+
+. Cliquez sur *Enregistrer*.
+. Vous pouvez voir les vérifications d'intégrité d'audit et les vérifications d'espace disque en cliquant sur *Surveiller* > *Tâches*.
+

@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_back_up_sql_server_resource_groups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: 'Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d"une politique associée et d"une planification configurée, les sauvegardes se produisent automatiquement selon la planification.' 
+---
+= Sauvegarder les groupes de ressources SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d'une politique associée et d'une planification configurée, les sauvegardes se produisent automatiquement selon la planification.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
++
+Vous pouvez rechercher le groupe de ressources soit en saisissant le nom du groupe de ressources dans la zone de recherche, soit en sélectionnantimage:../media/filter_icon.gif["Icône de filtre"] , puis en sélectionnant la balise.  Vous pouvez ensuite sélectionnerimage:../media/filter_icon.gif["Icône de filtre"] pour fermer le volet de filtre.
+
+. Dans la page Groupes de ressources, sélectionnez le groupe de ressources que vous souhaitez sauvegarder, puis sélectionnez *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez associé plusieurs stratégies au groupe de ressources, dans la liste déroulante *Stratégie*, sélectionnez la stratégie que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Après la sauvegarde, sélectionnez *Vérifier* pour vérifier la sauvegarde à la demande.
++
+L'option *Vérifier* de la politique s'applique uniquement aux tâches planifiées.
+
+.. Sélectionnez *Sauvegarde*.
+
+
+. Surveillez la progression de l’opération en sélectionnant *Surveillance* > *Tâches*.
+
+
+.Informations connexes
+link:task_create_backup_policies_for_sql_server_databases.html["Créer des politiques de sauvegarde pour les bases de données SQL Server"]
+
+link:task_create_resource_groups_and_attach_policies_for_sql_server.html["Créer des groupes de ressources et attacher des stratégies pour SQL Server"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["Les opérations de sauvegarde échouent avec une erreur de connexion MySQL en raison du retard dans TCP_TIMEOUT"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["La sauvegarde échoue avec une erreur du planificateur Windows"]

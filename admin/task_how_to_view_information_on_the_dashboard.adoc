@@ -1,0 +1,23 @@
+---
+permalink: admin/task_how_to_view_information_on_the_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: 'À partir du volet de navigation gauche de SnapCenter , vous pouvez afficher différentes mosaïques ou affichages du tableau de bord, ainsi que les détails système associés.  Le nombre d"affichages disponibles dans le tableau de bord est fixe et ne peut pas être modifié.  Le contenu fourni dans chaque affichage dépend du contrôle d"accès basé sur les rôles (RBAC).' 
+---
+= Comment afficher les informations sur le tableau de bord
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+À partir du volet de navigation gauche de SnapCenter , vous pouvez afficher différentes mosaïques ou affichages du tableau de bord, ainsi que les détails système associés.  Le nombre d'affichages disponibles dans le tableau de bord est fixe et ne peut pas être modifié.  Le contenu fourni dans chaque écran dépend du contrôle d'accès basé sur les rôles (RBAC).
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Tableau de bord*.
+. Cliquez sur les zones actives de chaque écran pour obtenir des informations supplémentaires.
++
+Par exemple, cliquer sur un graphique en anneau dans *Emplois* vous redirige vers la page Moniteur pour plus d'informations sur votre sélection.  En cliquant sur un graphique en anneau dans *Résumé de la protection*, vous êtes redirigé vers la page Rapports, qui peut fournir plus d'informations sur votre sélection.
+
+

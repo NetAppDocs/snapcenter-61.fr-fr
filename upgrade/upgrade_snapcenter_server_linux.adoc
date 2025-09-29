@@ -1,0 +1,52 @@
+---
+permalink: upgrade/upgrade_snapcenter_server_linux.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade snapcenter server, linux 
+summary: 'Vous pouvez utiliser le fichier d"installation de SnapCenter Server pour mettre à niveau SnapCenter Server.' 
+---
+= Mettre à niveau le serveur SnapCenter sur l'hôte Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser le fichier d'installation de SnapCenter Server pour mettre à niveau SnapCenter Server.
+
+*Mesures*
+
+. Effectuez l’une des actions pour mettre à niveau SnapCenter Server.
++
+|===
+| Si vous voulez jouer... | Fais ceci... 
+
+
+ a| 
+Mise à niveau non interactive
+ a| 
+`sudo ./snapcenter-linux-server-(el8/el9/sles15).bin -i silent -DUPGRADE=<value> -DINSTALL_LOG_NAME=<filename>`
+
+Exemple : sudo ./snapcenter_linux_server.bin -i silent -DUPGRADE=1 -DINSTALL_LOG_NAME=InstallerLog.log
+
+Les journaux seront stockés dans _/var/opt/snapcenter/logs_.
+
+Paramètres à transmettre pour la mise à niveau :
+
+** DINSTALL_LOG_NAME : Nom du fichier journal dans lequel les journaux d'installation seront stockés.
+** DUPGRADE : La valeur par défaut est 0.  Spécifiez ce paramètre et sa valeur comme n'importe quel entier autre que 0 pour mettre à niveau le serveur SnapCenter .
+
+
+
+
+ a| 
+Installation interactive
+ a| 
+`./snapcenter-linux-server-(el8/el9/sles15).bin`
+
+Vous serez invité à confirmer la mise à niveau.  Saisissez une valeur autre que 0 pour confirmer la mise à niveau de SnapCenter Server.
+
+|===
+
+
+
+NOTE: Vous devez soit vous déconnecter puis vous reconnecter à SnapCenter, soit fermer puis ouvrir un nouveau navigateur pour accéder à l'interface graphique de SnapCenter .

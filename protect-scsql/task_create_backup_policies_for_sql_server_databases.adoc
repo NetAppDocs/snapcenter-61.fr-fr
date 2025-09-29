@@ -1,0 +1,366 @@
+---
+permalink: protect-scsql/task_create_backup_policies_for_sql_server_databases.html 
+sidebar: sidebar 
+keywords: backup policy 
+summary: 'Vous pouvez créer une stratégie de sauvegarde pour la ressource ou le groupe de ressources avant d"utiliser SnapCenter pour sauvegarder les ressources SQL Server, ou vous pouvez créer une stratégie de sauvegarde au moment où vous créez un groupe de ressources ou sauvegardez une ressource unique.' 
+---
+= Créer des politiques de sauvegarde pour les bases de données SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez créer une stratégie de sauvegarde pour la ressource ou le groupe de ressources avant d'utiliser SnapCenter pour sauvegarder les ressources SQL Server, ou vous pouvez créer une stratégie de sauvegarde au moment où vous créez un groupe de ressources ou sauvegardez une ressource unique.
+
+.Avant de commencer
+* Vous devez avoir défini votre stratégie de protection des données.
+* Vous devez vous préparer à la protection des données en effectuant des tâches telles que l’installation de SnapCenter, l’ajout d’hôtes, l’identification des ressources et la création de connexions au système de stockage.
+* Vous devez avoir configuré le répertoire du journal de l'hôte pour la sauvegarde du journal.
+* Vous devez avoir actualisé (découvert) les ressources SQL Server.
+* Si vous répliquez des snapshots vers un miroir ou un coffre, l'administrateur SnapCenter doit vous avoir attribué les machines virtuelles de stockage (SVM) pour les volumes sources et les volumes de destination.
++
+Pour plus d'informations sur la manière dont les administrateurs attribuent des ressources aux utilisateurs, consultez les informations d'installation de SnapCenter .
+
+* Si vous souhaitez exécuter les scripts PowerShell dans des prescripts et des postscripts, vous devez définir la valeur du paramètre usePowershellProcessforScripts sur true dans le fichier web.config.
++
+La valeur par défaut est faux.
+
+* Consultez les conditions préalables et les limitations spécifiques à la synchronisation active de SnapMirror . Pour plus d'informations, reportez-vous à https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Limites d'objets pour la synchronisation active de SnapMirror"] .
+
+
+.À propos de cette tâche
+* Une politique de sauvegarde est un ensemble de règles qui régissent la manière dont vous gérez et conservez les sauvegardes, ainsi que la fréquence à laquelle la ressource ou le groupe de ressources est sauvegardé.  De plus, vous pouvez spécifier les paramètres de réplication et de script.  La spécification d’options dans une stratégie permet de gagner du temps lorsque vous souhaitez réutiliser la stratégie pour un autre groupe de ressources.
++
+SCRIPTS_PATH est défini à l'aide de la clé PredefinedWindowsScriptsDirectory située dans le fichier SMCoreServiceHost.exe.Config de l'hôte du plug-in.
+
++
+Si nécessaire, vous pouvez modifier ce chemin et redémarrer le service SMcore.  Il est recommandé d'utiliser le chemin par défaut pour des raisons de sécurité.
+
++
+La valeur de la clé peut être affichée depuis Swagger via l'API : API /4.7/configsettings
+
++
+Vous pouvez utiliser l'API GET pour afficher la valeur de la clé.  L'API SET n'est pas prise en charge.
+
+* SnapLock
++
+** Si l'option « Conserver les copies de sauvegarde pendant un nombre de jours spécifique » est sélectionnée, la période de conservation de SnapLock doit être inférieure ou égale aux jours de conservation mentionnés.
++
+La spécification d'une période de verrouillage des instantanés empêche la suppression des instantanés jusqu'à l'expiration de la période de conservation. Cela pourrait conduire à conserver un nombre d’instantanés supérieur au nombre spécifié dans la politique.
+
++
+Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des instantanés SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+
+
+
+
+
+
+
+== Étape 1 : Créer un nom de politique
+
+. Dans le volet de navigation de gauche, sélectionnez *Paramètres*.
+. Dans la page Paramètres, sélectionnez *Politiques*.
+. Sélectionnez *Nouveau*.
+. Dans la page *Nom*, saisissez le nom et les détails de la politique.
+
+
+
+
+== Étape 2 : Configurer les options de stratégie
+
+. Dans la page Type de politique, procédez comme suit :
++
+.. Sélectionnez votre type de stockage.
+.. Sélectionnez la portée de votre politique.
++
+[role="tabbed-block"]
+====
+.Sauvegarde complète et sauvegarde du journal
+--
+Sauvegardez les fichiers de base de données et les journaux de transactions et tronquez les journaux de transactions.
+
+... Sélectionnez *Sauvegarde complète et Sauvegarde du journal*.
+... Entrez le nombre maximal de bases de données à sauvegarder pour chaque snapshot.
++
+
+NOTE: Vous devez augmenter cette valeur si vous souhaitez exécuter plusieurs opérations de sauvegarde simultanément.
+
+
+
+--
+.Sauvegarde complète
+--
+Sauvegardez les fichiers de la base de données.
+
+... Sélectionnez *Sauvegarde complète*.
+... Entrez le nombre maximal de bases de données à sauvegarder pour chaque snapshot.  La valeur par défaut est 100
++
+
+NOTE: Vous devez augmenter cette valeur si vous souhaitez exécuter plusieurs opérations de sauvegarde simultanément.
+
+
+
+--
+.Sauvegarde du journal
+--
+... Sauvegardez les journaux de transactions.
+... Sélectionnez *Sauvegarde du journal*.
+
+
+--
+.Copie de sauvegarde uniquement
+--
+... Si vous sauvegardez vos ressources à l’aide d’une autre application de sauvegarde, sélectionnez *Copier uniquement la sauvegarde*.
+
+
+Conserver les journaux de transactions intacts permet à toute application de sauvegarde de restaurer les bases de données.  En règle générale, vous ne devez pas utiliser l’option de copie uniquement dans d’autres circonstances.
+
+
+NOTE: Microsoft SQL ne prend pas en charge l'option *Sauvegarde par copie uniquement* avec l'option *Sauvegarde complète et sauvegarde du journal* pour le stockage secondaire.
+
+--
+====
+
+
+
+
+
+
+== Étape 3 : Configurer les paramètres du groupe de disponibilité
+
+. Dans la section Paramètres du groupe de disponibilité, effectuez les actions suivantes :
++
+.. Sauvegarde sur la réplique de sauvegarde préférée uniquement.
++
+Sélectionnez cette option pour sauvegarder uniquement sur la réplique de sauvegarde préférée.  La réplique de sauvegarde préférée est déterminée par les préférences de sauvegarde configurées pour l'AG dans SQL Server.
+
+.. Sélectionnez les répliques pour la sauvegarde.
++
+Choisissez la réplique AG principale ou la réplique AG secondaire pour la sauvegarde.
+
+.. Sélectionnez la priorité de sauvegarde (priorité de sauvegarde minimale et maximale)
++
+Spécifiez un numéro de priorité de sauvegarde minimum et un numéro de priorité de sauvegarde maximum qui déterminent la réplique AG pour la sauvegarde.  Par exemple, vous pouvez avoir une priorité minimale de 10 et une priorité maximale de 50.  Dans ce cas, toutes les répliques AG avec une priorité supérieure à 10 et inférieure à 50 sont prises en compte pour la sauvegarde.
+
++
+Par défaut, la priorité minimale est 1 et la priorité maximale est 100.
+
+
+
++
+
+NOTE: Dans les configurations de cluster, les sauvegardes sont conservées sur chaque nœud du cluster en fonction des paramètres de conservation définis dans la politique.  Si le nœud propriétaire de l'AG change, les sauvegardes sont effectuées conformément aux paramètres de conservation et les sauvegardes du nœud propriétaire précédent seront conservées.  La rétention pour AG s'applique uniquement au niveau du nœud.
+
+
+
+
+
+== Étape 4 : Configurer les paramètres de capture instantanée et de réplication
+
+. Dans la page Instantané et réplication, effectuez les étapes suivantes :
++
+.. Spécifiez le type de planification en sélectionnant *À la demande*, *Toutes les heures*, *Quotidien*, *Hebdomadaire* ou *Mensuel*.
++
+Vous ne pouvez sélectionner qu'un seul type de planification pour une politique.
+
++
+
+NOTE: Vous pouvez spécifier la planification (date de début, date de fin et fréquence) de l'opération de sauvegarde lors de la création d'un groupe de ressources.  Cela vous permet de créer des groupes de ressources qui partagent la même politique et la même fréquence de sauvegarde, mais vous permet d'attribuer des planifications de sauvegarde différentes à chaque politique.
+
++
+
+NOTE: Si vous avez programmé à 2 h 00 du matin, la planification ne sera pas déclenchée pendant l'heure d'été (DST).
+
+
+
+
+
+
+
+== Étape 5 : Configurer les paramètres de conservation à la minute près
+
+. Dans la section Paramètres de conservation à la minute près, selon le type de sauvegarde sélectionné dans la page de type de sauvegarde, effectuez une ou plusieurs des actions suivantes :
+
+
+[role="tabbed-block"]
+====
+.Nombre spécifique d'exemplaires
+--
+Conservez uniquement un nombre spécifique d'instantanés.
+
+. Sélectionnez l'option *Conserver les sauvegardes de journaux applicables aux <nombre> derniers jours* et spécifiez le nombre de jours à conserver.  Si vous approchez de cette limite, vous souhaiterez peut-être supprimer les anciennes copies.
+
+
+--
+.Nombre spécifique de jours
+--
+Conservez les copies de sauvegarde pendant un nombre de jours spécifique.
+
+. Sélectionnez l'option *Conserver les sauvegardes de journaux applicables aux <nombre> derniers jours de sauvegardes complètes* et spécifiez le nombre de jours pendant lesquels conserver les copies de sauvegarde du journal.
+
+
+--
+====
+
+
+== Étape 6 : Configurer les paramètres d'instantané
+
+. Pour les paramètres de conservation de la sauvegarde complète, effectuez les actions suivantes :
++
+.. Spécifiez le nombre total d'instantanés à conserver
++
+... Pour spécifier le nombre d'instantanés à conserver, sélectionnez *Copies à conserver*.
+... Si le nombre d'instantanés dépasse le nombre spécifié, les instantanés sont supprimés, les copies les plus anciennes étant supprimées en premier.
++
+
+IMPORTANT: Par défaut, la valeur du nombre de rétentions est définie sur 2.  Si vous définissez le nombre de rétention sur 1, l'opération de rétention peut échouer car le premier instantané est l'instantané de référence pour la relation SnapVault jusqu'à ce qu'un instantané plus récent soit répliqué sur la cible.
+
++
+
+NOTE: La valeur de rétention maximale est de 1018. Les sauvegardes échoueront si la rétention est définie sur une valeur supérieure à celle prise en charge par la version sous-jacente de NetApp ONTAP .
+
+
+
+
+
+
+
+. Durée de conservation des instantanés
++
+.. Si vous souhaitez spécifier le nombre de jours pendant lesquels vous souhaitez conserver les instantanés avant de les supprimer, sélectionnez *Conserver les copies pendant*.
+
+
+. Sélectionnez *Période de verrouillage de la copie instantanée* et spécifiez la durée en jours, mois ou années.
++
+La période de rétention du Snaplock doit être inférieure à 100 ans.
+
+. Sélectionnez une étiquette de politique.
++
+
+NOTE: Vous pouvez attribuer des étiquettes SnapMirror aux snapshots principaux pour la réplication à distance, permettant ainsi aux snapshots principaux de décharger l'opération de réplication de snapshot de SnapCenter vers les systèmes secondaires ONTAP . Cela peut être fait sans activer l’option SnapMirror ou SnapVault dans la page de politique.
+
+
+
+
+
+== Étape 7 : Configurer les options de réplication secondaire
+
+. Dans la section Sélectionner les options de réplication secondaire, sélectionnez l’une ou les deux options de réplication secondaire suivantes :
+
+
+[role="tabbed-block"]
+====
+.Mettre à jour SnapMirror
+--
+Mettre à jour SnapMirror après avoir créé une copie Snapshot locale.
+
+. Sélectionnez cette option pour créer des copies miroir des jeux de sauvegarde sur un autre volume (SnapMirror).
++
+Cette option doit être activée pour la synchronisation active de SnapMirror .
+
++
+Lors de la réplication secondaire, l’heure d’expiration de SnapLock charge l’heure d’expiration de SnapLock principale.  Cliquer sur le bouton *Actualiser* dans la page Topologie actualise l'heure d'expiration du SnapLock secondaire et principal récupérée à partir d' ONTAP.
+
++
+Voir link:../protect-scsql/task_view_sql_server_backups_and_clones_in_the_topology_page.html["Afficher les sauvegardes et les clones de SQL Server dans la page Topologie"] .
+
+
+
+--
+.Mettre à jour SnapVault
+--
+Mettre à jour SnapVault après avoir créé une copie Snapshot.
+
+. Sélectionnez cette option pour effectuer une réplication de sauvegarde de disque à disque.
++
+Lors de la réplication secondaire, l’heure d’expiration de SnapLock charge l’heure d’expiration de SnapLock principale.  Cliquer sur le bouton *Actualiser* dans la page Topologie actualise l'heure d'expiration du SnapLock secondaire et principal récupérée à partir d' ONTAP.
+
++
+Lorsque SnapLock est configuré uniquement sur le secondaire d' ONTAP appelé SnapLock Vault, cliquer sur le bouton *Actualiser* dans la page Topologie actualise la période de verrouillage sur le secondaire récupéré à partir d' ONTAP.
+
++
+Pour plus d'informations sur SnapLock Vault, voir https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Valider les copies instantanées vers WORM sur une destination de coffre-fort"]
+
++
+Voir link:../protect-scsql/task_view_sql_server_backups_and_clones_in_the_topology_page.html["Afficher les sauvegardes et les clones de SQL Server dans la page Topologie"] .
+
+
+
+--
+.Nombre de tentatives d'erreur
+--
+. Entrez le nombre de tentatives de réplication qui doivent se produire avant l’arrêt du processus.
+
+
+--
+====
+
+
+== Étape 8 : Configurer les paramètres du script
+
+. Dans la page Script, entrez le chemin et les arguments du prescript ou du postscript qui doivent être exécutés respectivement avant ou après l'opération de sauvegarde.
++
+Par exemple, vous pouvez exécuter un script pour mettre à jour les interruptions SNMP, automatiser les alertes et envoyer des journaux.
+
++
+
+NOTE: Le chemin des prescripts ou des postscripts ne doit pas inclure de lecteurs ou de partages.  Le chemin doit être relatif à SCRIPTS_PATH.
+
++
+
+NOTE: Vous devez configurer la stratégie de rétention SnapMirror dans ONTAP afin que le stockage secondaire n'atteigne pas la limite maximale de snapshots.
+
+
+
+
+
+== Étape 9 : Configurer les paramètres de vérification
+
+Dans la page de vérification, effectuez les étapes suivantes :
+
+. Dans la section Exécuter la vérification pour les planifications de sauvegarde suivantes, sélectionnez la fréquence de planification.
+. Dans la section Options de vérification de la cohérence de la base de données, effectuez les actions suivantes :
++
+.. Limiter la structure d'intégrité à la structure physique de la base de données (PHYSICAL_ONLY)
++
+... Sélectionnez *Limiter la structure d'intégrité à la structure physique de la base de données (PHYSICAL_ONLY)* pour limiter le contrôle d'intégrité à la structure physique de la base de données et pour détecter les pages déchirées, les échecs de somme de contrôle et les pannes matérielles courantes qui ont un impact sur la base de données.
+
+
+.. Supprimer tous les messages d'information (NO INFOMSGS)
++
+... Sélectionnez *Supprimer tous les messages d'information (NO_INFOMSGS)* pour supprimer tous les messages d'information.  Sélectionné par défaut.
+
+
+.. Afficher tous les messages d'erreur signalés par objet (ALL_ERRORMSGS)
++
+... Sélectionnez *Afficher tous les messages d’erreur signalés par objet (ALL_ERRORMSGS)* pour afficher toutes les erreurs signalées par objet.
+
+
+.. Ne pas vérifier les index non clusterisés (NOINDEX)
++
+... Sélectionnez *Ne pas vérifier les index non clusterisés (NOINDEX)* si vous ne souhaitez pas vérifier les index non clusterisés.  La base de données SQL Server utilise Microsoft SQL Server Database Consistency Checker (DBCC) pour vérifier l'intégrité logique et physique des objets de la base de données.
+
+
+.. Limitez les vérifications et obtenez les verrous au lieu d'utiliser un instantané de base de données interne (TABLOCK)
++
+... Sélectionnez *Limiter les vérifications et obtenir les verrous au lieu d'utiliser une copie instantanée de base de données interne (TABLOCK)* pour limiter les vérifications et obtenir les verrous au lieu d'utiliser une copie instantanée de base de données interne.
+
+
+
+
+. Dans la section *Sauvegarde du journal*, sélectionnez *Vérifier la sauvegarde du journal une fois terminée* pour vérifier la sauvegarde du journal une fois terminée.
+. Dans la section *Paramètres du script de vérification*, entrez le chemin et les arguments du prescript ou du postscript qui doivent être exécutés respectivement avant ou après l'opération de vérification.
++
+
+NOTE: Le chemin des prescripts ou des postscripts ne doit pas inclure de lecteurs ou de partages.  Le chemin doit être relatif à SCRIPTS_PATH.
+
+
+
+
+
+== Étape 10 : Récapitulatif de l'examen
+
+. Consultez le résumé, puis sélectionnez *Terminer*.
+

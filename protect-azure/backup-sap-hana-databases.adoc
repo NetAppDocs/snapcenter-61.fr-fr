@@ -1,0 +1,58 @@
+---
+permalink: protect-azure/backup-sap-hana-databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database, back up, databases, Azure NetApp Files 
+summary: Sauvegardez la ressource à partir de la page Ressources. 
+---
+= Sauvegarder les bases de données SAP HANA exécutées sur Azure NetApp Files
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une ressource ne fait pas encore partie d’un groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressource, filtrez les ressources de la liste déroulante *Afficher* en fonction du type de ressource.
+. Sélectionnez la ressource que vous souhaitez sauvegarder.
+. Dans la page Ressource, sélectionnez *Utiliser un format de nom personnalisé pour la copie d'instantané*, puis saisissez un format de nom personnalisé que vous souhaitez utiliser pour le nom d'instantané.
+. Dans la page Paramètres de l’application, procédez comme suit :
++
+.. Sélectionnez la flèche *Sauvegardes* pour définir des options de sauvegarde supplémentaires.
+.. Sélectionnez la flèche *Scripts* pour exécuter les commandes pré et post pour les opérations de mise en veille, de capture instantanée et de reprise.
+.. Sélectionnez la flèche *Configurations personnalisées*, puis saisissez les paires de valeurs personnalisées requises pour tous les travaux utilisant cette ressource.
+.. Sélectionnez l'outil *Snapshot Copy Tool > SnapCenter sans cohérence du système de fichiers* pour créer des snapshots.
++
+L'option *Cohérence du système de fichiers* s'applique uniquement aux applications exécutées sur des hôtes Windows.
+
+
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
+.. Sélectionner *image:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] * dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer une planification.
+.. Dans la boîte de dialogue Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis sélectionnez *OK*.
++
+_policy_name_ est le nom de la politique que vous avez sélectionnée.
+
+
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  SMTP doit également être configuré dans *Paramètres* > *Paramètres globaux*.
+
+. Consultez le résumé, puis sélectionnez *Terminer*.
+. Sélectionnez *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si plusieurs politiques sont associées à la ressource, dans la liste déroulante *Politique*, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+
+
+. Sélectionnez *Sauvegarde*.
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

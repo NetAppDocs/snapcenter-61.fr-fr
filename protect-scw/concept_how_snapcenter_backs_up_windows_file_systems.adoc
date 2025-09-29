@@ -1,0 +1,23 @@
+---
+permalink: protect-scw/concept_how_snapcenter_backs_up_windows_file_systems.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 'SnapCenter utilise la technologie Snapshot pour sauvegarder les ressources du système de fichiers Windows qui résident sur les LUN, les CSV (volumes partagés en cluster), les volumes RDM (mappage de périphériques bruts), ALM (mappage LUN asymétrique) dans les clusters Windows et les VMDK basés sur VMFS/NFS (VMware Virtual Machine File System utilisant NFS).' 
+---
+= Comment SnapCenter sauvegarde les systèmes de fichiers Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter utilise la technologie Snapshot pour sauvegarder les ressources du système de fichiers Windows qui résident sur les LUN, les CSV (volumes partagés en cluster), les volumes RDM (mappage de périphériques bruts), ALM (mappage LUN asymétrique) dans les clusters Windows et les VMDK basés sur VMFS/NFS (VMware Virtual Machine File System utilisant NFS).
+
+SnapCenter crée des sauvegardes en créant des instantanés des systèmes de fichiers.  Les sauvegardes fédérées, dans lesquelles un volume contient des LUN provenant de plusieurs hôtes, sont plus rapides et plus efficaces que les sauvegardes de chaque LUN individuel, car un seul instantané du volume est créé par rapport aux instantanés individuels de chaque système de fichiers.
+
+Lorsque SnapCenter crée un instantané, l’intégralité du volume du système de stockage est capturée dans l’instantané.  Cependant, la sauvegarde n'est valide que pour le serveur hôte pour lequel la sauvegarde a été créée.
+
+Si des données provenant d’autres serveurs hôtes résident sur le même volume, ces données ne peuvent pas être restaurées à partir du snapshot.
+
+
+NOTE: Si un système de fichiers Windows contient une base de données, la sauvegarde du système de fichiers n’est pas la même chose que la sauvegarde de la base de données.  Pour sauvegarder une base de données, vous devez utiliser l’un des plug-ins de base de données.

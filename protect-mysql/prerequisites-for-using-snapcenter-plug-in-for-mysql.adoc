@@ -1,0 +1,24 @@
+---
+permalink: protect-mysql/prerequisites-for-using-snapcenter-plug-in-for-mysql.html 
+sidebar: sidebar 
+keywords: Credentials,SnapCenter Plug-in for mysql 
+summary: 'Avant d"utiliser SnapCenter Plug-in pour MySQL, l"administrateur SnapCenter doit installer et configurer le serveur SnapCenter et effectuer les tâches préalables.' 
+---
+= Conditions préalables à l'utilisation du plug-in SnapCenter pour MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d'utiliser SnapCenter Plug-in pour MySQL, l'administrateur SnapCenter doit installer et configurer le serveur SnapCenter et effectuer les tâches préalables.
+
+* Installer et configurer SnapCenter Server.
+* Connectez-vous au serveur SnapCenter .
+* Configurez l’environnement SnapCenter en ajoutant des connexions au système de stockage et en créant des informations d’identification, le cas échéant.
+* Installez Java 11 sur votre hôte Linux ou Windows.
++
+Vous devez définir le chemin Java dans la variable de chemin d’environnement de la machine hôte.
+
+* Configurez SnapMirror et SnapVault si vous souhaitez une réplication de sauvegarde.
+

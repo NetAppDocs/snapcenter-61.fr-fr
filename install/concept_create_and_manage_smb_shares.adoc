@@ -1,0 +1,101 @@
+---
+permalink: install/concept_create_and_manage_smb_shares.html 
+sidebar: sidebar 
+keywords: SMB shares 
+summary: 'Pour configurer un partage SMB3 sur une machine virtuelle de stockage (SVM), vous pouvez utiliser l’interface utilisateur SnapCenter ou les applets de commande PowerShell.' 
+---
+= Créer et gérer des partages SMB
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Pour configurer un partage SMB3 sur une machine virtuelle de stockage (SVM), vous pouvez utiliser l’interface utilisateur SnapCenter ou les applets de commande PowerShell.
+
+|===
+
+
+| *Meilleure pratique :* l’utilisation des applets de commande est recommandée car elle vous permet de tirer parti des modèles fournis avec SnapCenter pour automatiser la configuration du partage. 
+|===
+Les modèles résument les meilleures pratiques en matière de configuration du volume et du partage.  Vous pouvez trouver les modèles dans le dossier Modèles du dossier d'installation du package de plug-ins SnapCenter pour Windows.
+
+
+TIP: Si vous vous sentez à l'aise, vous pouvez créer vos propres modèles en suivant les modèles fournis.  Vous devez consulter les paramètres dans la documentation de l’applet de commande avant de créer un modèle personnalisé.
+
+
+
+== Créer un partage SMB
+
+Vous pouvez utiliser la page Partages SnapCenter pour créer un partage SMB3 sur une machine virtuelle de stockage (SVM).
+
+Vous ne pouvez pas utiliser SnapCenter pour sauvegarder des bases de données sur des partages SMB.  Le support SMB est limité au provisionnement uniquement.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Hôtes*.
+. Dans la page Hôtes, cliquez sur *Partages*.
+. Sélectionnez la SVM dans la liste déroulante *Machine virtuelle de stockage*.
+. Cliquez sur *Nouveau*.
++
+La boîte de dialogue Nouveau partage s'ouvre.
+
+. Dans la boîte de dialogue Nouveau partage, définissez le partage :
++
+|===
+| Dans ce domaine... | Fais ceci... 
+
+
+ a| 
+Description
+ a| 
+Saisissez un texte descriptif pour le partage.
+
+
+
+ a| 
+Nom de partage
+ a| 
+Saisissez le nom du partage, par exemple, test_share.
+
+Le nom que vous entrez pour le partage sera également utilisé comme nom de volume.
+
+Le nom de l'action :
+
+** Doit être une chaîne UTF-8.
+** Ne doit pas inclure les caractères suivants : caractères de contrôle de 0x00 à 0x1F (tous deux inclus), 0x22 (guillemets doubles) et les caractères spéciaux `\ / [ ] : (vertical bar) < > + = ; , ?`
+
+
+
+
+ a| 
+Partager le chemin
+ a| 
+** Cliquez dans le champ pour saisir un nouveau chemin d'accès au système de fichiers, par exemple, /.
+** Double-cliquez dans le champ pour sélectionner parmi une liste de chemins de système de fichiers existants.
+
+
+|===
+. Lorsque vous êtes satisfait de vos entrées, cliquez sur *OK*.
++
+SnapCenter crée le partage SMB sur le SVM.
+
+
+
+
+
+== Supprimer un partage SMB
+
+Vous pouvez supprimer un partage SMB lorsque vous n’en avez plus besoin.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Hôtes*.
+. Dans la page Hôtes, cliquez sur *Partages*.
+. Dans la page Partages, cliquez dans le champ *Machine virtuelle de stockage* pour afficher une liste déroulante contenant une liste des machines virtuelles de stockage (SVM) disponibles, puis sélectionnez la SVM du partage que vous souhaitez supprimer.
+. Dans la liste des partages sur le SVM, sélectionnez le partage que vous souhaitez supprimer et cliquez sur *Supprimer*.
+. Dans la boîte de dialogue Supprimer le partage, cliquez sur *OK*.
++
+SnapCenter supprime le partage SMB du SVM.
+
+

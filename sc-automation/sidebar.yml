@@ -1,0 +1,22 @@
+---
+section: sc-automation
+title: Automatiser à l'aide des API REST
+entries:
+- title: Présentation des API REST
+  url: "/sc-automation/overview_rest_apis.html"
+- title: Comment accéder nativement à l'API REST de SnapCenter
+  url: "/sc-automation/concept_how_to_access_snapcenter_rest_api_natively.html"
+- title: Fondation des services Web REST
+  url: "/sc-automation/concept_rest_web_services_foundation.html"
+- title: Caractéristiques opérationnelles de base
+  url: "/sc-automation/concept_basic_operational_characteristics.html"
+- title: Variables d'entrée contrôlant une requête API
+  url: "/sc-automation/concept_input_variables_controlling_an_api_request.html"
+- title: Interprétation d'une réponse API
+  url: "/sc-automation/concept_interpreting_an_api_response.html"
+- title: API REST prises en charge pour SnapCenter Server et les plug-ins
+  url: "/sc-automation/reference_supported_rest_apis.html"
+- title: Comment accéder aux API REST à l'aide de la page Web de l'API Swagger
+  url: "/sc-automation/task_how to_access_rest_apis_using_the_swagger_api_web_page.html"
+- title: Démarrer avec l'API REST
+  url: "/sc-automation/task_get_started_with_the_rest_api.html"

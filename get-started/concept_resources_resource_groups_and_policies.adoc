@@ -1,0 +1,114 @@
+---
+permalink: get-started/concept_resources_resource_groups_and_policies.html 
+sidebar: sidebar 
+keywords: resource, resource group, policy 
+summary: Avant d’utiliser SnapCenter, il est utile de comprendre les concepts de base liés aux opérations de sauvegarde, de clonage et de restauration que vous souhaitez effectuer. 
+---
+= Concepts clés de la protection des données
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d’utiliser SnapCenter, comprenez les concepts clés de la sauvegarde, du clonage et de la restauration.
+
+
+
+== Ressources
+
+Les ressources incluent des bases de données, des systèmes de fichiers Windows ou des partages de fichiers sauvegardés ou clonés avec SnapCenter.  Selon votre environnement, les ressources peuvent également être des instances de base de données, des groupes de disponibilité SQL Server, des bases de données Oracle, des bases de données RAC ou des groupes d'applications personnalisés.
+
+
+
+== Groupe de ressources
+
+Un groupe de ressources est un ensemble de ressources sur un hôte ou un cluster, provenant potentiellement de plusieurs hôtes et clusters.  Les opérations effectuées sur un groupe de ressources s’appliquent à toutes ses ressources en fonction de la planification spécifiée.  Vous pouvez effectuer des sauvegardes à la demande ou planifiées pour des ressources individuelles ou des groupes.
+
+
+NOTE: Si un hôte d’un groupe de ressources partagées entre en mode maintenance, toutes les opérations planifiées pour ce groupe seront suspendues sur tous les hôtes.
+
+Utilisez des plug-ins pertinents pour sauvegarder des ressources spécifiques : plug-ins de base de données pour les bases de données, plug-ins de système de fichiers pour les systèmes de fichiers et SnapCenter Plug-in for VMware vSphere pour les machines virtuelles et les banques de données.
+
+
+
+== Politiques
+
+Les politiques spécifient la fréquence de sauvegarde, la conservation des copies, la réplication, les scripts et d’autres caractéristiques des opérations de protection des données.
+
+Une ou plusieurs politiques peuvent être sélectionnées lors de la création d’un groupe de ressources ou lors de l’exécution d’une sauvegarde à la demande.
+
+Un groupe de ressources définit ce qui doit être protégé et quand cela doit être protégé en termes de jour et d'heure.  Une politique décrit comment la protection sera mise en œuvre.  Par exemple, si la sauvegarde de toutes les bases de données ou de tous les systèmes de fichiers d'un hôte est nécessaire, un groupe de ressources incluant toutes les bases de données ou tous les systèmes de fichiers de l'hôte peut être créé.  Deux politiques pourraient alors être attachées au groupe de ressources : une politique quotidienne et une politique horaire.
+
+Lors de la création du groupe de ressources et de l'association des politiques, il est possible de le configurer pour effectuer une sauvegarde complète quotidienne et une autre planification pour les sauvegardes de journaux toutes les heures.
+
+Des prescripts et postscripts personnalisés peuvent être utilisés dans les opérations de protection des données.  Ces scripts permettent l'automatisation avant ou après le travail de protection des données.  Par exemple, un script pourrait automatiquement notifier les échecs ou les avertissements d'une tâche de protection des données.  Il est essentiel de comprendre les exigences de création de ces scripts avant de configurer les prescripts et les postscripts.
+
+
+
+== Utilisation des prescripts et des postscripts
+
+Les prescripts et postscripts personnalisés peuvent automatiser vos tâches de protection des données avant ou après le travail.  Par exemple, vous pouvez ajouter un script pour vous avertir des échecs ou des avertissements de tâches.  Avant de les configurer, assurez-vous de bien comprendre les exigences relatives à ces scripts.
+
+
+
+=== Types de scripts pris en charge
+
+Les types de scripts suivants sont pris en charge pour Windows :
+
+* Fichiers batch
+* Scripts PowerShell
+* Scripts Perl
+
+
+Les types de scripts suivants sont pris en charge pour UNIX :
+
+* Scripts Perl
+* Scripts Python
+* Scripts shell
++
+
+NOTE: En plus du shell bash par défaut, d'autres shells comme sh-shell, k-shell et c-shell sont également pris en charge.
+
+
+
+
+
+=== Chemin du script
+
+Tous les préscripts et postscripts exécutés dans le cadre des opérations SnapCenter sur les systèmes de stockage virtualisés et non virtualisés sont exécutés sur l'hôte du plug-in.
+
+* Les scripts Windows doivent être situés sur l’hôte du plug-in.
+
+
+
+NOTE: Le chemin des prescripts ou des postscripts ne doit pas inclure de lecteurs ou de partages.  Le chemin doit être relatif à SCRIPTS_PATH.
+
+* Les scripts UNIX doivent être situés sur l’hôte du plug-in.
+
+
+
+NOTE: Le chemin du script est validé au moment de l'exécution.
+
+
+
+=== Où spécifier les scripts
+
+Les scripts sont spécifiés dans les politiques de sauvegarde.  Lorsqu'une tâche de sauvegarde démarre, la politique associe automatiquement le script aux ressources en cours de sauvegarde.  Lorsque vous créez une politique de sauvegarde, vous pouvez spécifier les arguments prescript et postscript.
+
+
+NOTE: Vous ne pouvez pas spécifier plusieurs scripts.
+
+
+
+=== Délais d'expiration des scripts
+
+Le délai d'expiration est défini sur 60 secondes par défaut.  Vous pouvez modifier la valeur du délai d'attente.
+
+
+
+=== Sortie du script
+
+Le répertoire par défaut pour les fichiers de sortie des prescripts et postscripts Windows est Windows\System32.
+
+Il n'y a pas d'emplacement par défaut pour les prescripts et postscripts UNIX.  Vous pouvez rediriger le fichier de sortie vers n’importe quel emplacement préféré.

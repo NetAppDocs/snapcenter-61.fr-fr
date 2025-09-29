@@ -1,0 +1,81 @@
+---
+permalink: protect-azure/clone-sql-database-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, clone, database, backups 
+summary: Vous pouvez utiliser SnapCenter pour cloner une sauvegarde. 
+---
+= Cloner la sauvegarde de la base de données SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour cloner une base de données SQL à l’aide de la sauvegarde de la base de données.  Les clones créés sont des clones épais et sont créés sur le pool de capacité parent.
+
+.À propos de cette tâche
+Vous devez vous assurer que l'instance cible pour le clonage est configurée avec un utilisateur Active Directory qui appartient au domaine SMB ADactive Directory et dispose des autorisations nécessaires pour définir les autorisations de fichier de manière appropriée.  Vous devez configurer les informations d’identification dans SnapCenter au niveau de l’instance.
+
+L'authentification SQL pour l'instance cible ne sera pas prise en charge pour les configurations SMB.  L'instance cible doit être configurée dans SnapCenter avec l'utilisateur Active Directory disposant des autorisations requises.
+
+Si le compte de service des services du plug-in SnapCenter n'est pas un utilisateur Active Directory, lors de l'exécution du clonage, l'utilisateur qui dispose du contrôle total sur les volumes sources est requis pour pouvoir être emprunté et effectuer l'opération requise.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste *Affichage*.
+. Sélectionnez la base de données ou le groupe de ressources.
+. Depuis la page d’affichage *Gérer les copies*, sélectionnez la sauvegarde du système de stockage principal.
+. Sélectionnez la sauvegarde, puis sélectionnez *image:../media/clone_icon.gif["icône de clonage"] *.
+. Dans la page *Options de clonage*, fournissez tous les détails requis.
+. Dans la page Emplacement, sélectionnez un emplacement de stockage pour créer un clone.
++
+Si les volumes ANF de la base de données SQL Server sont configurés dans un pool de capacité QOS manuel, spécifiez le QOS pour les volumes clonés.
+
++
+Si la qualité de service (QOS) des volumes clonés n'est pas spécifiée, la qualité de service (QOS) du volume source sera utilisée.  Si le pool de capacité QOS automatique est utilisé, la valeur QOS spécifiée sera ignorée.
+
+. Dans la page Journaux, sélectionnez l’une des options suivantes :
++
+.. Sélectionnez *Aucun* si vous souhaitez cloner uniquement la sauvegarde complète sans aucun journal.
+.. Sélectionnez *Toutes les sauvegardes de journaux* si vous souhaitez cloner toutes les sauvegardes de journaux disponibles datées après la sauvegarde complète.
+.. Sélectionnez *Par sauvegardes de journaux jusqu'à* si vous souhaitez cloner la base de données en fonction des journaux de sauvegarde créés jusqu'au journal de sauvegarde avec la date sélectionnée.
+.. Sélectionnez *Par date spécifique jusqu'à* si vous ne souhaitez pas appliquer les journaux de transactions après la date et l'heure spécifiées.
+
+
+. Dans la page *Script*, entrez le délai d'expiration du script, le chemin et les arguments du prescript ou du postscript qui doivent être exécutés respectivement avant ou après l'opération de clonage.
+. Dans la page *Notification*, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
+. Consultez le résumé, puis sélectionnez *Terminer*.
+. Surveillez la progression de l’opération en sélectionnant *Surveillance* > *Tâches*.
+
+
+
+
+== Exécuter le cycle de vie du clone
+
+À l’aide de SnapCenter, vous pouvez créer des clones à partir d’un groupe de ressources ou d’une base de données.  Vous pouvez effectuer un clonage à la demande ou planifier des opérations de clonage récurrentes d'un groupe de ressources ou d'une base de données.  Si vous clonez une sauvegarde périodiquement, vous pouvez utiliser le clone pour développer des applications, renseigner des données ou récupérer des données.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste *Affichage*.
+. Sélectionnez la base de données ou le groupe de ressources.
+. Depuis la page d’affichage *Gérer les copies*, sélectionnez la sauvegarde du système de stockage principal.
+. Sélectionnez la sauvegarde, puis sélectionnez *image:../media/clone_icon.gif["icône de clonage"] *.
+. Dans la page *Options de clonage*, fournissez tous les détails requis.
+. Dans la page Emplacement, sélectionnez un emplacement de stockage pour créer un clone.
++
+Si les volumes ANF de la base de données SQL Server sont configurés dans un pool de capacité QOS manuel, spécifiez le QOS pour les volumes clonés.
+
++
+Si la qualité de service (QOS) des volumes clonés n'est pas spécifiée, la qualité de service (QOS) du volume source sera utilisée.  Si le pool de capacité QOS automatique est utilisé, la valeur QOS spécifiée sera ignorée.
+
+. Dans la page *Script*, entrez le délai d'expiration du script, le chemin et les arguments du prescript ou du postscript qui doivent être exécutés respectivement avant ou après l'opération de clonage.
+. Dans la page Planification, effectuez l’une des actions suivantes :
++
+** Sélectionnez *Exécuter maintenant* si vous souhaitez exécuter le travail de clonage immédiatement.
+** Sélectionnez *Configurer la planification* lorsque vous souhaitez déterminer la fréquence à laquelle l'opération de clonage doit se produire, le moment où la planification du clonage doit démarrer, le jour où l'opération de clonage doit se produire, le moment où la planification doit expirer et si les clones doivent être supprimés après l'expiration de la planification.
+
+
+. Dans la page *Notification*, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
+. Consultez le résumé, puis sélectionnez *Terminer*.
+. Surveillez la progression de l’opération en sélectionnant *Surveillance* > *Tâches*.
+

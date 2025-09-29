@@ -1,0 +1,49 @@
+---
+permalink: uninstall/reference_prerequisites_for_removing_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, prerequisites, plug-in, plug-in packages 
+summary: Vous pouvez supprimer un hôte si vous ne souhaitez plus utiliser SnapCenter pour gérer ses tâches de protection des données.  Par exemple, vous souhaiterez peut-être supprimer un hôte s’il ne contient plus de données devant être protégées.  Avant de supprimer un hôte de SnapCenter Server, vous devez effectuer les tâches préalables. 
+---
+= Conditions préalables à la suppression d'un hôte
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez supprimer des hôtes et désinstaller des plug-ins individuels ou des packages de plug-ins à l'aide de l'interface graphique SnapCenter .  Vous pouvez également désinstaller des plug-ins individuels ou des packages de plug-ins sur des hôtes distants à l'aide de l'interface de ligne de commande (CLI) sur votre hôte SnapCenter Server ou à l'aide de l'option Windows *Désinstaller un programme* localement sur n'importe quel hôte.
+
+Avant de supprimer un hôte de SnapCenter Server, vous devez remplir les conditions préalables.
+
+* Vous devez vous connecter en tant qu'administrateur.
+* Vous devez vous assurer que les tâches de découverte ne sont pas en cours d’exécution sur l’hôte.
+* Un rôle avec les autorisations requises doit vous être attribué pour supprimer tous les objets associés à l'hôte.  Sinon, l’opération de suppression échoue.
+* Vous devez confirmer l'empreinte digitale si la clé SSH a été modifiée après l'ajout de l'hôte à SnapCenter.
+* Vous devez confirmer l'empreinte digitale si l'hôte SnapCenter est mis à niveau vers une version ultérieure de SnapCenter mais que l'hôte du plug-in exécute toujours une version antérieure du plug-in.
+
+
+
+
+== Conditions préalables pour supprimer un hôte à l'aide du contrôle d'accès basé sur les rôles
+
+* Vous devez vous être connecté à l'aide d'un rôle RBAC disposant des autorisations de lecture, de suppression d'hôte, d'installation, de désinstallation de plug-in et de suppression d'objets.
++
+Les objets peuvent être des clones, des sauvegardes, des groupes de ressources, des systèmes de stockage, etc.
+
+* Vous auriez dû ajouter l’utilisateur RBAC au rôle RBAC.
+* Vous devez affecter l'utilisateur RBAC à l'hôte, au plug-in, aux informations d'identification, aux groupes de ressources et au système de stockage (pour les clones) que vous souhaitez supprimer.
+* Vous devez vous être connecté à SnapCenter en tant qu'utilisateur RBAC.
+
+
+
+
+== Conditions préalables pour supprimer un hôte avec des clones créés à partir d'une opération de cycle de vie de clone
+
+* Vous devez avoir créé des tâches de clonage à l’aide de la gestion du cycle de vie des clones pour les bases de données SQL.
+* Vous devez avoir créé un rôle RBAC avec des autorisations de lecture et de suppression de clone, de lecture et de suppression de ressources, de lecture et de suppression de groupe de ressources, de lecture et de suppression de stockage, de lecture et de suppression de provisionnement, de montage, de démontage, d'installation et de désinstallation de plug-in, de lecture et de suppression d'hôte.
+* Vous devez avoir attribué l’utilisateur RBAC au rôle RBAC.
+* Vous devez avoir attribué l'utilisateur RBAC à l'hôte, au plug-in SnapCenter pour Microsoft SQL Server, aux informations d'identification, au groupe de ressources du cycle de vie du clone et au système de stockage.
+* Vous devez vous être connecté à SnapCenter en tant qu'utilisateur RBAC.
+
+
+Pour plus d'informations sur la désinstallation du SnapCenter Plug-in for VMware vSphere, consultez https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_remove_plugin.html["Supprimer le SnapCenter Plug-in for VMware vSphere"^] .

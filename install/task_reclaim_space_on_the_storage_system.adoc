@@ -1,0 +1,43 @@
+---
+permalink: install/task_reclaim_space_on_the_storage_system.html 
+sidebar: sidebar 
+keywords: space, storage system, reclaim 
+summary: 'Bien que NTFS suive l"espace disponible sur un LUN lorsque des fichiers sont supprimés ou modifiés, il ne signale pas les nouvelles informations au système de stockage.  Vous pouvez exécuter l’applet de commande PowerShell de récupération d’espace sur l’hôte Plug-in pour Windows pour garantir que les blocs nouvellement libérés sont marqués comme disponibles dans le stockage.' 
+---
+= Récupérer de l'espace sur le système de stockage
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bien que NTFS suive l'espace disponible sur un LUN lorsque des fichiers sont supprimés ou modifiés, il ne signale pas les nouvelles informations au système de stockage.  Vous pouvez exécuter l’applet de commande PowerShell de récupération d’espace sur l’hôte Plug-in pour Windows pour garantir que les blocs nouvellement libérés sont marqués comme disponibles dans le stockage.
+
+Si vous exécutez l’applet de commande sur un hôte de plug-in distant, vous devez avoir exécuté l’applet de commande SnapCenterOpen-SMConnection pour ouvrir une connexion au serveur SnapCenter .
+
+.Avant de commencer
+* Vous devez vous assurer que le processus de récupération d’espace est terminé avant d’effectuer une opération de restauration.
+* Si le LUN est partagé par des hôtes dans un cluster de basculement Windows Server, vous devez effectuer une récupération d’espace sur l’hôte propriétaire du groupe de clusters.
+* Pour des performances de stockage optimales, vous devez effectuer une récupération d'espace aussi souvent que possible.
++
+Vous devez vous assurer que l’ensemble du système de fichiers NTFS a été analysé.
+
+
+
+*À propos de cette tâche*
+
+* La récupération d'espace prend du temps et consomme beaucoup de ressources processeur. Il est donc généralement préférable d'exécuter l'opération lorsque l'utilisation du système de stockage et de l'hôte Windows est faible.
+* La récupération d’espace récupère presque tout l’espace disponible, mais pas 100 pour cent.
+* Vous ne devez pas exécuter la défragmentation du disque en même temps que vous effectuez une récupération d’espace.
++
+Cela peut ralentir le processus de récupération.
+
+
+
+*Étape*
+
+À partir de l’invite de commande PowerShell du serveur d’applications, entrez la commande suivante :
+
+`Invoke-SdHostVolumeSpaceReclaim -Path drive_path`
+
+drive_path est le chemin du lecteur mappé au LUN.

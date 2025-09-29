@@ -1,0 +1,36 @@
+---
+permalink: install/register_enable_software_access.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install, register, new customer, NetApp account, enable, Amazon FSx for NetApp ONTAP, Azure NetApp Files 
+summary: Si vous ne possédez pas de compte NetApp existant, vous devez suivre ces étapes pour vous inscrire afin d’accéder au logiciel. 
+---
+= Inscrivez-vous pour accéder au SnapCenter software
+:allow-uri-read: 
+
+
+[role="lead"]
+Vous devez vous inscrire pour accéder au SnapCenter software si vous êtes nouveau sur Amazon FSx for NetApp ONTAP ou Azure NetApp Files et que vous n’avez pas de compte NetApp existant.
+
+.Avant de commencer
+* Vous devriez avoir accès à l’identifiant de messagerie de l’entreprise.
+* Si vous utilisez Azure NetApp Files, vous devez disposer de l’ID d’abonnement Azure.
+* Si vous utilisez Amazon FSx for NetApp ONTAP, vous devez disposer de l'ID du système de fichiers de votre système de fichiers FSx pour ONTAP .
+
+
+.À propos de cette tâche
+Votre inscription est soumise à des validations d'informations et peut prendre jusqu'à un jour pour confirmer et mettre à niveau le nouveau compte NetApp Support Site (NSS) vers un accès *complet* à partir d'un accès *invité*.
+
+.Étapes
+. Cliquez https://mysupport.netapp.com/site/user/registration[] pour l'inscription.
+. Saisissez votre identifiant de messagerie d'entreprise, remplissez le captcha, acceptez la politique de confidentialité de NetApp et cliquez sur *Soumettre*.
+. Authentifiez l'inscription en saisissant l'OTP envoyé à votre adresse e-mail et cliquez sur *Continuer*.
+. Sur la page de fin d'inscription, saisissez les détails suivants pour terminer l'inscription.
++
+.. Sélectionnez * Client NetApp / Utilisateur final*.
+.. Dans le champ NUMÉRO DE SÉRIE, saisissez l’ID d’abonnement Azure si vous utilisez Azure NetApp Files ou l’ID du système de fichiers si vous utilisez Amazon FSx for NetApp ONTAP.
+
+
+
+
+
+NOTE: Vous pouvez créer un ticket à https://mysupport.netapp.com/site/help[] si vous rencontrez un problème lors de l'inscription ou pour connaître le statut.

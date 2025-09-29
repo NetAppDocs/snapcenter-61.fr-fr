@@ -1,0 +1,41 @@
+---
+permalink: protect-azure/create-backup-policies-oracle.html 
+sidebar: sidebar 
+keywords: create policies, Oracle, backup policies 
+summary: Créez une politique de sauvegarde pour la ressource ou le groupe de ressources que vous souhaitez sauvegarder. 
+---
+= Créer des politiques de sauvegarde pour les bases de données Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d'utiliser SnapCenter pour sauvegarder les ressources de base de données Oracle, vous devez créer une stratégie de sauvegarde pour la ressource ou le groupe de ressources que vous souhaitez sauvegarder.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Politiques*.
+. Sélectionnez Oracle Database dans la liste déroulante.
+. Cliquez sur *Nouveau*.
+. Dans la page Nom, saisissez le nom et la description de la politique.
+. Dans la page Type de politique, procédez comme suit :
++
+.. Sélectionnez * Azure NetApp Files* comme type de stockage.
+.. Sélectionnez le type de sauvegarde en ligne ou hors ligne.
+.. Si vous souhaitez cataloguer une sauvegarde à l'aide d'Oracle Recovery Manager (RMAN), sélectionnez *Cataloguer une sauvegarde avec Oracle Recovery Manager (RMAN)*.
+.. Si vous souhaitez élaguer les journaux d'archive après la sauvegarde, sélectionnez *Élaguer les journaux d'archive après la sauvegarde*.
+.. Spécifiez les paramètres de suppression du journal d’archive.
+
+
+. Dans la page Instantané et sauvegarde, effectuez les étapes suivantes :
++
+.. Sélectionnez la fréquence de la sauvegarde planifiée.
+.. Spécifiez les paramètres de conservation.
+.. Si vous souhaitez activer la sauvegarde Azure NetApp Files , sélectionnez *Activer la sauvegarde* et spécifiez les paramètres de conservation.
+
+
+. Dans la page Script, entrez le chemin et les arguments du prescript ou du postscript que vous souhaitez exécuter respectivement avant ou après l'opération de sauvegarde.
+. Dans la page Vérification, sélectionnez la planification de sauvegarde pour laquelle vous souhaitez effectuer l'opération de vérification et entrez le chemin et les arguments du prescript ou du postscript que vous souhaitez exécuter respectivement avant ou après l'opération de vérification.
+. Consultez le résumé et cliquez sur *Terminer*.
+

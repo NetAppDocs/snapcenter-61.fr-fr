@@ -1,0 +1,95 @@
+= 
+:allow-uri-read: 
+
+
+.Étapes
+. Lancez une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié à l’aide de l’applet de commande Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+L'invite de saisie du nom d'utilisateur et du mot de passe s'affiche.
+
+. Créez une stratégie de sauvegarde à l’aide de l’applet de commande Add-SmPolicy.
++
+Cet exemple crée une nouvelle politique de sauvegarde avec un type de sauvegarde SQL FullBackup :
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+Cet exemple crée une nouvelle politique de sauvegarde avec un type de sauvegarde du système de fichiers Windows CrashConsistent :
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Découvrez les ressources de l’hôte à l’aide de l’applet de commande Get-SmResources.
++
+Cet exemple découvre les ressources du plug-in Microsoft SQL sur l’hôte spécifié :
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+Cet exemple découvre les ressources des systèmes de fichiers Windows sur l’hôte spécifié :
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Ajoutez un nouveau groupe de ressources à SnapCenter à l’aide de l’applet de commande Add-SmResourceGroup.
++
+Cet exemple crée un nouveau groupe de ressources de sauvegarde de base de données SQL avec la politique et les ressources spécifiées :
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+Cet exemple crée un nouveau groupe de ressources de sauvegarde du système de fichiers Windows avec la stratégie et les ressources spécifiées :
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. Lancez une nouvelle tâche de sauvegarde à l’aide de l’applet de commande New-SmBackup.
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Affichez l’état de la tâche de sauvegarde à l’aide de l’applet de commande Get-SmBackupReport.
++
+Cet exemple affiche un rapport récapitulatif de tous les travaux exécutés à la date spécifiée :
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .

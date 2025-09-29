@@ -1,0 +1,53 @@
+---
+permalink: protect-hana/task_install_the_snapcenter_plug_in_for_sap_hana_database_on_linux_hosts_using_the_command_line_interface.html 
+sidebar: sidebar 
+keywords: install, SnapCenter Plug-in for SAP HANA Database 
+summary: 'Vous devez installer le plug-in SnapCenter pour la base de données SAP HANA à l"aide de l"interface utilisateur (UI) de SnapCenter .  Si votre environnement ne permet pas l"installation à distance du plug-in à partir de l"interface utilisateur SnapCenter , vous pouvez installer le plug-in pour la base de données SAP HANA en mode console ou en mode silencieux à l"aide de l"interface de ligne de commande (CLI1).' 
+---
+= Installez le plug-in SnapCenter pour la base de données SAP HANA sur les hôtes Linux à l'aide de l'interface de ligne de commande
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez installer le plug-in SnapCenter pour la base de données SAP HANA à l'aide de l'interface utilisateur (UI) de SnapCenter .  Si votre environnement ne permet pas l'installation à distance du plug-in à partir de l'interface utilisateur SnapCenter , vous pouvez installer le plug-in pour la base de données SAP HANA en mode console ou en mode silencieux à l'aide de l'interface de ligne de commande (CLI).
+
+.Avant de commencer
+* Vous devez installer le plug-in pour la base de données SAP HANA sur chacun des hôtes Linux sur lesquels réside le client HDBSQL.
+* L'hôte Linux sur lequel vous installez le plug-in SnapCenter pour la base de données SAP HANA doit répondre aux exigences logicielles, de base de données et de système d'exploitation dépendantes.
++
+L'outil de matrice d'interopérabilité (IMT) contient les informations les plus récentes sur les configurations prises en charge.
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121029;&solution=1259&isHWU&src=IMT[]
+
+* Le plug-in SnapCenter pour la base de données SAP HANA fait partie du package de plug-ins SnapCenter pour Linux.  Avant d'installer le package de plug-ins SnapCenter pour Linux, vous devez déjà avoir installé SnapCenter sur un hôte Windows.
+
+
+.Étapes
+. Copiez le fichier d'installation du package de plug-ins SnapCenter pour Linux (snapcenter_linux_host_plugin.bin) depuis C:\ProgramData\ NetApp\ SnapCenter\Package Repository vers l'hôte sur lequel vous souhaitez installer le plug-in pour la base de données SAP HANA.
++
+Vous pouvez accéder à ce chemin à partir de l’hôte sur lequel le serveur SnapCenter est installé.
+
+. À partir de l’invite de commande, accédez au répertoire dans lequel vous avez copié le fichier d’installation.
+. Installer le plug-in : `path_to_installation_bin_file/snapcenter_linux_host_plugin.bin -i silent -DPORT=port_number_for_host -DSERVER_IP=server_name_or_ip_address -DSERVER_HTTPS_PORT=port_number_for_server`
++
+** -DPORT spécifie le port de communication HTTPS SMCore.
+** -DSERVER_IP spécifie l'adresse IP du serveur SnapCenter .
+** -DSERVER_HTTPS_PORT spécifie le port HTTPS du serveur SnapCenter .
+** -DUSER_INSTALL_DIR spécifie le répertoire dans lequel vous souhaitez installer le package de plug-ins SnapCenter pour Linux.
+** DINSTALL_LOG_NAME spécifie le nom du fichier journal.
+
+
++
+[listing]
+----
+/tmp/sc-plugin-installer/snapcenter_linux_host_plugin.bin -i silent  -DPORT=8145 -DSERVER_IP=scserver.domain.com -DSERVER_HTTPS_PORT=8146 -DUSER_INSTALL_DIR=/opt -DINSTALL_LOG_NAME=SnapCenter_Linux_Host_Plugin_Install_2.log -DCHOSEN_FEATURE_LIST=CUSTOM
+----
+. Modifiez le fichier /<répertoire d'installation>/ NetApp/snapcenter/scc/etc/SC_SMS_Services.properties, puis ajoutez le paramètre PLUGINS_ENABLED = hana:3.0.
+. Ajoutez l’hôte au serveur SnapCenter à l’aide de l’applet de commande Add-Smhost et des paramètres requis.
++
+Les informations concernant les paramètres pouvant être utilisés avec la commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+

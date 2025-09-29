@@ -1,0 +1,189 @@
+---
+permalink: install/task_install_the_snapcenter_server_using_the_install_wizard.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install wizard, features enabled 
+summary: Vous pouvez exécuter l’exécutable du programme d’installation de SnapCenter Server pour installer SnapCenter Server. 
+---
+= Installer le serveur SnapCenter sur l'hôte Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez exécuter l’exécutable du programme d’installation de SnapCenter Server pour installer SnapCenter Server.
+
+Vous pouvez éventuellement effectuer plusieurs procédures d’installation et de configuration à l’aide des applets de commande PowerShell.  Vous devez utiliser PowerShell 7.4.2 ou une version ultérieure.
+
+
+NOTE: L'installation silencieuse du serveur SnapCenter à partir de la ligne de commande n'est pas prise en charge.
+
+.Avant de commencer
+* L'hôte SnapCenter Server doit être à jour avec les mises à jour Windows sans redémarrage du système en attente.
+* Vous devez vous assurer que MySQL Server n'est pas installé sur l'hôte sur lequel vous prévoyez d'installer SnapCenter Server.
+* Vous devez avoir activé le débogage du programme d’installation de Windows.
++
+Consultez le site Web de Microsoft pour obtenir des informations sur l'activation https://support.microsoft.com/kb/223300["Journalisation du programme d'installation de Windows"^] .
+
++
+
+NOTE: Vous ne devez pas installer SnapCenter Server sur un hôte doté de Microsoft Exchange Server, d'Active Directory ou de serveurs de noms de domaine.
+
+
+
+.Étapes
+. Téléchargez le package d'installation de SnapCenter Server à partir de https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["Site de support NetApp"^] .
+. Lancez l’installation de SnapCenter Server en double-cliquant sur le fichier .exe téléchargé.
++
+Une fois l'installation lancée, toutes les vérifications préalables sont effectuées et si les exigences minimales ne sont pas respectées, des messages d'erreur ou d'avertissement appropriés s'affichent.
+
++
+Vous pouvez ignorer les messages d’avertissement et poursuivre l’installation ; cependant, les erreurs devraient être corrigées.
+
+. Vérifiez les valeurs préremplies requises pour l’installation de SnapCenter Server et modifiez-les si nécessaire.
++
+Vous n'avez pas besoin de spécifier le mot de passe pour la base de données du référentiel MySQL Server.  Lors de l'installation de SnapCenter Server, le mot de passe est généré automatiquement.
+
++
+
+NOTE: Le caractère spécial "`%`" is not supported in the custom path for the repository database. If you include "` %`" dans le chemin, l'installation échoue.
+
+. Cliquez sur *Installer maintenant*.
++
+Si vous avez spécifié des valeurs non valides, des messages d'erreur appropriés s'afficheront.  Vous devez ressaisir les valeurs, puis lancer l'installation.
+
++
+
+NOTE: Si vous cliquez sur le bouton *Annuler*, l'étape en cours d'exécution sera terminée, puis l'opération de restauration démarrera.  Le serveur SnapCenter sera complètement supprimé de l'hôte.
+
++
+Toutefois, si vous cliquez sur *Annuler* lorsque les opérations « Redémarrage du site SnapCenter Server » ou « En attente du démarrage de SnapCenter Server » sont en cours d'exécution, l'installation se poursuivra sans annuler l'opération.
+
++
+Les fichiers journaux sont toujours répertoriés (le plus ancien en premier) dans le dossier %temp% de l'utilisateur administrateur.  Si vous souhaitez rediriger les emplacements des journaux, lancez l'installation de SnapCenter Server à partir de l'invite de commande en exécutant :``C:\installer_location\installer_name.exe /log"C:\"``
+
+
+
+
+
+== Fonctionnalités activées sur l'hôte Windows lors de l'installation
+
+Le programme d’installation de SnapCenter Server active les fonctionnalités et les rôles Windows sur votre hôte Windows pendant l’installation.  Ceux-ci peuvent être intéressants pour le dépannage et la maintenance du système hôte.
+
+|===
+| Catégorie | Fonctionnalité 
+
+
+ a| 
+Serveur Web
+ a| 
+* Services d'information sur Internet
+* Services du World Wide Web
+* Fonctionnalités HTTP courantes
++
+** Document par défaut
+** Navigation dans les répertoires
+** Erreurs HTTP
+** Redirection HTTP
+** Contenu statique
+** Publication WebDAV
+
+
+* Santé et diagnostic
++
+** Journalisation personnalisée
+** Journalisation HTTP
+** Outils de journalisation
+** Moniteur de requêtes
+** Tracé
+
+
+* Caractéristiques de performance
++
+** Compression de contenu statique
+
+
+* Sécurité
++
+** Sécurité IP
+** Authentification de base
+** Prise en charge centralisée des certificats SSL
+** Authentification par mappage de certificat client
+** Authentification du mappage des certificats clients IIS
+** Restrictions IP et domaine
+** Filtrage des demandes
+** Autorisation d'URL
+** Authentification Windows
+
+
+* Fonctionnalités de développement d'applications
++
+** Extensibilité .NET 4.5
+** Initialisation de l'application
+** Pack d'hébergement ASP.NET Core Runtime 8.0.12 (et tous les correctifs 8.0.x ultérieurs)
+** Inclusions côté serveur
+** Protocole WebSocket
+
+
+* Outils de gestion
++
+** Console de gestion IIS
+
+
+
+
+
+
+ a| 
+Scripts et outils de gestion IIS
+ a| 
+* Service de gestion IIS
+* Outils de gestion Web
+
+
+
+
+ a| 
++ Fonctionnalités de .NET Framework 8.0.12 +
+ a| 
+* Pack d'hébergement ASP.NET Core Runtime 8.0.12 (et tous les correctifs 8.0.x ultérieurs)
+* Activation HTTP de Windows Communication Foundation (WCF)45
++
+** Activation TCP
+** Activation HTTP
+
+
+
+
+Pour obtenir des informations de dépannage spécifiques à .NET, consultez https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_upgrade_or_install_fails_with_%22This_KB_is_not_related_to_the_OS%22["La mise à niveau ou l'installation de SnapCenter échoue pour les systèmes hérités qui ne disposent pas de connectivité Internet"^] .
+
+
+
+ a| 
+File d'attente des messages
+ a| 
+* Services de mise en file d'attente de messages
++
+
+NOTE: Assurez-vous qu'aucune autre application n'utilise le service MSMQ que SnapCenter crée et gère.
+
+* LapinMQ
+* Erlang
+
+
+
+
+ a| 
+Service d'activation des processus Windows
+ a| 
+* Modèle de processus
+
+
+
+
+ a| 
+API de configuration
+ a| 
+Tous
+
+|===

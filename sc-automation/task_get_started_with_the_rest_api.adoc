@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/task_get_started_with_the_rest_api.html 
+keywords: REST API 
+summary: 'L"accès à l"API offre une certaine perspective avant de commencer à l"utiliser avec les processus de flux de travail plus complexes sur une configuration en direct.' 
+---
+= Démarrer avec l'API REST
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez rapidement commencer à utiliser l’API REST SnapCenter .  L'accès à l'API offre une certaine perspective avant de commencer à l'utiliser avec les processus de flux de travail plus complexes sur une configuration en direct.
+
+
+
+== Bonjour le monde
+
+Vous pouvez exécuter une commande simple sur votre système pour commencer à utiliser l’API REST SnapCenter et confirmer sa disponibilité.
+
+.Avant de commencer
+* Assurez-vous que l’utilitaire Curl est disponible sur votre système.
+* Adresse IP ou nom d'hôte du serveur SnapCenter
+* Nom d'utilisateur et mot de passe pour un compte autorisé à accéder à l'API REST SnapCenter .
+
+
+
+NOTE: Si vos informations d'identification incluent des caractères spéciaux, vous devez les formater d'une manière acceptable pour Curl en fonction du shell que vous utilisez.  Par exemple, vous pouvez insérer une barre oblique inverse avant chaque caractère spécial ou envelopper l'intégralité du caractère. `username:password` chaîne entre guillemets simples.
+
+.Étape
+Dans l’interface de ligne de commande, exécutez ce qui suit pour récupérer les informations du plug-in :
+
+`curl -X GET -u username:password -k "https://<ip_address>/api/hosts?fields=IncludePluginInfo"`
+
+Exemple:
+
+`curl -X GET -u admin:password -k "'https://10.225.87.97/api/hosts?fields=IncludePluginInfo"`

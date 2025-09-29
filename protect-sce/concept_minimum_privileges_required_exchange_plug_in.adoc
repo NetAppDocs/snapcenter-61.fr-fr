@@ -1,0 +1,106 @@
+---
+permalink: protect-sce/concept_minimum_privileges_required_exchange_plug_in.html 
+sidebar: sidebar 
+keywords: Minimum ONTAP privileges 
+summary: Les privilèges ONTAP minimaux requis varient en fonction des plug-ins SnapCenter que vous utilisez pour la protection des données. 
+---
+= Privilèges ONTAP minimaux requis pour le plug-in Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les privilèges ONTAP minimaux requis varient en fonction des plug-ins SnapCenter que vous utilisez pour la protection des données.
+
+* Commandes d'accès complet : privilèges minimaux requis pour ONTAP 9.12.1 et versions ultérieures
++
+** événement générer-autosupport-log
+** historique de travail afficher
+** arrêt de travail
+** lune
+** création de lun
+** création de lun
+** création de lun
+** suppression de lun
+** lun igroup ajouter
+** création de groupe i lun
+** suppression du groupe i lun
+** renommer le groupe i de lun
+** renommer le groupe i de lun
+** émission igroup lun
+** mappage lun add-reporting-nodes
+** création de mappage LUN
+** suppression du mappage LUN
+** suppression des nœuds de rapport de mappage LUN
+** émission de cartographie LUN
+** lun modifier
+** volume de déplacement lun
+** lun hors ligne
+** lun en ligne
+** lun réservation persistante claire
+** redimensionner lun
+** série lun
+** spectacle lunaire
+** règle d'ajout de politique SnapMirror
+** règle de modification de la politique SnapMirror
+** règle de suppression de la politique SnapMirror
+** afficher la politique de SnapMirror
+** restauration snapmirror
+** spectacle snapmirror
+** historique des émissions de SnapMirror
+** mise à jour de SnapMirror
+** mise à jour snapmirror-ls-set
+** liste-destinations snapmirror
+** version
+** création de clone de volume
+** spectacle de clone de volume
+** démarrage fractionné du clonage de volume
+** volume clone fractionnement arrêt
+** création de volume
+** destruction de volume
+** création de clone de fichier de volume
+** fichier de volume show-disk-usage
+** volume hors ligne
+** volume en ligne
+** modification du volume
+** création de volume qtree
+** suppression du volume qtree
+** volume qtree modifier
+** volume qtree afficher
+** restriction de volume
+** spectacle de volume
+** création d'un instantané de volume
+** suppression d'instantané de volume
+** modification de l'instantané du volume
+** modification de l'instantané du volume-snaplock-expiration-time
+** renommer l'instantané du volume
+** restauration d'instantanés de volume
+** fichier de restauration d'instantané de volume
+** affichage de l'instantané du volume
+** démontage du volume
+** cifs de serveur virtuel
+** création de partage cifs vserver
+** suppression du partage cifs du serveur virtuel
+** affichage de la copie fantôme cifs du serveur virtuel
+** affichage du partage cifs du serveur virtuel
+** affichage cifs du serveur virtuel
+** politique d'exportation du serveur virtuel
+** création de politique d'exportation de serveur virtuel
+** suppression de la politique d'exportation du serveur virtuel
+** création d'une règle de politique d'exportation de serveur virtuel
+** afficher la règle de politique d'exportation du serveur virtuel
+** afficher la politique d'exportation du serveur virtuel
+** serveur virtuel iscsi
+** affichage de la connexion vserver iscsi
+** spectacle de serveur virtuel
+
+
+* Commandes en lecture seule : privilèges minimaux requis pour ONTAP 8.3.0 et versions ultérieures
++
+** interface réseau
+** affichage de l'interface réseau
+** serveur virtuel
+
+
+

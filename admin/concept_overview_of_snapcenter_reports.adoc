@@ -1,0 +1,142 @@
+---
+permalink: admin/concept_overview_of_snapcenter_reports.html 
+sidebar: sidebar 
+keywords: SnapCenter reports 
+summary: 'SnapCenter fournit une variété d"options de création de rapports qui vous permettent de surveiller et de gérer l"état de santé et le succès opérationnel de votre système.' 
+---
+= Présentation des fonctionnalités de reporting de SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter fournit une variété d'options de création de rapports qui vous permettent de surveiller et de gérer l'état de santé et le succès opérationnel de votre système.
+
+|===
+| Type de rapport | Description 
+
+
+ a| 
+Rapport de sauvegarde
+ a| 
+Le rapport de sauvegarde fournit des données globales sur les tendances de sauvegarde de votre environnement SnapCenter , le taux de réussite de la sauvegarde et certaines informations sur chaque sauvegarde effectuée pendant la période spécifiée.  Si une sauvegarde est supprimée, le rapport n'affiche aucune information d'état pour la sauvegarde supprimée.  Le rapport détaillé de sauvegarde fournit des informations détaillées sur une tâche de sauvegarde spécifiée et répertorie les ressources sauvegardées avec succès et celles qui ont échoué.
+
+
+
+ a| 
+Rapport de clonage
+ a| 
+Le rapport de clonage fournit des données globales sur les tendances de clonage pour votre environnement SnapCenter , le taux de réussite du clonage et certaines informations sur chaque tâche de clonage effectuée pendant la période spécifiée.  Si un clone est supprimé, le rapport n'affiche aucune information d'état pour le clone supprimé.  Le rapport détaillé du clonage fournit des détails sur le clone spécifié, l'hôte de clonage et l'état de la tâche de clonage.  Si une tâche échoue, le rapport détaillé du clonage affiche des informations sur l’échec.
+
+
+
+ a| 
+Rapport de restauration
+ a| 
+Le rapport de restauration fournit des informations générales sur les tâches de restauration.  Le rapport détaillé de restauration fournit des détails sur une tâche de restauration spécifiée, notamment le nom de l'hôte, le nom de la sauvegarde, le début et la durée de la tâche, ainsi que l'état des tâches de tâche individuelles.  Si une tâche échoue, le rapport détaillé de restauration affiche des informations sur l’échec.
+
+
+
+ a| 
+Rapport de protection
+ a| 
+Ces rapports fournissent des détails de protection pour les ressources gérées par toutes les instances du plug-in SnapCenter .  Ce rapport fournit des détails de protection pour les ressources gérées par toutes les instances de plug-in.  Vous pouvez voir un aperçu, les détails des ressources non protégées, les ressources qui n'ont pas été sauvegardées lors de la génération du rapport, les ressources d'un groupe de ressources pour lesquelles les opérations de sauvegarde ont échoué et l'état de SnapVault .
+
+
+
+ a| 
+Rapport programmé
+ a| 
+Ces rapports sont programmés pour être exécutés périodiquement, par exemple quotidiennement, hebdomadairement ou mensuellement.  Les rapports sont générés automatiquement à la date et à l'heure spécifiées et le rapport est envoyé aux personnes concernées par courrier électronique.  Vous pouvez activer, désactiver, modifier ou supprimer les horaires.  La planification activée peut être exécutée à la demande en cliquant sur le bouton *Exécuter maintenant*.  L'administrateur peut exécuter n'importe quelle planification, mais le rapport généré contiendra des données basées sur l'autorisation fournie par l'utilisateur qui a créé la planification.
+
+Tout autre utilisateur que l'administrateur pourra voir ou modifier le planning en fonction de son autorisation. Si l'option Tous les membres de ce rôle peuvent voir les objets des autres membres est sélectionnée dans la page Ajouter un rôle, les autres membres du rôle pourront voir et modifier.
+
+|===
+
+
+== Accéder aux rapports
+
+Vous pouvez utiliser le tableau de bord SnapCenter pour obtenir un aperçu rapide de l'état de votre système.  Depuis le tableau de bord, vous pouvez accéder à plus de détails.  Alternativement, vous pouvez accéder directement aux rapports détaillés.
+
+Vous pouvez accéder aux rapports par l’une des méthodes suivantes :
+
+* Dans le volet de navigation de gauche, cliquez sur *Tableau de bord*, puis sur le graphique à secteurs *Résumé de la dernière protection* pour afficher plus de détails dans la page Rapports.
+* Dans le volet de navigation de gauche, cliquez sur *Rapports*.
+
+
+
+
+== Filtrez votre rapport
+
+Vous souhaiterez peut-être filtrer les données de votre rapport en fonction d'une série de paramètres, en fonction du niveau de détail et de la durée des informations dont vous avez besoin.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Rapports*.
+. Si la vue Paramètres n'est pas affichée, cliquez sur l'icône *Basculer la zone des paramètres* dans la barre d'outils du rapport.
+. Spécifiez la plage horaire pour laquelle vous souhaitez exécuter votre rapport.  + Si vous omettez la date de fin, vous récupérez toutes les informations disponibles.
+. Filtrez les informations de votre rapport en fonction de l’un des critères suivants :
++
+** Groupe de ressources
+** Hôte
+** Politique
+** Ressource
+** Statut
+** Nom du plug-in
+
+
+. Cliquez sur *Appliquer*.
+
+
+
+
+== Exporter ou imprimer des rapports
+
+L'exportation de rapports SnapCenter vous permet d'afficher le rapport dans une variété de formats alternatifs.  Vous pouvez également imprimer des rapports.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Rapports*.
+. Dans la barre d’outils des rapports, effectuez l’une des opérations suivantes :
++
+** Cliquez sur l'icône *Basculer l'aperçu avant impression* pour prévisualiser un rapport imprimable.
+** Sélectionnez un format dans la liste déroulante de l'icône *Exporter* pour exporter un rapport vers un autre format.
+
+
+. Pour imprimer un rapport, cliquez sur l'icône *Imprimer*.
+. Pour afficher un résumé de rapport spécifique, faites défiler jusqu'à la section appropriée du rapport.
+
+
+
+
+== Définir le serveur SMTP pour les notifications par e-mail
+
+Vous pouvez spécifier le serveur SMTP à utiliser pour envoyer des rapports de travail de protection des données à vous-même ou à d'autres.  Vous pouvez également envoyer un e-mail de test pour vérifier la configuration.  Les paramètres sont appliqués globalement pour tout travail SnapCenter pour lequel vous configurez la notification par e-mail.
+
+Cette option configure le serveur SMTP pour l'envoi de tous les rapports de travail de protection des données.  Toutefois, si vous souhaitez que des mises à jour régulières des tâches de protection des données SnapCenter pour une ressource particulière vous soient envoyées ou envoyées à d'autres personnes afin de pouvoir surveiller l'état de ces mises à jour, vous pouvez configurer l'option permettant d'envoyer par courrier électronique les rapports SnapCenter lorsque vous créez un groupe de ressources.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Paramètres globaux*.
+. Entrez le serveur SMTP et cliquez sur *Enregistrer*.
+. Pour envoyer un e-mail de test, saisissez l'adresse e-mail à partir de laquelle et à laquelle vous enverrez l'e-mail, saisissez l'objet et cliquez sur *Envoyer*.
+
+
+
+
+== Configurer l'option d'envoi des rapports par courrier électronique
+
+Si vous souhaitez que des mises à jour régulières des tâches de protection des données SnapCenter vous soient envoyées ou soient envoyées à d'autres personnes afin de pouvoir surveiller l'état de ces mises à jour, vous pouvez configurer l'option permettant d'envoyer par courrier électronique les rapports SnapCenter lorsque vous créez un groupe de ressources.
+
+.Avant de commencer
+Vous devez avoir configuré votre serveur SMTP dans la page Paramètres globaux sous Paramètres.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Sélectionnez le type de ressource que vous souhaitez afficher et cliquez sur *Nouveau groupe de ressources*, ou sélectionnez un groupe de ressources existant et cliquez sur *Modifier* pour configurer les rapports par e-mail pour un groupe de ressources existant.
+. Dans le panneau Notification de l'assistant Nouveau groupe de ressources, sélectionnez dans le menu déroulant si vous souhaitez recevoir des rapports en permanence, en cas d'échec ou en cas d'échec ou d'avertissement.
+. Saisissez l'adresse à partir de laquelle l'e-mail est envoyé, l'adresse à laquelle l'e-mail est envoyé et l'objet de l'e-mail.
+

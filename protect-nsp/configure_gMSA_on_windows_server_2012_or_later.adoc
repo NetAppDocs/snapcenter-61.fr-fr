@@ -1,0 +1,73 @@
+---
+permalink: protect-nsp/configure_gMSA_on_windows_server_2012_or_later.html 
+sidebar: sidebar 
+keywords: gMSA 
+summary: 'Windows Server 2016 ou version ultérieure vous permet de créer un compte de service géré de groupe (gMSA) qui fournit une gestion automatisée des mots de passe des comptes de service à partir d’un compte de domaine géré.' 
+---
+= Configurer gMSA sur Windows Server 2016 ou version ultérieure
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Windows Server 2016 ou version ultérieure vous permet de créer un compte de service géré de groupe (gMSA) qui fournit une gestion automatisée des mots de passe des comptes de service à partir d’un compte de domaine géré.
+
+.Avant de commencer
+* Vous devez disposer d’un contrôleur de domaine Windows Server 2016 ou version ultérieure.
+* Vous devez disposer d’un hôte Windows Server 2016 ou version ultérieure, qui est membre du domaine.
+
+
+.Étapes
+. Créez une clé racine KDS pour générer des mots de passe uniques pour chaque objet de votre gMSA.
+. Pour chaque domaine, exécutez la commande suivante à partir du contrôleur de domaine Windows : Add-KDSRootKey -EffectiveImmediately
+. Créez et configurez votre gMSA :
++
+.. Créez un compte de groupe d’utilisateurs au format suivant :
++
+ domainName\accountName$
+.. Ajoutez des objets informatiques au groupe.
+.. Utilisez le groupe d’utilisateurs que vous venez de créer pour créer le gMSA.
++
+Par exemple,
+
++
+ New-ADServiceAccount -name <ServiceAccountName> -DNSHostName <fqdn> -PrincipalsAllowedToRetrieveManagedPassword <group> -ServicePrincipalNames <SPN1,SPN2,…>
+.. Courir `Get-ADServiceAccount` commande pour vérifier le compte de service.
+
+
+. Configurez le gMSA sur vos hôtes :
++
+.. Activez le module Active Directory pour Windows PowerShell sur l’hôte sur lequel vous souhaitez utiliser le compte gMSA.
++
+Pour ce faire, exécutez la commande suivante depuis PowerShell :
+
++
+[listing]
+----
+PS C:\> Get-WindowsFeature AD-Domain-Services
+
+Display Name                           Name                Install State
+------------                           ----                -------------
+[ ] Active Directory Domain Services   AD-Domain-Services  Available
+
+
+PS C:\> Install-WindowsFeature AD-DOMAIN-SERVICES
+
+Success Restart Needed Exit Code      Feature Result
+------- -------------- ---------      --------------
+True    No             Success        {Active Directory Domain Services, Active ...
+WARNING: Windows automatic updating is not enabled. To ensure that your newly-installed role or feature is
+automatically updated, turn on Windows Update.
+----
+.. Redémarrez votre hôte.
+.. Installez le gMSA sur votre hôte en exécutant la commande suivante à partir de l'invite de commande PowerShell : `Install-AdServiceAccount <gMSA>`
+.. Vérifiez votre compte gMSA en exécutant la commande suivante : `Test-AdServiceAccount <gMSA>`
+
+
+. Attribuez les privilèges administratifs au gMSA configuré sur l'hôte.
+. Ajoutez l’hôte Windows en spécifiant le compte gMSA configuré dans le serveur SnapCenter .
++
+SnapCenter Server installera les plug-ins sélectionnés sur l'hôte et le gMSA spécifié sera utilisé comme compte de connexion au service pendant l'installation du plug-in.
+
+

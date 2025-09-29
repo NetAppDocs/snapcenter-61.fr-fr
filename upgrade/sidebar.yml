@@ -1,0 +1,14 @@
+---
+section: upgrade
+title: Mettre à niveau SnapCenter Server et les plug-ins
+entries:
+- title: Configurer SnapCenter pour vérifier les mises à jour disponibles
+  url: "/upgrade/task_configure_snapcenter_to_check_for_available_updates.html"
+- title: Flux de travail de mise à niveau
+  url: "/upgrade/upgrade_workflow.html"
+- title: Mettre à niveau le serveur SnapCenter sur l'hôte Windows
+  url: "/upgrade/task_upgrade_snapcenter.html"
+- title: Mettre à niveau le serveur SnapCenter sur l'hôte Linux
+  url: "/upgrade/upgrade_snapcenter_server_linux.html"
+- title: Mettez à niveau vos packages de plug-ins
+  url: "/upgrade/task_upgrade_your_plug_in_packages.html"

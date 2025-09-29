@@ -1,0 +1,43 @@
+---
+permalink: install/task_configure_CA_client_certificate_for_LDAPS.html 
+sidebar: sidebar 
+keywords: CA client certificate, LDAPS 
+summary: Vous devez configurer le certificat client CA pour LDAPS sur le serveur SnapCenter lorsque Windows Active Directory LDAPS est configuré avec les certificats CA. 
+---
+= Configurer le certificat client CA pour LDAPS
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez configurer le certificat client CA pour LDAPS sur le serveur SnapCenter lorsque Windows Active Directory LDAPS est configuré avec les certificats CA.
+
+*Mesures*
+
+. Accédez à la console de gestion Microsoft (MMC), puis cliquez sur *Fichier* > *Ajouter/Supprimer un composant logiciel enfichable*.
+. Dans la fenêtre Ajouter ou supprimer des composants logiciels enfichables, sélectionnez *Certificats*, puis cliquez sur *Ajouter*.
+. Dans la fenêtre du composant logiciel enfichable Certificats, sélectionnez l’option *Compte d’ordinateur*, puis cliquez sur *Terminer*.
+. Cliquez sur *Racine de la console* > *Certificats – Ordinateur local* > *Autorités de certification racines de confiance* > *Certificats*.
+. Cliquez avec le bouton droit sur le dossier « Autorités de certification racines de confiance », puis sélectionnez *Toutes les tâches* > *Importer* pour démarrer l’assistant d’importation.
+. Complétez l’assistant comme suit :
++
+|===
+| Dans cette fenêtre de l'assistant... | Procédez comme suit... 
+
+
+ a| 
+Dans la deuxième page de l'assistant
+ a| 
+Cliquez sur *Parcourir*, sélectionnez le _Certificat racine_ et cliquez sur *Suivant*.
+
+
+
+ a| 
+Terminer l'assistant d'importation de certificat
+ a| 
+Consultez le résumé, puis cliquez sur *Terminer* pour démarrer l’importation.
+
+|===
+. Répétez les étapes 5 et 6 pour les certificats intermédiaires.
+

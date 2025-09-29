@@ -1,0 +1,82 @@
+---
+permalink: protect-scw/task_define_a_backup_strategy_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backup strategy 
+summary: 'Définir une stratégie de sauvegarde avant de créer vos sauvegardes vous fournit les sauvegardes dont vous avez besoin pour restaurer ou cloner avec succès vos systèmes de fichiers.  Votre contrat de niveau de service (SLA), votre objectif de temps de récupération (RTO) et votre objectif de point de récupération (RPO) déterminent en grande partie votre stratégie de sauvegarde.' 
+---
+= Définir une stratégie de sauvegarde pour les systèmes de fichiers Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Définir une stratégie de sauvegarde avant de créer vos sauvegardes vous fournit les sauvegardes dont vous avez besoin pour restaurer ou cloner avec succès vos systèmes de fichiers.  Votre contrat de niveau de service (SLA), votre objectif de temps de récupération (RTO) et votre objectif de point de récupération (RPO) déterminent en grande partie votre stratégie de sauvegarde.
+
+Un SLA définit le niveau de service attendu et aborde de nombreux problèmes liés au service, notamment la disponibilité et les performances du service.  Le RTO est le temps pendant lequel un processus métier doit être restauré après une interruption de service.  Le RPO définit la stratégie relative à l'âge des fichiers qui doivent être récupérés à partir du stockage de sauvegarde pour que les opérations régulières reprennent après une panne.  SLA, RTO et RPO contribuent à la stratégie de protection des données.
+
+
+
+== Planifications de sauvegarde pour les systèmes de fichiers Windows
+
+La fréquence de sauvegarde est spécifiée dans les politiques ; une planification de sauvegarde est spécifiée dans la configuration du groupe de ressources.  Le facteur le plus critique pour déterminer la fréquence ou la planification d’une sauvegarde est le taux de changement de la ressource et l’importance des données.  Vous pouvez sauvegarder une ressource très utilisée toutes les heures, tandis que vous pouvez sauvegarder une ressource rarement utilisée une fois par jour.  D’autres facteurs incluent l’importance de la ressource pour votre organisation, votre accord de niveau de service (SLA) et votre objectif de point de récupération (RPO).
+
+Un SLA définit le niveau de service attendu et aborde de nombreux problèmes liés au service, notamment la disponibilité et les performances du service.  Un RPO définit la stratégie relative à l'âge des fichiers qui doivent être récupérés à partir du stockage de sauvegarde pour que les opérations régulières reprennent après une panne.  Le SLA et le RPO contribuent à la stratégie de protection des données.
+
+Même pour une ressource très utilisée, il n’est pas nécessaire d’exécuter une sauvegarde complète plus d’une ou deux fois par jour.
+
+Les planifications de sauvegarde comportent deux parties, comme suit :
+
+* Fréquence de sauvegarde
++
+La fréquence de sauvegarde (la fréquence à laquelle les sauvegardes doivent être effectuées), appelée _type de planification_ pour certains plug-ins, fait partie d'une configuration de politique.  Par exemple, vous pouvez configurer la fréquence de sauvegarde sur une base horaire, quotidienne, hebdomadaire ou mensuelle, ou vous pouvez spécifier *Aucun*, ce qui fait de la politique une politique à la demande uniquement.  Vous pouvez accéder aux politiques en cliquant sur *Paramètres* > *Politiques*.
+
+* Planifications de sauvegarde
++
+Les planifications de sauvegarde (le moment exact où les sauvegardes doivent être effectuées) font partie d'une configuration de groupe de ressources.  Par exemple, si vous disposez d'un groupe de ressources dont la stratégie est configurée pour des sauvegardes hebdomadaires, vous pouvez configurer la planification pour effectuer une sauvegarde tous les jeudis à 22h00.  Vous pouvez accéder aux plannings des groupes de ressources en cliquant sur *Ressources* > *Groupes de ressources*.
+
+
+
+
+
+== Nombre de sauvegardes nécessaires pour les systèmes de fichiers Windows
+
+Les facteurs qui déterminent le nombre de sauvegardes dont vous avez besoin incluent la taille du système de fichiers Windows, le nombre de volumes utilisés, le taux de changement du système de fichiers et votre contrat de niveau de service (SLA).
+
+
+
+== Convention de dénomination des sauvegardes pour les systèmes de fichiers Windows
+
+Les sauvegardes du système de fichiers Windows utilisent la convention de dénomination par défaut des instantanés.  La convention de dénomination de sauvegarde par défaut ajoute un horodatage aux noms d'instantanés qui vous aide à identifier le moment où les copies ont été créées.
+
+L'instantané utilise la convention de nommage par défaut suivante : resourcegroupname_hostname_timestamp
+
+Vous devez nommer vos groupes de ressources de sauvegarde de manière logique, comme dans l'exemple suivant :
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+Dans cet exemple, les éléments de syntaxe ont les significations suivantes :
+
+* `dts1`est le nom du groupe de ressources.
+* `mach1x88`est le nom de l'hôte.
+* `03-12-2016_23.17.26`est la date et l'horodatage.
+
+
+Lors de la création d’une sauvegarde, vous pouvez également ajouter une balise descriptive pour aider à identifier la sauvegarde.  En revanche, si vous souhaitez utiliser une convention de dénomination de sauvegarde personnalisée, vous devez renommer la sauvegarde une fois l’opération de sauvegarde terminée.
+
+
+
+== Options de conservation des sauvegardes
+
+Vous pouvez choisir le nombre de jours pendant lesquels conserver les copies de sauvegarde ou spécifier le nombre de copies de sauvegarde que vous souhaitez conserver, jusqu'à un maximum ONTAP de 255 copies.  Par exemple, votre organisation peut exiger que vous conserviez 10 jours de copies de sauvegarde ou 130 copies de sauvegarde.
+
+Lors de la création d’une politique, vous pouvez spécifier les options de conservation pour le type de sauvegarde et le type de planification.
+
+Si vous configurez la réplication SnapMirror , la stratégie de rétention est mise en miroir sur le volume de destination.
+
+SnapCenter supprime les sauvegardes conservées dont les étiquettes de rétention correspondent au type de planification.  Si le type de planification a été modifié pour la ressource ou le groupe de ressources, les sauvegardes avec l'ancienne étiquette de type de planification peuvent toujours rester sur le système.
+
+
+NOTE: Pour la conservation à long terme des copies de sauvegarde, vous devez utiliser la sauvegarde SnapVault .

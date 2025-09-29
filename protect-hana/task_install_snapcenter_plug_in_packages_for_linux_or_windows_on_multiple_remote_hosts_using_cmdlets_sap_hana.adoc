@@ -1,0 +1,30 @@
+---
+permalink: protect-hana/task_install_snapcenter_plug_in_packages_for_linux_or_windows_on_multiple_remote_hosts_using_cmdlets_sap_hana.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in Packages for Linux, SnapCenter Plug-in Packages for Windows 
+summary: Vous pouvez installer les packages de plug-in SnapCenter pour Linux ou Windows sur plusieurs hôtes simultanément à l’aide de l’applet de commande PowerShell Install-SmHostPackage. 
+---
+= Installer les packages de plug-ins SnapCenter pour Linux ou Windows sur plusieurs hôtes distants à l'aide d'applets de commande
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez installer les packages de plug-in SnapCenter pour Linux ou Windows sur plusieurs hôtes simultanément à l’aide de l’applet de commande PowerShell Install-SmHostPackage.
+
+.Avant de commencer
+Vous devez vous être connecté à SnapCenter en tant qu’utilisateur de domaine avec des droits d’administrateur local sur chaque hôte sur lequel vous souhaitez installer le package de plug-in.
+
+.Étapes
+. Lancez PowerShell.
+. Sur l’hôte SnapCenter Server, établissez une session à l’aide de l’applet de commande Open-SmConnection, puis entrez vos informations d’identification.
+. Installez le plug-in sur plusieurs hôtes à l’aide de l’applet de commande Install-SmHostPackage et des paramètres requis.
++
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
++
+Vous pouvez utiliser l'option -skipprecheck lorsque vous avez installé les plug-ins manuellement et que vous ne souhaitez pas valider si l'hôte répond aux exigences d'installation du plug-in.
+
+. Saisissez vos informations d’identification pour l’installation à distance.
+

@@ -1,0 +1,26 @@
+---
+permalink: protect-sco/reference_requirements_for_backing_up_an_oracle_database.html 
+sidebar: sidebar 
+keywords: requirements, prerequisites 
+summary: Avant de sauvegarder une base de données Oracle, vous devez vous assurer que les conditions préalables sont remplies. 
+---
+= Conditions requises pour la sauvegarde d'une base de données Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant de sauvegarder une base de données Oracle, vous devez vous assurer que les conditions préalables sont remplies.
+
+* Vous devez avoir créé un groupe de ressources avec une politique associée.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle ONTAP attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+* Vous devez avoir attribué l’agrégat utilisé par l’opération de sauvegarde à la machine virtuelle de stockage (SVM) utilisée par la base de données.
+* Vous devez avoir vérifié que tous les volumes de données et les volumes de journaux d'archive appartenant à la base de données sont protégés si la protection secondaire est activée pour cette base de données.
+* Vous devez avoir vérifié que la base de données contenant des fichiers sur les groupes de disques ASM doit être dans l'état « MOUNT » ou « OPEN » pour vérifier ses sauvegardes à l'aide de l'utilitaire Oracle DBVERIFY.
+* Vous devez avoir vérifié que la longueur du point de montage du volume ne dépasse pas 240 caractères.
+* Vous devez augmenter la valeur de RESTTimeout à 86 400 000 ms dans le fichier _C:\Program Files\ NetApp \SMCore\SMCoreServiceHost.exe.config_ dans l'hôte SnapCenter Server, si la base de données en cours de sauvegarde est volumineuse (taille en To).
++
+Lors de la modification des valeurs, assurez-vous qu'aucune tâche n'est en cours d'exécution et redémarrez le service SnapCenter SMCore après avoir augmenté la valeur.
+
+

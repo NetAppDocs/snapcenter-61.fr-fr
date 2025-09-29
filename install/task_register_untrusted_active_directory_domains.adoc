@@ -1,0 +1,118 @@
+---
+permalink: install/task_register_untrusted_active_directory_domains.html 
+sidebar: sidebar 
+keywords: Active Directory 
+summary: Vous devez enregistrer Active Directory auprès de SnapCenter Server pour gérer les hôtes, les utilisateurs et les groupes de plusieurs domaines Active Directory non approuvés. 
+---
+= Enregistrer des domaines Active Directory non approuvés
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez enregistrer Active Directory auprès de SnapCenter Server pour gérer les hôtes, les utilisateurs et les groupes de plusieurs domaines Active Directory non approuvés.
+
+.Avant de commencer
+*Protocoles LDAP et LDAPS*
+
+* Vous pouvez enregistrer les domaines Active Directory non approuvés à l'aide du protocole LDAP ou LDAPS.
+* Vous devez avoir activé la communication bidirectionnelle entre les hôtes du plug-in et le serveur SnapCenter .
+* La résolution DNS doit être configurée à partir du serveur SnapCenter vers les hôtes du plug-in et vice-versa.
+
+
+*Protocole LDAP*
+
+* Le nom de domaine complet (FQDN) doit pouvoir être résolu à partir de SnapCenter Server.
++
+Vous pouvez enregistrer un domaine non approuvé avec le FQDN.  Si le nom de domaine complet ne peut pas être résolu à partir du serveur SnapCenter , vous pouvez vous inscrire avec une adresse IP de contrôleur de domaine et cela devrait pouvoir être résolu à partir du serveur SnapCenter .
+
+
+
+*Protocole LDAPS*
+
+* Les certificats CA sont requis pour que LDAPS fournisse un chiffrement de bout en bout pendant la communication Active Directory.
++
+link:task_configure_CA_client_certificate_for_LDAPS.html["Configurer le certificat client CA pour LDAPS"]
+
+* Les noms d’hôte du contrôleur de domaine (DCHostName) doivent être accessibles à partir de SnapCenter Server.
+
+
+*À propos de cette tâche*
+
+* Vous pouvez utiliser l’interface utilisateur SnapCenter , les applets de commande PowerShell ou l’API REST pour enregistrer un domaine non approuvé.
+
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Paramètres globaux*.
+. Dans la page Paramètres globaux, cliquez sur *Paramètres du domaine*.
+. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] pour enregistrer un nouveau domaine.
+. Sur la page Enregistrer un nouveau domaine, sélectionnez *LDAP* ou *LDAPS*.
++
+.. Si vous sélectionnez *LDAP*, spécifiez les informations requises pour l'enregistrement du domaine non approuvé pour LDAP :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom de domaine
+ a| 
+Spécifiez le nom NetBIOS du domaine.
+
+
+
+ a| 
+Nom de domaine complet (FQDN)
+ a| 
+Spécifiez le FQDN et cliquez sur *Résoudre*.
+
+
+
+ a| 
+Adresses IP du contrôleur de domaine
+ a| 
+Si le nom de domaine complet (FQDN) du domaine n'est pas résoluble à partir du serveur SnapCenter , spécifiez une ou plusieurs adresses IP de contrôleur de domaine.
+
+Pour plus d'informations, consultez la section  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_does_not_allow_to_add_Domain_Controller_IP_for_untrusted_domain_from_GUI["Ajouter l'adresse IP du contrôleur de domaine pour un domaine non approuvé à partir de l'interface graphique"^] .
+
+|===
+.. Si vous sélectionnez *LDAPS*, spécifiez les informations requises pour l'enregistrement du domaine non approuvé pour LDAPS :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom de domaine
+ a| 
+Spécifiez le nom NetBIOS du domaine.
+
+
+
+ a| 
+Nom de domaine complet (FQDN)
+ a| 
+Spécifiez le FQDN.
+
+
+
+ a| 
+Noms des contrôleurs de domaine
+ a| 
+Spécifiez un ou plusieurs noms de contrôleur de domaine et cliquez sur *Résoudre*.
+
+
+
+ a| 
+Adresses IP du contrôleur de domaine
+ a| 
+Si les noms du contrôleur de domaine ne peuvent pas être résolus à partir de SnapCenter Server, vous devez rectifier les résolutions DNS.
+
+|===
+
+
+. Cliquez sur *OK*.
+

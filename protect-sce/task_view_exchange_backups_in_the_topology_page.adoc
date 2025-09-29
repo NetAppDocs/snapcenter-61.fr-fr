@@ -1,0 +1,83 @@
+---
+permalink: protect-sce/task_view_exchange_backups_in_the_topology_page.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 'Lorsque vous vous préparez à sauvegarder une ressource, il peut être utile d"afficher une représentation graphique de toutes les sauvegardes sur les stockages principal et secondaire.' 
+---
+= Afficher les sauvegardes Exchange dans la page Topologie
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lorsque vous vous préparez à sauvegarder une ressource, il peut être utile d'afficher une représentation graphique de toutes les sauvegardes sur les stockages principal et secondaire.
+
+.À propos de cette tâche
+Dans la page Topologie, vous pouvez voir toutes les sauvegardes disponibles pour la ressource ou le groupe de ressources sélectionné.  Vous pouvez afficher les détails de ces sauvegardes, puis les sélectionner pour effectuer des opérations de protection des données.
+
+Vous pouvez consulter l'icône suivante dans la vue Gérer les copies pour déterminer si les sauvegardes sont disponibles sur le stockage principal ou secondaire (copies miroir ou copies Vault).
+
+* image:../media/topology_primary_storage.gif["icône de stockage principal"]affiche le nombre de sauvegardes disponibles sur le stockage principal.
+* image:../media/topology_mirror_secondary_storage.gif["stockage secondaire icône miroir"]affiche le nombre de sauvegardes mises en miroir sur le stockage secondaire à l'aide de la technologie SnapMirror .
+* image:../media/topology_vault_secondary_storage.gif["icône de coffre-fort secondaire"]affiche le nombre de sauvegardes répliquées sur le stockage secondaire à l'aide de la technologie SnapVault .
++
+** Le nombre de sauvegardes affichées inclut les sauvegardes supprimées du stockage secondaire.
++
+Par exemple, si vous avez créé 6 sauvegardes à l’aide d’une politique visant à conserver uniquement 4 sauvegardes, le nombre de sauvegardes affichées est 6.
+
++
+|===
+
+
+| *Meilleure pratique :* pour garantir que le nombre correct de sauvegardes répliquées est affiché, nous vous recommandons d'actualiser la topologie. 
+|===
+
+
+
+
+Si vous avez une relation secondaire en tant que synchronisation active SnapMirror (initialement publié sous le nom de SnapMirror Business Continuity [SM-BC]), vous pouvez voir les icônes supplémentaires suivantes :
+
+* image:../media/topology_replica_site_up.png["site de réplique en place"]Le site de réplique est en ligne.
+* image:../media/topology_replica_site_down.png["site de réplique en panne"]Le site de réplique est en panne.
+* image:../media/topology_reestablished.png["la relation est rétablie"]La relation miroir secondaire ou coffre-fort n'a pas été rétablie.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez la base de données, la ressource ou le groupe de ressources dans la liste déroulante *Afficher*.
+. Sélectionnez la ressource soit à partir de la vue des détails de la base de données, soit à partir de la vue des détails du groupe de ressources.
++
+Si la ressource est protégée, la page Topologie de la ressource sélectionnée s'affiche.
+
+. Consultez la section Carte récapitulative pour voir un résumé du nombre de sauvegardes disponibles sur le stockage principal et secondaire.
++
+La section Carte récapitulative affiche le nombre total de sauvegardes et le nombre total de sauvegardes de journaux.
+
++
+Cliquer sur le bouton *Actualiser* lance une requête sur le stockage pour afficher un décompte précis.
+
++
+Si une sauvegarde activée par SnapLock est effectuée, cliquer sur le bouton *Actualiser* actualise l'heure d'expiration principale et secondaire de SnapLock récupérée à partir d' ONTAP.  Un calendrier hebdomadaire actualise également l'heure d'expiration du SnapLock principal et secondaire récupérée à partir d' ONTAP.
+
++
+Lorsque la ressource d'application est répartie sur plusieurs volumes, le délai d'expiration de SnapLock pour la sauvegarde correspond au délai d'expiration de SnapLock le plus long défini pour un snapshot dans un volume.  Le délai d'expiration SnapLock le plus long est récupéré à partir d' ONTAP.
+
++
+Pour la synchronisation active de SnapMirror , cliquer sur le bouton *Actualiser* actualise l'inventaire de sauvegarde SnapCenter en interrogeant ONTAP pour les sites principaux et réplicas.  Un planning hebdomadaire exécute également cette activité pour toutes les bases de données contenant une relation de synchronisation active SnapMirror .
+
++
+** Pour la synchronisation active SnapMirror et uniquement pour ONTAP 9.14.1, les relations Async Mirror ou Async MirrorVault avec la nouvelle destination principale doivent être configurées manuellement après le basculement.  À partir d' ONTAP 9.15.1, Async Mirror ou Async MirrorVault est automatiquement configuré sur la nouvelle destination principale après le basculement.
+** Après le basculement, une sauvegarde doit être créée pour que SnapCenter soit informé du basculement.  Vous ne pouvez cliquer sur *Actualiser* qu'après la création d'une sauvegarde.
+
+
+. Dans la vue Gérer les copies, cliquez sur *Sauvegardes* à partir du stockage principal ou secondaire pour afficher les détails d'une sauvegarde.
++
+Les détails des sauvegardes sont affichés sous forme de tableau.
+
+. Sélectionnez la sauvegarde dans le tableau, puis cliquez sur les icônes de protection des données pour effectuer des opérations de restauration, de changement de nom et de suppression.
++
+
+NOTE: Vous ne pouvez pas renommer ou supprimer les sauvegardes qui se trouvent sur le stockage secondaire.  La suppression des instantanés est gérée par les paramètres de conservation ONTAP .
+
+

@@ -1,0 +1,94 @@
+---
+permalink: protect-sco/concept_snapcenter_plug_in_for_oracle_database_features.html 
+sidebar: sidebar 
+keywords: plug-in for Oracle features 
+summary: 'Le plug-in pour Oracle Database s"intègre à la base de données Oracle sur l"hôte Linux ou AIX et aux technologies NetApp sur le système de stockage.' 
+---
+= Fonctionnalités du plug-in pour la base de données Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in pour Oracle Database s'intègre à la base de données Oracle sur l'hôte Linux ou AIX et aux technologies NetApp sur le système de stockage.
+
+* Interface utilisateur graphique unifiée
++
+L'interface SnapCenter assure la standardisation et la cohérence entre les plug-ins et les environnements.  L'interface SnapCenter vous permet d'effectuer des opérations de sauvegarde, de restauration, de récupération et de clonage cohérentes sur tous les plug-ins, d'utiliser des rapports centralisés, d'utiliser des vues de tableau de bord en un coup d'œil, de configurer le contrôle d'accès basé sur les rôles (RBAC) et de surveiller les tâches sur tous les plug-ins.
+
+* Administration centrale automatisée
++
+Vous pouvez planifier des opérations de sauvegarde et de clonage, configurer la conservation des sauvegardes basée sur des politiques et effectuer des opérations de restauration.  Vous pouvez également surveiller de manière proactive votre environnement en configurant SnapCenter pour envoyer des alertes par e-mail.
+
+* Technologie NetApp Snapshot non perturbatrice
++
+SnapCenter utilise la technologie NetApp Snapshot avec le plug-in pour Oracle Database et le plug-in pour UNIX pour sauvegarder les bases de données.  Les instantanés consomment un espace de stockage minimal.
+
+
+
+Le plug-in pour Oracle Database offre également les avantages suivants :
+
+* Prise en charge des flux de travail de sauvegarde, de restauration, de clonage, de montage, de démontage et de vérification
+* Découverte automatique des bases de données Oracle configurées sur l'hôte
+* Prise en charge du catalogage et du décatalogage à l'aide d'Oracle Recovery Manager (RMAN)
+* Sécurité prise en charge par RBAC et délégation de rôles centralisée
++
+Vous pouvez également définir les informations d’identification afin que les utilisateurs SnapCenter autorisés disposent d’autorisations au niveau de l’application.
+
+* Prise en charge de la gestion des journaux d'archives (ALM) pour les opérations de restauration et de clonage
+* Création de copies optimisées en termes d'espace et ponctuelles de bases de données de production à des fins de test ou d'extraction de données à l'aide de la technologie NetApp FlexClone
++
+Une licence FlexClone est requise sur le système de stockage sur lequel vous souhaitez créer le clone.
+
+* Prise en charge de la fonctionnalité de groupe de cohérence (CG) d' ONTAP dans le cadre de la création de sauvegardes dans les environnements SAN et ASM
+* Vérification de sauvegarde non perturbatrice et automatisée
+* Capacité à exécuter plusieurs sauvegardes simultanément sur plusieurs hôtes de bases de données
++
+En une seule opération, les instantanés sont consolidés lorsque les bases de données d'un seul hôte partagent le même volume.
+
+* Prise en charge des infrastructures physiques et virtualisées
+* Prise en charge de NFS, iSCSI, Fibre Channel (FC), RDM, VMDK sur NFS et VMFS, et ASM sur NFS, SAN, RDM et VMDK
+* Prise en charge de la fonctionnalité Selective LUN Map (SLM) d' ONTAP
++
+Activée par défaut, la fonctionnalité SLM détecte périodiquement les LUN qui n'ont pas de chemins optimisés et les corrige.  Vous pouvez configurer SLM en modifiant les paramètres dans le fichier scu.properties situé dans /var/opt/snapcenter/scu/etc.
+
++
+** Vous pouvez désactiver cela en définissant la valeur du paramètre ENABLE_LUNPATH_MONITORING sur false.
+** Vous pouvez spécifier la fréquence à laquelle les chemins LUN seront corrigés automatiquement en attribuant la valeur (en heures) au paramètre LUNPATH_MONITORING_INTERVAL.  Pour plus d'informations sur SLM, consultez le https://docs.netapp.com/us-en/ontap/san-admin/index.html["Section Administration SAN ONTAP 9"^] .
+
+
+* Prise en charge de la mémoire non volatile express (NVMe) sous Linux
++
+** L'utilitaire NVMe doit être installé sur l'hôte.
++
+Vous devez installer l'utilitaire NVMe pour cloner ou monter sur un autre hôte.
+
+** Les opérations de sauvegarde, de restauration, de clonage, de montage, de démontage, de catalogage, de décatalogage et de vérification sont prises en charge sur le matériel NVMe, à l'exception des environnements virtualisés comme RDM.
++
+Les opérations ci-dessus sont prises en charge sur les périphériques sans partitions ou avec une seule partition.
+
++
+
+NOTE: Vous pouvez configurer une solution multivoie pour les périphériques NVMe en définissant l'option multivoie native dans le noyau.  Le multivoie Device Mapper (DM) n'est pas pris en charge.
+
+** Les flux de travail de sauvegarde, de restauration, de clonage, de montage, de démontage, de catalogage, de décatalogage et de vérification sont pris en charge sur NVMe via TCP/IP.
+** Les flux de travail de sauvegarde, de restauration, de clonage, de montage, de démontage, de catalogage, de décatalogage et de vérification sont pris en charge sur la disposition VMDK créée sur NVMe sur TCP/IP.
+
+
+* Prend en charge la synchronisation active SnapMirror (initialement publiée sous le nom de SnapMirror Business Continuity [SM-BC]) qui permet aux services d'entreprise de continuer à fonctionner même en cas de panne complète du site, en prenant en charge le basculement transparent des applications à l'aide d'une copie secondaire.  Aucune intervention manuelle ni script supplémentaire n'est requis pour déclencher un basculement avec la synchronisation active SnapMirror .
+* Prend en charge tout utilisateur non par défaut au lieu d'Oracle et de Grid.
++
+Pour prendre en charge les utilisateurs non par défaut, vous devez définir les utilisateurs non par défaut en modifiant les valeurs des paramètres dans le fichier *sco.properties* situé dans _file /var/opt/snapcenter/sco/etc/_.
+
++
+Les valeurs par défaut des paramètres sont définies sur Oracle et Grid.
+
++
+** DB_USER=oracle
+** DB_GROUP=oinstall
+** GI_USER=grille
+** GI_GROUP=oinstall
+
+
+

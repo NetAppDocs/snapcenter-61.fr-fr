@@ -1,0 +1,130 @@
+---
+permalink: protect-sco/task_create_resource_groups_and_attach_policies_for_oracle_databases.html 
+sidebar: sidebar 
+keywords: run as, resource groups, policies, Oracle database 
+summary: Un groupe de ressources est un conteneur dans lequel vous ajoutez les ressources que vous souhaitez sauvegarder et protéger.  Un groupe de ressources vous permet de sauvegarder simultanément toutes les données associées à une application donnée. 
+---
+= Créer des groupes de ressources et attacher des politiques pour les bases de données Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est un conteneur dans lequel vous ajoutez les ressources que vous souhaitez sauvegarder et protéger.  Un groupe de ressources vous permet de sauvegarder simultanément toutes les données associées à une application donnée.
+
+.À propos de cette tâche
+* Une base de données avec des fichiers dans des groupes de disques ASM doit être à l'état « MOUNT » ou « OPEN » pour vérifier ses sauvegardes à l'aide de l'utilitaire Oracle DBVERIFY.
++
+Attachez une ou plusieurs politiques au groupe de ressources pour définir le type de tâche de protection des données que vous souhaitez effectuer.
+
++
+L'image suivante illustre la relation entre les ressources, les groupes de ressources et les stratégies pour les bases de données :
+
++
+image::../media/sco_resourcegroup_policy.gif[stratégie de groupe de ressources]
+
+* Pour les stratégies activées par SnapLock , pour ONTAP 9.12.1 et les versions antérieures, si vous spécifiez une période de verrouillage des snapshots, les clones créés à partir des snapshots inviolables dans le cadre de la restauration hériteront du délai d'expiration de SnapLock . L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+* L'ajout de nouvelles bases de données sans synchronisation active SnapMirror à un groupe de ressources existant contenant des ressources avec synchronisation active SnapMirror n'est pas pris en charge.
+* L'ajout de nouvelles bases de données à un groupe de ressources existant en mode de basculement de SnapMirror Active Sync n'est pas pris en charge.  Vous pouvez ajouter des ressources au groupe de ressources uniquement dans un état normal ou de restauration automatique.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources* et le plug-in approprié dans la liste.
+. Dans la page Ressources, cliquez sur *Nouveau groupe de ressources*.
+. Dans la page Nom, effectuez les actions suivantes :
++
+.. Saisissez un nom pour le groupe de ressources dans le champ Nom.
++
+
+NOTE: Le nom du groupe de ressources ne doit pas dépasser 250 caractères.
+
+.. Saisissez une ou plusieurs étiquettes dans le champ Balise pour vous aider à rechercher le groupe de ressources ultérieurement.
++
+Par exemple, si vous ajoutez RH comme balise à plusieurs groupes de ressources, vous pouvez ultérieurement trouver tous les groupes de ressources associés à la balise RH.
+
+.. Cochez cette case et entrez un format de nom personnalisé que vous souhaitez utiliser pour le nom de l’instantané.
++
+Par exemple, customtext_resource group_policy_hostname ou resource group_hostname.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+.. Spécifiez les destinations des fichiers journaux d’archive que vous ne souhaitez pas sauvegarder.
++
+
+NOTE: Vous devez utiliser exactement la même destination que celle définie dans Oracle, y compris le préfixe, si nécessaire.
+
+
+
+. Dans la page Ressources, sélectionnez un nom d’hôte de base de données Oracle dans la liste déroulante *Hôte*.
++
+
+NOTE: Les ressources sont répertoriées dans la section Ressources disponibles uniquement si la ressource est découverte avec succès.  Si vous avez récemment ajouté des ressources, elles apparaîtront dans la liste des ressources disponibles uniquement après avoir actualisé votre liste de ressources.
+
+. Sélectionnez les ressources dans la section Ressources disponibles et déplacez-les vers la section Ressources sélectionnées.
++
+
+NOTE: Vous pouvez ajouter des bases de données à partir d’hôtes Linux et AIX dans un seul groupe de ressources.
+
+. Dans la page Paramètres de l’application, sélectionnez l’option de sauvegarde.
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+
+NOTE: Vous pouvez également créer une politique en cliquant surimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] .
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer une planification.
+.. Dans la fenêtre Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis cliquez sur *OK*.
++
+Où, _policy_name_ est le nom de la politique que vous avez sélectionnée.
+
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
++
+Les planifications de sauvegarde tierces ne sont pas prises en charge lorsqu'elles chevauchent les planifications de sauvegarde SnapCenter .
+
+. Sur la page de vérification, effectuez les étapes suivantes :
++
+.. Cliquez sur *Charger les localisateurs* pour charger les volumes SnapMirror ou SnapVault afin d'effectuer la vérification sur le stockage secondaire.
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] dans la colonne Configurer les planifications pour configurer la planification de vérification pour tous les types de planification de la politique.
+.. Dans la boîte de dialogue Ajouter des planifications de vérification policy_name, effectuez les actions suivantes :
++
+|===
+| Si vous voulez... | Fais ceci... 
+
+
+ a| 
+Exécuter la vérification après la sauvegarde
+ a| 
+Sélectionnez *Exécuter la vérification après la sauvegarde*.
+
+
+
+ a| 
+Planifier une vérification
+ a| 
+Sélectionnez *Exécuter la vérification planifiée*, puis sélectionnez le type de planification dans la liste déroulante.
+
+|===
+.. Sélectionnez *Vérifier sur un emplacement secondaire* pour vérifier vos sauvegardes sur le système de stockage secondaire.
+.. Cliquez sur *OK*.
++
+Les planifications de vérification configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  Si vous souhaitez joindre le rapport de l'opération effectuée sur le groupe de ressources, sélectionnez *Joindre le rapport de travail*.
+
++
+
+NOTE: Pour la notification par e-mail, vous devez avoir spécifié les détails du serveur SMTP à l’aide de l’interface graphique ou de la commande PowerShell Set-SmSmtpServer.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+

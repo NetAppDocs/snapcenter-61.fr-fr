@@ -1,0 +1,20 @@
+---
+permalink: protect-hana/concept_snapcenter_plug_in_for_sap_hana_database_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Le plug-in SnapCenter pour la base de données SAP HANA est un composant côté hôte du logiciel NetApp SnapCenter software qui permet la gestion de la protection des données basée sur les applications des bases de données SAP HANA.  Le plug-in pour la base de données SAP HANA automatise la sauvegarde, la restauration et le clonage des bases de données SAP HANA dans votre environnement SnapCenter . 
+---
+= Présentation du plug-in SnapCenter pour la base de données SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in SnapCenter pour la base de données SAP HANA est un composant côté hôte du logiciel NetApp SnapCenter software qui permet la gestion de la protection des données basée sur les applications des bases de données SAP HANA.  Le plug-in pour la base de données SAP HANA automatise la sauvegarde, la restauration et le clonage des bases de données SAP HANA dans votre environnement SnapCenter .
+
+SnapCenter prend en charge les conteneurs de base de données à conteneur unique et à locataires multiples (MDC).  Vous pouvez utiliser le plug-in pour la base de données SAP HANA dans les environnements Windows et Linux.  Le plug-in non installé sur l'hôte de la base de données HANA est appelé plug-in d'hôte centralisé. Ce plug-in permet de gérer plusieurs bases de données HANA sur différents hôtes.
+
+Une fois le plug-in pour la base de données SAP HANA installé, vous pouvez utiliser SnapCenter avec la technologie NetApp SnapMirror pour créer des copies miroir de jeux de sauvegarde sur un autre volume.  Vous pouvez également utiliser le plug-in avec la technologie NetApp SnapVault pour effectuer une réplication de sauvegarde de disque à disque pour la conformité aux normes.
+
+Le plug-in pour la base de données SAP HANA prend en charge la synchronisation active SnapMirror (initialement publié sous le nom de SnapMirror Business Continuity [SM-BC]) qui permet aux services métier de continuer à fonctionner même en cas de panne complète du site, en prenant en charge le basculement transparent des applications à l'aide d'une copie secondaire.  Aucune intervention manuelle ni script supplémentaire n'est requis pour déclencher un basculement avec la synchronisation active SnapMirror .

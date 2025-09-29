@@ -1,0 +1,30 @@
+---
+permalink: protect-azure/protect-applications-azure-netapp-files.html 
+sidebar: sidebar 
+keywords: azure netapp files, ANF, back up, restore, clone, ANF backup, Azure Blob storage 
+summary: Vous pouvez sauvegarder, restaurer et cloner des applications exécutées sur Azure NetApp Files. 
+---
+= Protéger les applications exécutées sur Azure NetApp Files
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter prend en charge la protection de vos applications telles qu’Oracle, SQL et SAP HANA résidant sur Azure NetApp Files.  À partir de la version 6.0.1, SnapCenter prend en charge la fonctionnalité de sauvegarde Azure NetApp Files qui étend les capacités de protection des données d’ Azure NetApp Files en fournissant une solution de sauvegarde entièrement gérée pour la récupération, l’archivage et la conformité à long terme.
+
+Azure NetApp Files est une solution de stockage premium qui peut être coûteuse pour la conservation des sauvegardes à long terme.  Pour optimiser les coûts, vous pouvez déplacer les sauvegardes du stockage Azure NetApp Files vers un magasin d’objets Azure.  À partir de SnapCenter 6.0.1, vous pouvez sauvegarder et cloner des applications résidant sur Azure NetApp Files vers Azure Blob Storage (magasin d’objets).  Vous pouvez conserver deux copies de vos données, des copies d’instantanés de volume sur le stockage Azure NetApp Files pour la récupération à court terme et une autre copie sur Azure Blob Storage pour la récupération à long terme.
+
+Lorsqu’une stratégie avec sauvegarde Azure NetApp Files est activée et associée à une ressource, SnapCenter gère la création d’instantanés de volume et leur sauvegarde dans Azure Blob Storage.  SnapCenter crée le coffre de sauvegarde et active la sauvegarde pour le volume.  Si vous avez activé la sauvegarde pour le volume, SnapCenter utilise le coffre-fort existant.
+
+
+
+== Limites
+
+* Les fonctionnalités de stockage d'objets pour les systèmes de stockage FAS, ASA ou AFF ONTAP et Amazon FSx for NetApp ONTAP ne sont pas prises en charge.
+* Les flux de travail de montage et de catalogage Oracle et SAP HANA ne sont pas pris en charge pour les sauvegardes de stockage d'objets, mais sont pris en charge pour les snapshots.
+* Les clones Oracle PDB ne sont pas pris en charge pour les sauvegardes de stockage d'objets, mais sont pris en charge pour les snapshots.
+* La vérification des sauvegardes à partir du stockage d'objets, la prise en charge de l'API REST, la gestion du cycle de vie des clones à partir du stockage d'objets et les fonctionnalités de création de rapports pour les sauvegardes de stockage d'objets ne sont pas prises en charge.
+* La restauration à partir de sauvegardes sur Azure Blob Storage vers Azure NetApp Files n’est pas prise en charge.  Vous pouvez également utiliser l'option de clonage.
+* Le fractionnement par clonage n'est pas pris en charge.
+

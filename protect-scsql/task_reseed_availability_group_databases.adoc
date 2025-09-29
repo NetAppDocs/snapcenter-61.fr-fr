@@ -1,0 +1,33 @@
+---
+permalink: protect-scsql/task_reseed_availability_group_databases.html 
+sidebar: sidebar 
+keywords: reseed 
+summary: 'Le réamorçage est une option permettant de restaurer les bases de données du groupe de disponibilité (AG).  Si une base de données secondaire n"est plus synchronisée avec la base de données principale dans un AG, vous pouvez réamorcer la base de données secondaire.' 
+---
+= Réensemencer les bases de données du groupe de disponibilité
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Reseed est une option permettant de restaurer les bases de données du groupe de disponibilité (AG).  Si une base de données secondaire n'est plus synchronisée avec la base de données principale dans un AG, vous pouvez réamorcer la base de données secondaire.
+
+.Avant de commencer
+* Vous devez avoir créé une sauvegarde de la base de données AG secondaire que vous souhaitez restaurer.
+* Le serveur SnapCenter et l'hôte du plug-in doivent avoir la même version de SnapCenter installée.
+
+
+.À propos de cette tâche
+* Vous ne pouvez pas effectuer d’opération de réamorçage sur les bases de données primaires.
+* Vous ne pouvez pas effectuer une opération de réamorçage si la base de données de réplication est supprimée du groupe de disponibilité.  Lorsque la réplique est supprimée, l’opération de réamorçage échoue.
+* Lors de l'exécution de l'opération de réamorçage sur la base de données du groupe de disponibilité SQL, vous ne devez pas déclencher de sauvegardes de journaux sur les bases de données de réplication de cette base de données du groupe de disponibilité.  Si vous déclenchez des sauvegardes de journaux pendant l'opération de réamorçage, l'opération de réamorçage échoue avec le message d'erreur La base de données miroir, « database_name », ne dispose pas de données de journal de transactions suffisantes pour préserver la chaîne de sauvegarde de journaux de la base de données principale.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez *Plug-in SnapCenter pour SQL Server* dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* dans la liste *Affichage*.
+. Sélectionnez la base de données AG secondaire dans la liste.
+. Cliquez sur *Réensemencer*.
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

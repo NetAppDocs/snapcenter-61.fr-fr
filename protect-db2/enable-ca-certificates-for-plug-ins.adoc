@@ -1,0 +1,42 @@
+---
+permalink: protect-db2/enable-ca-certificates-for-plug-ins.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Vous devez configurer les certificats CA et déployer les certificats CA sur le serveur SnapCenter et les hôtes de plug-in correspondants. 
+---
+= Activer les certificats CA pour les plug-ins
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez configurer les certificats CA et déployer les certificats CA sur le serveur SnapCenter et les hôtes de plug-in correspondants.  Vous devez activer la validation du certificat CA pour les plug-ins.
+
+.Avant de commencer
+* Vous pouvez activer ou désactiver les certificats d’autorité de certification à l’aide de l’applet de commande run _Set-SmCertificateSettings_.
+* Vous pouvez afficher l'état du certificat des plug-ins à l'aide de _Get-SmCertificateSettings_.
+
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Hôtes*.
+. Dans la page Hôtes, cliquez sur *Hôtes gérés*.
+. Sélectionnez un ou plusieurs hôtes de plug-in.
+. Cliquez sur *Plus d'options*.
+. Sélectionnez *Activer la validation du certificat*.
+
+
+.Après avoir terminé
+L'onglet Hôtes gérés affiche un cadenas et la couleur du cadenas indique l'état de la connexion entre SnapCenter Server et l'hôte du plug-in.
+
+* *image:../media/enable_ca_issues_icon.png["Le certificat CA n'est ni activé ni attribué à l'icône de l'hôte du plug-in"] * indique que le certificat CA n'est ni activé ni attribué à l'hôte du plug-in.
+* *image:../media/enable_ca_good_icon.png["Icône du certificat CA validé avec succès"] * indique que le certificat CA est validé avec succès.
+* *image:../media/enable_ca_failed_icon.png["Icône du certificat CA n'a pas pu être validé"] * indique que le certificat CA n'a pas pu être validé.
+* *image:../media/enable_ca_undefined_icon.png["les informations de connexion n'ont pas pu être récupérées icône"] * indique que les informations de connexion n'ont pas pu être récupérées.
++
+
+NOTE: Lorsque le statut est jaune ou vert, les opérations de protection des données se terminent avec succès.
+
+

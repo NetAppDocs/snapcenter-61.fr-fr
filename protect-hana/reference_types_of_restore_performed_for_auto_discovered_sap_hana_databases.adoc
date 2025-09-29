@@ -1,0 +1,50 @@
+---
+permalink: protect-hana/reference_types_of_restore_performed_for_auto_discovered_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Databases 
+summary: 'SnapCenter prend en charge les types de restauration SnapRestore basés sur le volume (VBSR), SnapRestore à fichier unique et de connexion et de copie pour les bases de données SAP HANA découvertes automatiquement.' 
+---
+= Types d'opérations de restauration pour les bases de données SAP HANA découvertes automatiquement
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter prend en charge les types de restauration SnapRestore basés sur le volume (VBSR), SnapRestore à fichier unique et de connexion et de copie pour les bases de données SAP HANA découvertes automatiquement.
+
+
+
+== La SnapRestore basée sur le volume (VBSR) est effectuée dans les environnements NFS pour les scénarios suivants :
+
+* Lorsque la sauvegarde sélectionnée pour la restauration est effectuée sur des versions antérieures à SnapCenter 4.3, et uniquement si l'option **Ressource complète** est sélectionnée
+* Lorsque la sauvegarde sélectionnée pour la restauration est effectuée dans SnapCenter 4.3 et si l'option *Volume Revert* est sélectionnée
+
+
+
+
+== Single File SnapRestore est effectué dans les environnements NFS pour les scénarios suivants :
+
+* Lorsque la sauvegarde sélectionnée pour la restauration est effectuée dans SnapCenter 4.3, et si seule l'option *Ressource complète* est sélectionnée
+* Pour les conteneurs de bases de données multilocataires (MDC), lorsque la sauvegarde sélectionnée pour la restauration est effectuée sur SnapCenter 4.3 et que l'option *Base de données locataire* est sélectionnée
+* Lorsque la sauvegarde sélectionnée provient d'un emplacement secondaire SnapMirror ou SnapVault et que l'option *Ressource complète* est sélectionnée
+
+
+
+
+== Single File SnapRestore est exécuté dans les environnements SAN pour les scénarios suivants :
+
+* Lorsque des sauvegardes sont effectuées sur des versions antérieures à SnapCenter 4.3, et uniquement si l'option *Ressource complète* est sélectionnée
+* Lorsque des sauvegardes sont effectuées dans SnapCenter 4.3, et uniquement si l'option *Ressource complète* est sélectionnée
+* Lorsque la sauvegarde est sélectionnée à partir d'un emplacement secondaire SnapMirror ou SnapVault et que l'option *Ressource complète* est sélectionnée
+
+
+
+
+== La restauration basée sur la connexion et la copie est effectuée dans les environnements SAN pour le scénario suivant :
+
+* Pour MDC, lorsque la sauvegarde sélectionnée pour la restauration est effectuée dans SnapCenter 4.3 et que l'option *Base de données du locataire* est sélectionnée
+
+
+
+NOTE: Les options *Ressource complète*, *Rétablissement du volume* et *Base de données du locataire* sont disponibles sur la page Étendue de la restauration.

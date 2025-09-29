@@ -1,0 +1,26 @@
+---
+permalink: protect-sco/backup-workflow.html 
+sidebar: sidebar 
+keywords: backup, workflow 
+summary: 'Vous pouvez créer une sauvegarde d"une ressource (base de données) ou d"un groupe de ressources.' 
+---
+= Aperçu de la procédure de sauvegarde
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez créer une sauvegarde d'une ressource (base de données) ou d'un groupe de ressources.  La procédure de sauvegarde comprend la planification, l'identification des ressources pour la sauvegarde, la création de politiques de sauvegarde, la création de groupes de ressources et l'attachement de politiques, la création de sauvegardes et la surveillance des opérations.
+
+Le flux de travail suivant montre la séquence dans laquelle vous devez effectuer l’opération de sauvegarde :
+
+image::../media/sco_backup_workflow.gif[Flux de travail de sauvegarde pour Oracle]
+
+Lors de la création d'une sauvegarde pour les bases de données Oracle, un fichier de verrouillage opérationnel (_.sm_lock_dbsid_) est créé sur l'hôte de la base de données Oracle dans le répertoire _/var/opt/snapcenter/sco/lock_ pour éviter que plusieurs opérations ne soient exécutées sur la base de données.  Une fois la base de données sauvegardée, le fichier de verrouillage opérationnel est automatiquement supprimé.
+
+Cependant, si la sauvegarde précédente a été effectuée avec un avertissement, le fichier de verrouillage opérationnel risque de ne pas être supprimé et l'opération de sauvegarde suivante est placée dans la file d'attente.  Il pourrait éventuellement être annulé si le fichier *.sm_lock_dbsid* n'est pas supprimé.  Dans un tel scénario, vous devez supprimer manuellement le fichier de verrouillage opérationnel en effectuant les étapes suivantes :
+
+. Depuis l'invite de commande, accédez à _/var/opt/snapcenter/sco/lock_.
+. Supprimer le verrou opérationnel :``rm -rf .sm_lock_dbsid.``
+

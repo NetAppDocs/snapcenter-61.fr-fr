@@ -1,0 +1,47 @@
+---
+permalink: protect-db2/discover-the-databases-automatically.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 'Les ressources sont des bases de données IBM Db2 sur l"hôte Linux qui sont gérées par SnapCenter.  Vous pouvez ajouter ces ressources à des groupes de ressources pour effectuer des opérations de protection des données après avoir découvert les bases de données IBM Db2 disponibles.' 
+---
+= Découvrir les bases de données automatiquement
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les ressources sont des bases de données IBM Db2 sur l'hôte Linux qui sont gérées par SnapCenter.  Vous pouvez ajouter les ressources aux groupes de ressources pour effectuer des opérations de protection des données après avoir découvert les bases de données IBM Db2 disponibles.
+
+.Avant de commencer
+* Vous devez déjà avoir effectué des tâches telles que l’installation du serveur SnapCenter , l’ajout d’hôtes et la configuration des connexions au système de stockage.
+* Le plug-in SnapCenter pour IBM Db2 ne prend pas en charge la découverte automatique des ressources résidant dans les environnements virtuels RDM/VMDK.  Vous devez fournir les informations de stockage pour les environnements virtuels lors de l'ajout manuel des bases de données.
+
+
+.À propos de cette tâche
+* Après l’installation du plug-in, toutes les bases de données sur cet hôte Linux sont automatiquement découvertes et affichées sur la page Ressources.
+* Seules les bases de données sont découvertes automatiquement.
+
+
+Les ressources découvertes automatiquement ne peuvent pas être modifiées ou supprimées.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in pour IBM Db2 dans la liste.
+. Dans la page Ressources, sélectionnez le type de ressource dans la liste Affichage.
+. (Facultatif) Cliquez sur *image:../media/filter_icon.gif["icône de filtre"] *, puis sélectionnez le nom de l'hôte.
++
+Vous pouvez ensuite cliquer sur *image:../media/filter_icon.gif["icône de filtre"] * pour fermer le volet de filtre.
+
+. Cliquez sur *Actualiser les ressources* pour découvrir les ressources disponibles sur l'hôte.
++
+Les ressources sont affichées avec des informations telles que le type de ressource, le nom de l'hôte, les groupes de ressources associés, le type de sauvegarde, les politiques et l'état général.
+
++
+** Si la base de données se trouve sur un stockage NetApp et n'est pas protégée, la mention « Non protégé » s'affiche dans la colonne État général.
+** Si la base de données se trouve sur un système de stockage NetApp et est protégée, et si aucune opération de sauvegarde n'est effectuée, la sauvegarde non exécutée s'affiche dans la colonne État général.  Dans le cas contraire, le statut passera à Sauvegarde échouée ou Sauvegarde réussie en fonction du dernier statut de sauvegarde.
+
+
+
+
+
+IMPORTANT: Vous devez actualiser les ressources si les bases de données sont renommées en dehors de SnapCenter.

@@ -1,0 +1,42 @@
+---
+permalink: protect-sco/preferred-nodes.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: Comment SnapCenter découvre les bases de données Oracle. 
+---
+= Nœuds préférés dans la configuration RAC
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dans la configuration d'Oracle Real Application Clusters (RAC), vous pouvez spécifier les nœuds préférés que SnapCenter utilise pour effectuer l'opération de sauvegarde.  Si vous ne spécifiez pas le nœud préféré, SnapCenter attribue automatiquement un nœud comme nœud préféré et la sauvegarde est créée sur ce nœud.
+
+Les nœuds préférés peuvent être un ou tous les nœuds de cluster où les instances de base de données RAC sont présentes.  L'opération de sauvegarde est déclenchée uniquement sur ces nœuds préférés dans l'ordre de préférence.
+
+.Exemple
+La base de données RAC cdbrac possède trois instances : cdbrac1 sur node1, cdbrac2 sur node2 et cdbrac3 sur node3.
+
+Les instances node1 et node2 sont configurées pour être les nœuds préférés, avec node2 comme première préférence et node1 comme deuxième préférence.  Lorsque vous effectuez une opération de sauvegarde, l’opération est d’abord tentée sur le nœud 2 car il s’agit du premier nœud préféré.
+
+Si le nœud 2 n'est pas dans l'état de sauvegarde, ce qui peut être dû à plusieurs raisons telles que l'agent du plug-in n'est pas en cours d'exécution sur l'hôte, l'instance de base de données sur l'hôte n'est pas dans l'état requis pour le type de sauvegarde spécifié, ou l'instance de base de données sur le nœud 2 dans une configuration FlexASM n'est pas servie par l'instance ASM locale ; alors l'opération sera tentée sur le nœud 1.
+
+Le nœud 3 ne sera pas utilisé pour la sauvegarde car il ne figure pas dans la liste des nœuds préférés.
+
+
+
+== Configuration Flex ASM
+
+Dans une configuration Flex ASM, les nœuds feuille ne seront pas répertoriés comme nœuds préférés si la cardinalité est inférieure au nombre de nœuds dans le cluster RAC.  S'il y a un changement dans les rôles des nœuds du cluster Flex ASM, vous devez le découvrir manuellement afin que les nœuds préférés soient actualisés.
+
+
+
+== État de la base de données requis
+
+Les instances de la base de données RAC sur les nœuds préférés doivent être dans l'état requis pour que la sauvegarde se termine avec succès :
+
+* L’une des instances de base de données RAC dans les nœuds préférés configurés doit être à l’état ouvert pour créer une sauvegarde en ligne.
+* L'une des instances de base de données RAC dans les nœuds préférés configurés doit être dans l'état de montage, et toutes les autres instances, y compris les autres nœuds préférés, doivent être dans l'état de montage ou inférieur pour créer une sauvegarde de montage hors ligne.
+* Les instances de base de données RAC peuvent être dans n’importe quel état, mais vous devez spécifier les nœuds préférés pour créer une sauvegarde d’arrêt hors ligne.
+

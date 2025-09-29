@@ -1,0 +1,89 @@
+---
+permalink: protect-sco/reference_minimum_ontap_privileges_required_for_oracle_plug_in.html 
+sidebar: sidebar 
+keywords: ONTAP privileges 
+summary: Les privilèges ONTAP minimaux requis varient en fonction des plug-ins SnapCenter que vous utilisez pour la protection des données. 
+---
+= Privilèges ONTAP minimaux requis pour le plug-in pour Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les privilèges ONTAP minimaux requis varient en fonction des plug-ins SnapCenter que vous utilisez pour la protection des données.
+
+* Commandes d'accès complet : privilèges minimaux requis pour ONTAP 9.12.1 et versions ultérieures
++
+** événement générer-autosupport-log
+** historique de travail afficher
+** arrêt de travail
+** lune
+** affichage de l'attribut lun
+** création de lun
+** suppression de lun
+** géométrie lunaire
+** lun igroup ajouter
+** création de groupe i lun
+** suppression du groupe i lun
+** renommer le groupe i de lun
+** émission igroup lun
+** mappage lun add-reporting-nodes
+** création de mappage LUN
+** suppression du mappage LUN
+** suppression des nœuds de rapport de mappage LUN
+** émission de cartographie LUN
+** lun modifier
+** volume de déplacement lun
+** lun hors ligne
+** lun en ligne
+** lun réservation persistante claire
+** redimensionner lun
+** série lun
+** spectacle lunaire
+** règle d'ajout de politique SnapMirror
+** règle de modification de la politique SnapMirror
+** règle de suppression de la politique SnapMirror
+** afficher la politique de SnapMirror
+** restauration snapmirror
+** spectacle snapmirror
+** historique des émissions de SnapMirror
+** mise à jour de SnapMirror
+** mise à jour snapmirror-ls-set
+** liste-destinations snapmirror
+** version
+** création de clone de volume
+** spectacle de clone de volume
+** démarrage fractionné du clonage de volume
+** volume clone fractionnement arrêt
+** création de volume
+** destruction de volume
+** création de clone de fichier de volume
+** fichier de volume show-disk-usage
+** volume hors ligne
+** volume en ligne
+** modification du volume
+** création de volume qtree
+** suppression du volume qtree
+** volume qtree modifier
+** volume qtree afficher
+** restriction de volume
+** spectacle de volume
+** création d'un instantané de volume
+** suppression d'instantané de volume
+** modification de l'instantané du volume
+** renommer l'instantané du volume
+** restauration d'instantanés de volume
+** fichier de restauration d'instantané de volume
+** affichage de l'instantané du volume
+** démontage du volume
+** serveur virtuel
+** cifs de serveur virtuel
+** affichage de la copie fantôme cifs du serveur virtuel
+** spectacle de serveur virtuel
+** interface réseau
+** affichage de l'interface réseau
+** spectacle metrocluster
+
+
+

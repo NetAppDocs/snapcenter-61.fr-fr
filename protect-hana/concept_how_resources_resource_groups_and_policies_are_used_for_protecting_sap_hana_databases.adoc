@@ -1,0 +1,30 @@
+---
+permalink: protect-hana/concept_how_resources_resource_groups_and_policies_are_used_for_protecting_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SAP HANA databases 
+summary: Avant d’utiliser SnapCenter, il est utile de comprendre les concepts de base liés aux opérations de sauvegarde, de clonage et de restauration que vous souhaitez effectuer.  Vous interagissez avec des ressources, des groupes de ressources et des politiques pour différentes opérations. 
+---
+= Comment les ressources, les groupes de ressources et les politiques sont utilisés pour protéger les bases de données SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d’utiliser SnapCenter, il est utile de comprendre les concepts de base liés aux opérations de sauvegarde, de clonage et de restauration que vous souhaitez effectuer.  Vous interagissez avec des ressources, des groupes de ressources et des politiques pour différentes opérations.
+
+* Les ressources sont généralement des bases de données SAP HANA que vous sauvegardez ou clonez avec SnapCenter.
+* Un groupe de ressources SnapCenter est un ensemble de ressources sur un hôte.
++
+Lorsque vous effectuez une opération sur un groupe de ressources, vous effectuez cette opération sur les ressources définies dans le groupe de ressources selon la planification que vous spécifiez pour le groupe de ressources.
+
++
+Vous pouvez sauvegarder à la demande une seule ressource ou un groupe de ressources.  Vous pouvez également effectuer des sauvegardes planifiées pour des ressources uniques et des groupes de ressources.
+
+* Les politiques spécifient la fréquence de sauvegarde, la réplication, les scripts et d’autres caractéristiques des opérations de protection des données.
++
+Lorsque vous créez un groupe de ressources, vous sélectionnez une ou plusieurs stratégies pour ce groupe.  Vous pouvez également sélectionner une politique lorsque vous effectuez une sauvegarde à la demande pour une seule ressource.
+
+
+
+Considérez un groupe de ressources comme définissant ce que vous souhaitez protéger et quand vous souhaitez le protéger en termes de jour et d’heure.  Considérez une politique comme définissant la manière dont vous souhaitez la protéger.  Si vous sauvegardez toutes les bases de données, par exemple, vous pouvez créer un groupe de ressources qui inclut toutes les bases de données de l'hôte.  Vous pouvez ensuite attacher deux politiques au groupe de ressources : une politique quotidienne et une politique horaire.  Lorsque vous créez le groupe de ressources et attachez les stratégies, vous pouvez configurer le groupe de ressources pour effectuer une sauvegarde complète quotidienne.

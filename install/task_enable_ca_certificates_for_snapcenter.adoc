@@ -1,0 +1,41 @@
+---
+permalink: install/task_enable_ca_certificates_for_snapcenter.html 
+sidebar: sidebar 
+keywords: SnapCenter, enable CA, certificate 
+summary: Vous devez configurer les certificats CA et activer la validation du certificat CA pour le serveur SnapCenter . 
+---
+= Activer les certificats CA pour SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez configurer les certificats CA et activer la validation du certificat CA pour le serveur SnapCenter .
+
+.Avant de commencer
+* Vous pouvez activer ou désactiver les certificats d’autorité de certification à l’aide de l’applet de commande Set-SmCertificateSettings.
+* Vous pouvez afficher l’état du certificat du serveur SnapCenter à l’aide de l’applet de commande Get-SmCertificateSettings.
+
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+*Mesures*
+
+. Dans la page Paramètres, accédez à *Paramètres* > *Paramètres globaux* > *Paramètres du certificat CA*.
+. Sélectionnez *Activer la validation du certificat*.
+. Cliquez sur *Appliquer*.
+
+
+*Après avoir fini*
+
+L'onglet Hôtes gérés affiche un cadenas et la couleur du cadenas indique l'état de la connexion entre SnapCenter Server et l'hôte du plug-in.
+
+* *image:../media/enable_ca_issues_icon.png["icône de problèmes"] * indique qu'aucun certificat CA n'est activé ou attribué à l'hôte du plug-in.
+* *image:../media/enable_ca_good_icon.png["bonne icône"] * indique que le certificat CA est validé avec succès.
+* *image:../media/enable_ca_failed_icon.png["icône d'échec"] * indique que le certificat CA n'a pas pu être validé.
+* *image:../media/enable_ca_undefined_icon.png["icône indéfinie"] * indique que les informations de connexion n'ont pas pu être récupérées.
+
+
+
+NOTE: Lorsque le statut est jaune ou vert, les opérations de protection des données se terminent avec succès.

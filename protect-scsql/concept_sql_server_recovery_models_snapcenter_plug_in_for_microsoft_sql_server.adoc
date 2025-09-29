@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/concept_sql_server_recovery_models_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: 'Des modèles de récupération spécifiques sont attribués par défaut à chaque type de base de données.  L"administrateur de base de données SQL Server peut réaffecter chaque base de données à un modèle de récupération différent.' 
+---
+= Modèles de récupération SQL Server pris en charge par SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Des modèles de récupération spécifiques sont attribués par défaut à chaque type de base de données.  L'administrateur de base de données SQL Server peut réaffecter chaque base de données à un modèle de récupération différent.
+
+SnapCenter prend en charge trois types de modèles de récupération SQL Server :
+
+* Modèle de récupération simple
++
+Lorsque vous utilisez le modèle de récupération simple, vous ne pouvez pas sauvegarder les journaux de transactions.
+
+* Modèle de rétablissement complet
++
+Lorsque vous utilisez le modèle de récupération complète, vous pouvez restaurer une base de données à son état antérieur à partir du point de défaillance.
+
+* Modèle de récupération journalisé en masse
++
+Lorsque vous utilisez le modèle de récupération journalisée en masse, vous devez réexécuter manuellement l'opération journalisée en masse.  Vous devez effectuer l'opération de journalisation en masse si le journal des transactions qui contient l'enregistrement de validation de l'opération n'a pas été sauvegardé avant la restauration.  Si l'opération de journalisation en masse insère 10 millions de lignes dans une base de données et que la base de données échoue avant la sauvegarde du journal des transactions, la base de données restaurée ne contiendra pas les lignes insérées par l'opération de journalisation en masse.
+
+

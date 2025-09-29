@@ -1,0 +1,80 @@
+---
+permalink: protect-mysql/add-resources-manually-to-the-plug-in-host.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: 'La découverte automatique n"est pas prise en charge pour certaines instances MySQL.  Vous devez ajouter ces ressources manuellement.' 
+---
+= Ajouter des ressources manuellement à l'hôte du plug-in
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La découverte automatique n’est pas prise en charge sur l’hôte Windows.  Vous devez ajouter manuellement des instances MySQL et des ressources de base de données.
+
+.Avant de commencer
+* Vous devez avoir effectué des tâches telles que l’installation du serveur SnapCenter , l’ajout d’hôtes et la configuration des connexions au système de stockage.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez le plug-in SnapCenter pour MySQL dans la liste déroulante, puis cliquez sur *Ressources*.
+. Dans la page Ressources, cliquez sur *Ajouter des ressources MySQL*.
+. Dans la page Fournir les détails des ressources, effectuez les actions suivantes :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom
+ a| 
+Spécifiez le nom de la base de données.
+
+
+
+ a| 
+Nom d'hôte
+ a| 
+Entrez le nom de l'hôte.
+
+
+
+ a| 
+Type
+ a| 
+Sélectionnez une instance.
+
+
+
+ a| 
+Exemple
+ a| 
+Non applicable.
+
+
+
+ a| 
+Informations d'identification
+ a| 
+Sélectionnez les informations d’identification ou ajoutez des informations pour les informations d’identification.
+
+Ceci est facultatif.
+
+|===
+. Sur la page Fournir l'empreinte de stockage, sélectionnez un type de stockage et choisissez un ou plusieurs volumes, LUN et qtrees, puis cliquez sur *Enregistrer*.
++
+Facultatif : Vous pouvez cliquer sur le *image:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] * icône pour ajouter plus de volumes, de LUN et de qtrees à partir d'autres systèmes de stockage.
+
+. Facultatif : dans la page Paramètres des ressources, saisissez des paires clé-valeur personnalisées pour le plug-in MySQL.
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+Les bases de données sont affichées avec des informations telles que le nom de l'hôte, les groupes de ressources et les politiques associés, ainsi que l'état général
+
+
+
+Si vous souhaitez fournir aux utilisateurs l’accès aux ressources, vous devez attribuer les ressources aux utilisateurs.  Cela permet aux utilisateurs d’effectuer les actions pour lesquelles ils disposent d’autorisations sur les actifs qui leur sont attribués.
+
+link:https://docs.netapp.com/us-en/snapcenter/install/task_add_a_user_or_group_and_assign_role_and_assets.html["Ajoutez un utilisateur ou un groupe et attribuez un rôle et des ressources"]
+
+Après avoir ajouté les bases de données, vous pouvez modifier les détails de la base de données MySQL.

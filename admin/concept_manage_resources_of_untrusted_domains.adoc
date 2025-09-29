@@ -1,0 +1,82 @@
+---
+permalink: admin/concept_manage_resources_of_untrusted_domains.html 
+sidebar: sidebar 
+keywords: Manage resources 
+summary: 'En plus de gérer les hôtes dans les domaines approuvés Active Directory (AD), SnapCenter gère également les hôtes dans plusieurs domaines non approuvés AD.  Les domaines AD non approuvés doivent être enregistrés auprès du serveur SnapCenter .  SnapCenter prend en charge les utilisateurs et les groupes de plusieurs domaines AD non approuvés.' 
+---
+= Gérer les ressources des domaines non approuvés
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+En plus de gérer les hôtes dans les domaines approuvés Active Directory (AD), SnapCenter gère également les hôtes dans plusieurs domaines non approuvés AD.  Les domaines AD non approuvés doivent être enregistrés auprès du serveur SnapCenter .  SnapCenter prend en charge les utilisateurs et les groupes de plusieurs domaines AD non approuvés.
+
+Vous pouvez installer SnapCenter Server sur une machine qui se trouve dans un domaine ou un groupe de travail.  Pour installer SnapCenter Server, vous devez spécifier les informations d'identification de domaine si la machine se trouve dans un domaine ou les informations d'identification d'administrateur local si la machine se trouve dans un groupe de travail.
+
+Les groupes Active Directory (AD) appartenant à des domaines non enregistrés auprès du serveur SnapCenter ne sont pas pris en charge.  Bien que vous puissiez créer des rôles SnapCenter avec ces groupes AD, la connexion à SnapCenter Server échoue avec le message d'erreur suivant : L'utilisateur auquel vous essayez de vous connecter n'appartient à aucun rôle. Veuillez contacter votre administrateur système.
+
+
+
+== Modifier les domaines non approuvés
+
+Vous pouvez modifier un domaine non approuvé lorsque vous souhaitez mettre à jour les adresses IP du contrôleur de domaine ou le nom de domaine complet (FQDN).
+
+*À propos de cette tâche*
+
+Après avoir modifié le nom de domaine complet, les ressources associées (hôtes, utilisateurs et groupes) peuvent ne pas fonctionner comme prévu.
+
+Pour modifier un domaine non approuvé, vous pouvez utiliser l’interface utilisateur SnapCenter ou les applets de commande PowerShell.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Paramètres globaux*.
+. Dans la page Paramètres globaux, cliquez sur *Paramètres du domaine*.
+. Cliquezimage:../media/edit_icon.gif["Modifier l'icône"] , puis fournissez les détails suivants :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom de domaine complet (FQDN)
+ a| 
+Spécifiez le FQDN et cliquez sur *Résoudre*.
+
+
+
+ a| 
+Adresses IP du contrôleur de domaine
+ a| 
+Si le nom de domaine complet (FQDN) du domaine n’est pas résoluble, spécifiez une ou plusieurs adresses IP de contrôleur de domaine.
+
+|===
+. Cliquez sur *OK*.
+
+
+
+
+== Annuler l'enregistrement des domaines Active Directory non approuvés
+
+Vous pouvez désinscrire un domaine Active Directory non approuvé si vous ne souhaitez pas utiliser les ressources associées à ce domaine.
+
+.Avant de commencer
+Vous devez avoir supprimé les hôtes, les utilisateurs, les groupes et les informations d’identification associés au domaine non approuvé.
+
+*À propos de cette tâche*
+
+* Une fois le domaine désenregistré de SnapCenter Server, les utilisateurs de ce domaine ne peuvent pas accéder à SnapCenter Server.
+* S'il existe des actifs associés (hôtes, utilisateurs et groupes), après la désinscription du domaine, les actifs ne seront pas opérationnels.
+* Pour annuler l’enregistrement d’un domaine non approuvé, vous pouvez utiliser l’interface utilisateur SnapCenter ou les applets de commande PowerShell.
+
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Paramètres globaux*.
+. Dans la page Paramètres globaux, cliquez sur *Paramètres du domaine*.
+. Dans la liste des domaines, sélectionnez le domaine que vous souhaitez désenregistrer.
+. Cliquezimage:../media/delete_icon.gif["icône de suppression"] , puis cliquez sur *OK*.
+

@@ -1,0 +1,133 @@
+---
+permalink: protect-sce/task_create_resource_groups_and_attach_policies_for_exchange_servers.html 
+sidebar: sidebar 
+keywords: resource group 
+summary: Un groupe de ressources est requis pour toute tâche de protection des données.  Vous devez également attacher une ou plusieurs stratégies au groupe de ressources pour définir le type de tâche de protection des données que vous souhaitez effectuer et la planification de la protection. 
+---
+= Créer des groupes de ressources et attacher des stratégies pour les serveurs Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est requis pour toute tâche de protection des données.  Vous devez également attacher une ou plusieurs stratégies au groupe de ressources pour définir le type de tâche de protection des données que vous souhaitez effectuer et la planification de la protection.
+
+.À propos de cette tâche
+* SCRIPTS_PATH est défini à l'aide de la clé PredefinedWindowsScriptsDirectory située dans le fichier SMCoreServiceHost.exe.Config de l'hôte du plug-in.
++
+Si nécessaire, vous pouvez modifier ce chemin et redémarrer le service SMcore.  Il est recommandé d'utiliser le chemin par défaut pour des raisons de sécurité.
+
++
+La valeur de la clé peut être affichée depuis Swagger via l'API : API /4.7/configsettings
+
++
+Vous pouvez utiliser l'API GET pour afficher la valeur de la clé.  L'API SET n'est pas prise en charge.
+
+* Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des instantanés SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+* L'ajout de nouvelles bases de données sans synchronisation active SnapMirror à un groupe de ressources existant contenant des ressources avec synchronisation active SnapMirror n'est pas pris en charge.
+* L'ajout de nouvelles bases de données à un groupe de ressources existant en mode de basculement de SnapMirror Active Sync n'est pas pris en charge.  Vous pouvez ajouter des ressources au groupe de ressources uniquement dans un état normal ou de restauration automatique.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in Microsoft Exchange Server dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* dans la liste *Affichage*.
++
+
+NOTE: Si vous avez récemment ajouté une ressource à SnapCenter, cliquez sur *Actualiser les ressources* pour afficher la ressource nouvellement ajoutée.
+
+. Cliquez sur *Nouveau groupe de ressources*.
+. Dans la page Nom, effectuez les actions suivantes :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom
+ a| 
+Entrez le nom du groupe de ressources.
+
+
+NOTE: Le nom du groupe de ressources ne doit pas dépasser 250 caractères.
+
+
+
+ a| 
+Mots-clés
+ a| 
+Saisissez une ou plusieurs étiquettes qui vous aideront à rechercher ultérieurement le groupe de ressources.
+
+Par exemple, si vous ajoutez RH comme balise à plusieurs groupes de ressources, vous pouvez ultérieurement trouver tous les groupes de ressources associés à la balise RH.
+
+
+
+ a| 
+Utiliser un format de nom personnalisé pour la copie instantanée
+ a| 
+Facultatif : saisissez un nom et un format d’instantané personnalisés.
+
+Par exemple, _customtext_resourcegroup_policy_hostname_ ou _resourcegroup_hostname_.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+|===
+. Dans la page Ressources, effectuez les étapes suivantes :
++
+.. Sélectionnez le type de ressource et le groupe de disponibilité de la base de données dans les listes déroulantes pour filtrer la liste des ressources disponibles.
++
+
+NOTE: Si vous avez récemment ajouté des ressources, elles apparaîtront dans la liste des ressources disponibles uniquement après avoir actualisé votre liste de ressources.
+
+
+
++
+Dans les sections Ressources disponibles et Ressources sélectionnées, le nom de la base de données est affiché avec le FQDN de l'hôte.  Ce FQDN indique uniquement que la base de données est active sur cet hôte spécifique et peut ne pas effectuer de sauvegarde sur cet hôte.  Vous devez sélectionner un ou plusieurs serveurs de sauvegarde à partir de l'option Sélection du serveur, sur lesquels vous souhaitez effectuer une sauvegarde si vous avez sélectionné l'option *Sauvegarder les copies sur les serveurs à sélectionner au moment de la création du travail de sauvegarde* dans la politique.
+
++
+.. Tapez le nom de la ressource dans la zone de texte de recherche ou faites défiler pour localiser une ressource.
+.. Pour déplacer des ressources de la section Ressources disponibles vers la section Ressources sélectionnées, effectuez l’une des étapes suivantes :
++
+*** Sélectionnez *Sélectionner automatiquement toutes les ressources sur le même volume de stockage* pour déplacer toutes les ressources du même volume vers la section Ressources sélectionnées.
+*** Sélectionnez les ressources dans la section Ressources disponibles, puis cliquez sur la flèche droite pour les déplacer vers la section Ressources sélectionnées.
++
+Les groupes de ressources de SnapCenter pour Microsoft Exchange Server ne peuvent pas avoir plus de 30 bases de données par instantané.  S'il y a plus de 30 bases de données dans un groupe de ressources, un deuxième instantané est créé pour les bases de données supplémentaires.  Par conséquent, 2 sous-tâches sont créées sous la tâche de sauvegarde principale.  Pour les sauvegardes avec réplication secondaire, alors que la mise à jour de SnapMirror ou de SnapVault est en cours, il peut y avoir des scénarios dans lesquels la mise à jour des deux sous-tâches se chevauche.  La tâche de sauvegarde principale continue de s'exécuter indéfiniment, même si les journaux indiquent que la tâche est terminée.
+
+
+
+
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+
+NOTE: Vous pouvez également créer une politique en cliquant sur *image:../media/add_policy_from_resourcegroup.gif["Icône Plus"] *.
+
++
+
+NOTE: Si une politique contient l'option *Sauvegarder les copies sur les serveurs à sélectionner au moment de la création de la tâche de sauvegarde*, une option de sélection de serveur s'affiche pour sélectionner un ou plusieurs serveurs.  L'option de sélection du serveur répertorie uniquement le serveur sur lequel se trouve la base de données sélectionnée sur le stockage NetApp .
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
+.. Dans la section Configurer les planifications pour les politiques sélectionnées, cliquez sur *image:../media/add_policy_from_resourcegroup.gif["Icône Plus"] * dans la colonne *Configurer les planifications* pour la politique pour laquelle vous souhaitez configurer la planification.
+.. Dans la boîte de dialogue Ajouter des planifications pour la stratégie _policy_name_, configurez la planification en spécifiant la date de début, la date d'expiration et la fréquence, puis cliquez sur *OK*.
++
+Vous devez le faire pour chaque fréquence indiquée dans la politique.  Les planifications configurées sont répertoriées dans la colonne *Planifications appliquées* de la section Configurer les planifications pour les stratégies sélectionnées.
+
++
+Les planifications de sauvegarde tierces ne sont pas prises en charge lorsqu'elles chevauchent les planifications de sauvegarde SnapCenter .
+
+
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  Si vous souhaitez joindre le rapport de l'opération effectuée sur le groupe de ressources, sélectionnez *Joindre le rapport de travail*.
+
++
+Pour la notification par e-mail, vous devez avoir spécifié les détails du serveur SMTP à l'aide de l'interface graphique ou de la commande PowerShell. `Set-SmSmtpServer` .
+
++
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+

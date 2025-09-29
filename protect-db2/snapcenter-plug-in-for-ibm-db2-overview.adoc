@@ -1,0 +1,29 @@
+---
+permalink: protect-db2/snapcenter-plug-in-for-ibm-db2-overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Le plug-in SnapCenter pour IBM Db2 est un composant côté hôte du logiciel NetApp SnapCenter software qui permet la gestion de la protection des données basée sur les applications des bases de données IBM Db2.  Le plug-in pour la base de données IBM Db2 automatise la sauvegarde, la restauration et le clonage des bases de données IBM Db2 dans votre environnement SnapCenter . 
+---
+= Présentation du plug-in SnapCenter pour IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in SnapCenter pour la base de données IBM Db2 est un composant côté hôte du logiciel NetApp SnapCenter software qui permet la gestion de la protection des données basée sur les applications des bases de données IBM Db2.  Le plug-in pour la base de données IBM Db2 automatise la sauvegarde, la restauration et le clonage des bases de données IBM Db2 dans votre environnement SnapCenter .
+
+* SnapCenter 6.0 prend en charge IBM Db2 10.5 et versions ultérieures.
+* SnapCenter 6.0.1 prend en charge IBM Db2 9.7.x et versions ultérieures.  De plus, à partir de SnapCenter 6.0.1, IBM Db2 sur AIX est pris en charge.
+
+
+SnapCenter prend en charge les configurations Db2 à instance unique et à instances multiples.  Vous pouvez utiliser le plug-in pour la base de données IBM Db2 dans les environnements Linux et Windows.  Dans les environnements Windows, Db2 sera pris en charge comme ressource manuelle.
+
+
+NOTE: L'environnement Db2 pureScale et les systèmes Db2 multi-nœuds (DPF) ne sont pas pris en charge.
+
+Lorsque le plug-in pour la base de données IBM Db2 est installé, vous pouvez utiliser SnapCenter avec la technologie NetApp SnapMirror pour créer des copies miroir de jeux de sauvegarde sur un autre volume.  Vous pouvez également utiliser le plug-in avec la technologie NetApp SnapVault pour effectuer une réplication de sauvegarde de disque à disque pour la conformité aux normes.
+
+Le plug-in SnapCenter pour Db2 prend en charge les dispositions de stockage NFS et SAN sur ONTAP et Azure NetApp File.
+
+La disposition de stockage virtuel VMDK, vVol et RDM est prise en charge.

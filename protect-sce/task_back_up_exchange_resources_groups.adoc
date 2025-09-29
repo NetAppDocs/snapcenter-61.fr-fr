@@ -1,0 +1,47 @@
+---
+permalink: protect-sce/task_back_up_exchange_resources_groups.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Un groupe de ressources est un ensemble de ressources sur un hôte ou un DAG Exchange, et le groupe de ressources peut inclure un DAG entier ou des bases de données individuelles.  Vous pouvez sauvegarder les groupes de ressources à partir de la page Ressources. 
+---
+= Sauvegarder les groupes de ressources Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est un ensemble de ressources sur un hôte ou un DAG Exchange, et le groupe de ressources peut inclure un DAG entier ou des bases de données individuelles.  Vous pouvez sauvegarder les groupes de ressources à partir de la page Ressources.
+
+.Avant de commencer
+* Vous devez avoir créé un groupe de ressources avec une politique associée.
+* Vous devez avoir attribué l’agrégat utilisé par l’opération de sauvegarde à la machine virtuelle de stockage (SVM) utilisée par la base de données.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+* Si un groupe de ressources possède plusieurs bases de données provenant d'hôtes différents, l'opération de sauvegarde sur certains hôtes peut démarrer en retard en raison de problèmes de réseau.  Vous devez configurer la valeur de `MaxRetryForUninitializedHosts` dans `web.config` en utilisant le `Set-SmConfigSettings` Applet de commande PowerShell.
+* Dans un groupe de ressources, si vous incluez une base de données ou un groupe de disponibilité de base de données qui possède une copie de base de données active/passive sur un stockage NetApp et non NetApp , et que vous avez sélectionné l'option *Sauvegarder les copies actives* ou *Sauvegarder les copies sur les serveurs à sélectionner pendant la création de la tâche de sauvegarde* dans la stratégie, les tâches de sauvegarde passeront à l'état d'avertissement.
++
+La sauvegarde réussira pour la copie de base de données active/passive sur le stockage NetApp et la sauvegarde échouera pour la copie de base de données active/passive sur le stockage non NetApp .
+
+
+
+.À propos de cette tâche
+Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d'une politique associée et d'une planification configurée, les sauvegardes se produisent automatiquement selon la planification.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le *plug-in Microsoft Exchange Server* dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
++
+Vous pouvez rechercher le groupe de ressources soit en saisissant le nom du groupe de ressources dans la zone de recherche, soit en cliquant sur *image:../media/filter_icon.gif["icône de filtre"] *, puis en sélectionnant la balise.  Vous pouvez ensuite cliquer sur *image:../media/filter_icon.gif["icône de filtre"] * pour fermer le volet de filtre.
+
+. Dans la page Groupes de ressources, sélectionnez le groupe de ressources que vous souhaitez sauvegarder, puis cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez associé plusieurs stratégies au groupe de ressources, dans la liste déroulante *Stratégie*, sélectionnez la stratégie que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de la sauvegarde en double-cliquant sur la tâche dans le volet Activité en bas de la page pour afficher la page Détails de la tâche.
+

@@ -1,0 +1,143 @@
+---
+permalink: tech-refresh/task_tech_refresh_storage_system.html 
+sidebar: sidebar 
+keywords: tech refresh, storage system, 
+summary: 'Effectuez une actualisation technique du système de stockage en déplaçant les données de l"ancien stockage vers le nouveau stockage, en montant le nouveau stockage sur les hôtes respectifs, puis en mettant en place les bases de données.' 
+---
+= Mise à jour technologique du système de stockage
+:allow-uri-read: 
+
+
+[role="lead"]
+Lorsque le stockage est actualisé sur le plan technologique, les données sont migrées vers un nouveau stockage et les hôtes d'application sont montés avec un nouveau stockage.  Le flux de travail de sauvegarde SnapCenter identifie le nouveau stockage et crée le snapshot si le nouveau stockage est enregistré dans SnapCenter.
+
+Vous pouvez effectuer la restauration, le montage et le clonage sur les nouvelles sauvegardes créées après l'actualisation du stockage.  Cependant, ces opérations échoueront lorsqu'elles seront effectuées sur les sauvegardes créées avant l'actualisation du stockage, car les sauvegardes contiennent les anciens détails de stockage.  Vous devez exécuter l’API ou l’applet de commande d’actualisation technique de stockage pour mettre à jour les anciennes sauvegardes dans SnapCenter avec les nouveaux détails de stockage.
+
+L'actualisation technique est prise en charge pour les plug-ins SnapCenter suivants :
+
+* Plug-in SnapCenter pour Microsoft SQL Server
+* Plug-in SnapCenter pour Windows
+* Plug-in SnapCenter pour base de données Oracle
+* Plug-in SnapCenter pour la base de données SAP HANA
+* Plug-in SnapCenter pour Microsoft Exchange Server
+
+
+Les cas d'utilisation pris en charge sont :
+
+* Actualisation du stockage principal
++
+L'actualisation technologique du stockage est prise en charge pour remplacer le stockage principal par un nouveau stockage.  Vous ne pouvez pas convertir le stockage secondaire existant en stockage principal.
+
+* Actualisation du stockage secondaire
+
+
+
+
+== Mettre à jour les sauvegardes du stockage principal
+
+Lorsque le stockage est actualisé techniquement, vous devez exécuter l’API ou l’applet de commande d’actualisation technique du stockage pour mettre à jour les anciennes sauvegardes dans SnapCenter avec les nouveaux détails de stockage.
+
+.Avant de commencer
+Comme ce flux de travail modifie les données du référentiel SnapCenter , il est recommandé de sauvegarder le référentiel SnapCenter .  En cas de problème de données, le référentiel SnapCenter peut être rétabli à l'ancien état à l'aide de la sauvegarde.
+
+Pour plus d'informations, consultez  https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["Sauvegarder le référentiel SnapCenter"] .
+
+.Étapes
+. Migrer les données de l’ancien stockage vers le nouveau stockage.
++
+Pour plus d'informations sur la façon de migrer, reportez-vous à :
+
++
+** https://kb.netapp.com/mgmt/SnapCenter/How_to_perform_Storage_tech_refresh["Comment migrer les données vers un nouveau stockage"]
+** https://kb.netapp.com/onprem/ontap/dp/SnapMirror/How_can_I_copy_a_volume_and_preserve_all_of_the_Snapshot_copies["Comment puis-je copier un volume et conserver toutes les copies Snapshot ?"]
+
+
+. Mettre l'hôte en mode maintenance.
+. Montez le nouveau stockage dans les hôtes respectifs et lancez les bases de données.
++
+Le nouveau stockage doit être connecté à l’hôte de la même manière qu’auparavant.  Par exemple, s'il a été connecté en tant que SAN, il doit être connecté en tant que SAN.
+
++
+Le nouveau stockage doit être monté sur le même lecteur ou chemin que celui de l'ancien stockage.
+
+. Vérifiez que toutes les ressources sont opérationnelles.
+. Ajoutez le nouveau stockage dans SnapCenter.
++
+Assurez-vous d’avoir un nom SVM unique sur tous les clusters dans SnapCenter.  Si vous utilisez le même nom de SVM dans le nouveau stockage et si tous les volumes du SVM peuvent être migrés avant d'exécuter l'actualisation du stockage, il est recommandé de supprimer le SVM dans l'ancien cluster et de redécouvrir l'ancien cluster dans SnapCenter , ce qui supprimera le SVM du cache.
+
+. Mettre l'hôte en mode production.
+. Dans SnapCenter, créez une sauvegarde des ressources dont le stockage est migré.  Une nouvelle sauvegarde est nécessaire pour que SnapCenter identifie la dernière empreinte de stockage, et elle sera utilisée pour mettre à jour les métadonnées des anciennes sauvegardes existantes.
++
+
+NOTE: Chaque fois qu'un nouveau LUN est connecté à l'hôte, il aura un nouveau numéro de série.  Lors de la découverte du système de fichiers Windows, SnapCenter traitera chaque numéro de série unique comme une nouvelle ressource.  Lors de l'actualisation technique du stockage, lorsque le LUN du nouveau stockage est connecté à l'hôte avec la même lettre de lecteur ou le même chemin, la découverte du système de fichiers Windows dans SnapCenter marquera la ressource existante comme supprimée même si elle est montée avec la même lettre de lecteur ou le même chemin et affichera le nouveau LUN comme nouvelle ressource.  Étant donné que la ressource est marquée comme supprimée, elle ne sera pas prise en compte pour l'actualisation technique du stockage dans SnapCenter et toutes les sauvegardes de l'ancienne ressource seront perdues.  Chaque fois qu’une actualisation du stockage se produit, pour les ressources du système de fichiers Windows, la découverte des ressources ne doit pas être effectuée avant l’exécution de l’API ou de l’applet de commande d’actualisation du stockage.
+
+. Exécutez l’API d’actualisation du stockage : `/<snapcenter_version>/techrefresh/primarystorage` ou l'applet de commande : _Invoke-SmTechRefreshPrimaryStorage_.
++
+
+NOTE: Si la ressource est configurée avec une stratégie de réplication activée, la dernière sauvegarde après l'actualisation du stockage doit contenir les détails du stockage secondaire.
+
++
+.. Si vous utilisez la configuration des instances de cluster de basculement SQL (FCI), les sauvegardes sont conservées au niveau du cluster.  Vous devez fournir le nom du cluster comme entrée pour l'actualisation de la technologie de stockage.
+.. Si vous utilisez la configuration du groupe de disponibilité SQL (AG), les sauvegardes sont conservées au niveau du nœud.  Vous devez fournir le nom du nœud comme entrée pour l'actualisation de la technologie de stockage.
+.. Si vous utilisez la configuration Oracle Real Application Clusters (RAC), vous pouvez effectuer une actualisation de la technologie de stockage sur n'importe quel nœud.
++
+L'attribut _IsDryRun_ est défini sur True par défaut.  Il identifiera les ressources pour lesquelles le stockage est actualisé.  Vous pouvez afficher la ressource et les détails de stockage modifiés en exécutant l'API : '<snapcenter_version>/jobs/{jobid}' ou l'applet de commande _Get-SmJobSummaryReport_.
+
+
+
+. Après avoir vérifié les détails de stockage, définissez l'attribut _IsDryRun_ sur False et exécutez l'API d'actualisation du stockage : `/<snapcenter_version>/techrefresh/primarystorage` ou l'applet de commande : _Invoke-SmTechRefreshPrimaryStorage_.
++
+Cela mettra à jour les détails de stockage dans les anciennes sauvegardes.
+
++
+Vous pouvez exécuter l’API ou l’applet de commande sur le même hôte plusieurs fois. Les détails de stockage dans les sauvegardes plus anciennes seront mis à jour uniquement si le stockage est actualisé.
+
++
+
+NOTE: La hiérarchie des clones ne peut pas être migrée dans ONTAP.  Si le stockage en cours de migration contient des métadonnées de clonage dans SnapCenter, la ressource clonée sera marquée comme ressource indépendante.  Les clones de métadonnées de clone seront supprimés de manière récursive.
+
+. (Facultatif) Si tous les instantanés ne sont pas déplacés de l’ancien stockage principal vers le nouveau stockage principal, exécutez l’API suivante : `/<snapcenter_version>/hosts/primarybackupsexistencecheck` ou l'applet de commande _Invoke-SmPrimaryBackupsExistenceCheck_.
++
+Cela effectuera la vérification de l'existence de l'instantané sur le nouveau stockage principal et marquera les sauvegardes respectives comme non disponibles pour toute opération dans SnapCenter.
+
+
+
+
+
+== Mettre à jour les sauvegardes du stockage secondaire
+
+Lorsque le stockage est actualisé techniquement, vous devez exécuter l’API ou l’applet de commande d’actualisation technique du stockage pour mettre à jour les anciennes sauvegardes dans SnapCenter avec les nouveaux détails de stockage.
+
+.Avant de commencer
+Comme ce flux de travail modifie les données du référentiel SnapCenter , il est recommandé de sauvegarder le référentiel SnapCenter .  En cas de problème de données, le référentiel SnapCenter peut être rétabli à l'ancien état à l'aide de la sauvegarde.
+
+Pour plus d'informations, consultez  https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["Sauvegarder le référentiel SnapCenter"] .
+
+.Étapes
+. Migrer les données de l’ancien stockage vers le nouveau stockage.
++
+Pour plus d'informations sur la façon de migrer, reportez-vous à :
+
++
+** https://kb.netapp.com/mgmt/SnapCenter/How_to_perform_Storage_tech_refresh["Comment migrer les données vers un nouveau stockage"]
+** https://kb.netapp.com/onprem/ontap/dp/SnapMirror/How_can_I_copy_a_volume_and_preserve_all_of_the_Snapshot_copies["Comment puis-je copier un volume et conserver toutes les copies Snapshot ?"]
+
+
+. Établissez la relation SnapMirror entre le stockage principal et le nouveau stockage secondaire et assurez-vous que l’état de la relation est sain.
+. Dans SnapCenter, créez une sauvegarde des ressources dont le stockage est migré.
++
+Une nouvelle sauvegarde est nécessaire pour que SnapCenter identifie la dernière empreinte de stockage et elle sera utilisée pour mettre à jour les métadonnées des anciennes sauvegardes existantes.
+
++
+
+IMPORTANT: Vous devez attendre que cette opération soit terminée.  Si vous passez à l’étape suivante avant la fin, SnapCenter perdra complètement les anciennes métadonnées de snapshot secondaire.
+
+. Après avoir créé avec succès une sauvegarde de toutes les ressources d'un hôte, exécutez l'API d'actualisation du stockage secondaire : `/<snapcenter_version>/techrefresh/secondarystorage` ou l'applet de commande : _Invoke-SmTechRefreshSecondaryStorage_.
++
+Cela mettra à jour les détails de stockage secondaire des anciennes sauvegardes dans l'hôte donné.
+
++
+Si vous souhaitez exécuter cette opération au niveau des ressources, cliquez sur *Actualiser* pour chaque ressource afin de mettre à jour les métadonnées de stockage secondaire.
+
+. Après avoir mis à jour avec succès les anciennes sauvegardes, vous pouvez rompre l'ancienne relation de stockage secondaire avec le stockage principal.
+

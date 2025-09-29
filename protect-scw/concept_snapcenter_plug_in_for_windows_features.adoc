@@ -1,0 +1,53 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_windows_features.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 'Le plug-in pour Windows s"intègre à la technologie NetApp Snapshot sur le système de stockage.  Pour travailler avec le plug-in pour Windows, vous utilisez l"interface SnapCenter .' 
+---
+= Fonctionnalités du plug-in SnapCenter pour Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in pour Windows s'intègre à la technologie NetApp Snapshot sur le système de stockage.  Pour travailler avec le plug-in pour Windows, vous utilisez l'interface SnapCenter .
+
+Le plug-in pour Windows comprend ces fonctionnalités majeures :
+
+* *Interface utilisateur graphique unifiée optimisée par SnapCenter*
++
+L'interface SnapCenter vous offre une standardisation et une cohérence entre les plug-ins et les environnements.  L'interface SnapCenter vous permet d'effectuer des processus de sauvegarde et de restauration cohérents sur tous les plug-ins, d'utiliser des rapports centralisés, d'utiliser des vues de tableau de bord en un coup d'œil, de configurer le contrôle d'accès basé sur les rôles (RBAC) et de surveiller les tâches sur tous les plug-ins.  SnapCenter propose également une planification centralisée et une gestion des politiques pour prendre en charge les opérations de sauvegarde et de clonage.
+
+* *Administration centrale automatisée*
++
+Vous pouvez planifier des sauvegardes de routine du système de fichiers, configurer la conservation des sauvegardes basée sur des politiques et configurer des opérations de restauration.  Vous pouvez également surveiller de manière proactive l'environnement de votre système de fichiers en configurant SnapCenter pour envoyer des alertes par e-mail.
+
+* *Technologie NetApp Snapshot non perturbatrice*
++
+Le plug-in pour Windows utilise la technologie NetApp Snapshot.  Cela vous permet de sauvegarder des systèmes de fichiers en quelques secondes et de les restaurer rapidement sans mettre l'hôte hors ligne.  Les instantanés consomment un espace de stockage minimal.
+
+
+
+En plus de ces fonctionnalités majeures, le Plug-in pour Windows offre les avantages suivants :
+
+* Prise en charge du flux de travail de sauvegarde, de restauration et de clonage
+* Sécurité prise en charge par RBAC et délégation de rôles centralisée
+* Création de copies peu encombrantes de systèmes de fichiers de production à des fins de test ou d'extraction de données à l'aide de la technologie NetApp FlexClone
++
+Pour obtenir des informations sur les licences FlexClone , consultezlink:../get-started/concept_snapcenter_licenses.html["Licences SnapCenter"^] .
+
+* Possibilité d'exécuter plusieurs sauvegardes en même temps sur plusieurs serveurs
+* Applets de commande PowerShell pour la création de scripts d'opérations de sauvegarde, de restauration et de clonage
+* Prise en charge de la sauvegarde des systèmes de fichiers et des disques de machines virtuelles (VMDK)
+* Prise en charge des infrastructures physiques et virtualisées
+* Prise en charge d'iSCSI, Fibre Channel, FCoE, mappage de périphériques bruts (RDM), mappage de LUN asymétrique (ALM), VMDK sur NFS et VMFS et FC virtuel
+* Prise en charge de la mémoire non volatile express (NVMe) sur Windows Server 2022
++
+** Flux de travail de sauvegarde, de restauration, de clonage et de vérification sur la disposition VMDK créée sur NVMe via TCP/IP.
+** Prend en charge la version 1.3 du micrologiciel NVMe à partir de la mise à jour 2 d'ESX 8.0 et nécessite la version 21 du matériel virtuel.
+** Le clustering de basculement Windows Server (WSFC) n’est pas pris en charge pour les applications via VMDK sur NVMe via TCP/IP.
+
+
+* Prend en charge la synchronisation active SnapMirror (initialement publiée sous le nom de SnapMirror Business Continuity [SM-BC]) qui permet aux services d'entreprise de continuer à fonctionner même en cas de panne complète du site, en prenant en charge le basculement transparent des applications à l'aide d'une copie secondaire.  Aucune intervention manuelle ni script supplémentaire n'est requis pour déclencher un basculement avec la synchronisation active SnapMirror .
+

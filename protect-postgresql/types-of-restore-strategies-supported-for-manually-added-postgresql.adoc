@@ -1,0 +1,29 @@
+---
+permalink: protect-postgresql/types-of-restore-strategies-supported-for-manually-added-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 'Vous devez définir une stratégie avant de pouvoir effectuer avec succès des opérations de restauration à l"aide de SnapCenter.  Il existe deux types de stratégies de restauration pour les ressources PostgreSQL ajoutées manuellement.  Vous ne pouvez pas récupérer les ressources PostgreSQL ajoutées manuellement.' 
+---
+= Types de stratégies de restauration prises en charge pour les ressources PostgreSQL ajoutées manuellement
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez définir une stratégie avant de pouvoir effectuer avec succès des opérations de restauration à l'aide de SnapCenter.
+
+
+NOTE: Vous ne pouvez pas récupérer les ressources PostgreSQL ajoutées manuellement.
+
+
+
+== Restauration complète des ressources
+
+* Restaure tous les volumes, qtrees et LUN d'une ressource
+
+
+
+NOTE: Si la ressource contient des volumes ou des qtrees, les snapshots pris après le snapshot sélectionné pour la restauration sur ces volumes ou qtrees sont supprimés et ne peuvent pas être récupérés.  De plus, si une autre ressource est hébergée sur les mêmes volumes ou qtrees, cette ressource est également supprimée.
+
+REMARQUE : le plug-in pour PostgreSQL crée un backup_label et un tablespace_map dans le dossier _/<OS_temp_folder>/postgresql_sc_recovery_<Restore_JobId>/_ pour faciliter la récupération manuelle.

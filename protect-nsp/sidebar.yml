@@ -1,0 +1,132 @@
+---
+section: protect-nsp
+title: Protégez les applications à l'aide des plug-ins pris en charge par NetApp
+entries:
+- title: Plug-ins pris en charge par NetApp
+  entries:
+  - title: Présentation des plug-ins pris en charge par NetApp
+    url: "/protect-nsp/netapp_supported_plugins_overview.html"
+  - title: Ce que vous pouvez faire avec les plug-ins pris en charge par NetApp
+    url: "/protect-nsp/what_you_can_do_with_the_netapp_supported_plugins.html"
+  - title: Fonctionnalités des plug-ins pris en charge par NetApp
+    url: "/protect-nsp/netapp_supported_plugins_features.html"
+  - title: Types de stockage pris en charge par les plug-ins pris en charge par NetApp
+    url: "/protect-nsp/storage_types_supported_by_netapp_supported_plugins.html"
+  - title: Privilèges ONTAP minimaux requis pour les plug-ins pris en charge par NetApp
+    url: "/protect-nsp/minimum_ontap_privileges_required_for_netapp_supported_plugins.html"
+  - title: Préparer les systèmes de stockage pour la réplication SnapMirror et SnapVault
+    url: "/protect-nsp/prepare_storage_systems_for_snapmirror_and_snapvault_replication_for_netapp_supported_plugins.html"
+  - title: Définir une stratégie de sauvegarde
+    url: "/protect-nsp/define_a_backup_strategy.html"
+  - title: Stratégie de sauvegarde pour les plug-ins pris en charge par NetApp
+    entries:
+    - title: Planifications de sauvegarde des ressources de plug-ins pris en charge
+        par NetApp
+      url: "/protect-nsp/backup_schedules_of_netapp_supported_plugins_resources.html"
+    - title: Nombre de tâches de sauvegarde nécessaires
+      url: "/protect-nsp/number_of_backup_jobs_needed.html"
+  - title: Types de stratégies de restauration prises en charge pour les ressources
+      de plug-ins pris en charge par NetApp ajoutées manuellement
+    url: "/protect-nsp/types_of_restore_strategies_supported_for_manually_added_netapp_supported_plugins_resources.html"
+- title: Préparez-vous à installer les plug-ins pris en charge par NetApp
+  entries:
+  - title: Flux de travail d'installation des plug-ins pris en charge par NetApp
+    url: "/protect-nsp/install_netapp_supported_plugins.html"
+  - title: Conditions préalables à l'ajout d'hôtes et à l'installation des plug-ins
+      pris en charge par NetApp
+    url: "/protect-nsp/prerequisites_to_adding_hosts_and_installing_netapp_supported_plugins.html"
+  - title: Configuration requise pour l'installation du package de plug-ins SnapCenter
+      pour Windows
+    url: "/protect-nsp/host_requirements_to_install_snapcenter_plug_in_package_for_windows.html"
+  - title: Configuration requise pour l'installation du package de plug-ins SnapCenter
+      pour Linux
+    url: "/protect-nsp/host_requirements_for_installing_the_snapcenter_plug_in_package_for_linux.html"
+  - title: Configurer les informations d'identification pour les plug-ins pris en
+      charge par NetApp
+    url: "/protect-nsp/set_up_credentials_for_netapp_supported_plugins.html"
+  - title: Configurer gMSA sur Windows Server 2016 ou version ultérieure
+    url: "/protect-nsp/configure_gMSA_on_windows_server_2012_or_later.html"
+  - title: Installer les plug-ins pris en charge par NetApp
+    entries:
+    - title: Ajouter des hôtes et installer des packages de plug-ins sur des hôtes
+        distants
+      url: "/protect-nsp/add_hosts_and_install_plug_in_packages_on_remote_hosts.html"
+    - title: Installer les packages de plug-ins SnapCenter pour Linux ou Windows sur
+        plusieurs hôtes distants à l'aide d'applets de commande
+      url: "/protect-nsp/install_snapcenter_plug_in_packages_for_linux_or_windows_on_multiple_remote_hosts_using_cmdlets.html"
+    - title: Installez les plug-ins pris en charge par NetApp sur les hôtes Linux
+        à l'aide de l'interface de ligne de commande
+      url: "/protect-nsp/install_the_netapp_supported_plugins_on_linux_hosts_using_the_command_line_interface.html"
+    - title: Surveiller l'état d'installation du package de plug-in SnapCenter
+      url: "/protect-nsp/monitor_the_status_of_installing_plugin.html"
+  - title: Configurer le certificat CA
+    entries:
+    - title: Générer le fichier CSR du certificat CA
+      url: "/protect-nsp/generate_CA_certificate_CSR_file.html"
+    - title: Importer des certificats CA
+      url: "/protect-nsp/import_CA_certificates.html"
+    - title: Obtenir l'empreinte numérique du certificat CA
+      url: "/protect-nsp/get_the_CA_certificate_thumbprint.html"
+    - title: Configurer le certificat CA avec les services de plug-in hôte Windows
+      url: "/protect-nsp/configure_CA_certificate_with_Windows_host_plug-in_services.html"
+    - title: Configurer le certificat CA pour le service de plug-ins SnapCenter sur
+        l'hôte Linux
+      url: "/protect-nsp/configure_CA_certificate_on_Linux_host.html"
+    - title: Configurer le certificat CA pour le service de plug-ins SnapCenter sur
+        l'hôte Windows
+      url: "/protect-nsp/configure_CA_certificate_on_windows_host.html"
+    - title: Activer les certificats CA pour les plug-ins
+      url: "/protect-nsp/enable_ca_certificates_for_plug-ins.html"
+- title: Préparez-vous à la protection des données
+  entries:
+  - title: Conditions préalables à l'utilisation des plug-ins pris en charge par NetApp
+    url: "/protect-nsp/prerequisites_for_using_netapp_supported_plugins.html"
+  - title: Comment les ressources, les groupes de ressources et les stratégies sont
+      utilisés pour protéger les ressources des plug-ins pris en charge par NetApp
+    url: "/protect-nsp/how_resources_resource_groups_policies_used_for_protecting_netapp_supported_plugins_resources.html"
+- title: Sauvegarder les ressources des plug-ins pris en charge par NetApp
+  entries:
+  - title: Sauvegarde du flux de travail
+    url: "/protect-nsp/back_up_netapp_supported_plugins_resources.html"
+  - title: Ajouter des ressources aux plug-ins pris en charge par NetApp
+    url: "/protect-nsp/add_resources_to_netapp_supported_plugins.html"
+  - title: Créer des politiques pour les ressources de plug-ins prises en charge par
+      NetApp
+    url: "/protect-nsp/create_policies_for_netapp_supported_plugins_resources.html"
+  - title: Créer des groupes de ressources et attacher des politiques
+    url: "/protect-nsp/create_resource_groups_and_attach_policies.html"
+  - title: Créer des groupes de ressources et activer la protection secondaire des
+      ressources sur les systèmes ASA r2
+    url: "/protect-nsp/create-resource-groups-secondary-protection-for-asa-r2-resources.html"
+  - title: Créer une connexion au système de stockage et des informations d'identification
+      à l'aide des applets de commande PowerShell
+    url: "/protect-nsp/create_a_storage_system_connection_and_a_credential_using_powershell_cmdlets.html"
+  - title: Sauvegarder les ressources individuelles des plug-ins pris en charge par
+      NetApp
+    url: "/protect-nsp/back_up_individual_netapp_supported_plugins_resources.html"
+  - title: Sauvegarder les groupes de ressources des ressources de plug-in prises
+      en charge par NetApp
+    url: "/protect-nsp/back_up_resource_groups_of_netapp_supported_plugins_resources.html"
+  - title: Surveiller les opérations de sauvegarde
+    url: "/protect-nsp/monitor_resources_backup_operations.html"
+  - title: Annuler les opérations de sauvegarde
+    url: "/protect-nsp/cancel_backup_operations.html"
+  - title: Afficher les sauvegardes et les clones liés aux ressources des plug-ins
+      pris en charge par NetApp dans la page Topologie
+    url: "/protect-nsp/view_netapp_supported_plugins_resource_backups_and_clones_in_the_topology_page.html"
+- title: Restaurer les ressources des plug-ins pris en charge par NetApp
+  entries:
+  - title: Restaurer le flux de travail
+    url: "/protect-nsp/restore_netapp_supported_plugins_resources.html"
+  - title: Restaurer une sauvegarde de ressources
+    url: "/protect-nsp/restore_a_resource_backup.html"
+  - title: Surveiller les opérations de restauration
+    url: "/protect-nsp/monitor_resources_restore_operations.html"
+- title: Cloner les sauvegardes de ressources des plug-ins pris en charge par NetApp
+  entries:
+  - title: Cloner le flux de travail
+    url: "/protect-nsp/clone_netapp_supported_plugins_resource_backups.html"
+  - title: Cloner à partir d'une sauvegarde
+    url: "/protect-nsp/clone_from_a_backup.html"
+  - title: Surveiller les opérations de clonage dans SnapCenter
+    url: "/protect-nsp/monitor_resource_clone_operations.html"

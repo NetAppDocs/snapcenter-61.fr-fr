@@ -1,0 +1,183 @@
+---
+permalink: protect-sce/reference_prerequisites_to_add_hosts_and_install_snapcenter_plug_in_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: 'Avant d"ajouter un hôte et d"installer les packages de plug-ins, vous devez remplir toutes les conditions requises.' 
+---
+= Conditions préalables pour ajouter des hôtes et installer le plug-in SnapCenter pour Microsoft Exchange Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d'ajouter un hôte et d'installer les packages de plug-ins, vous devez remplir toutes les conditions requises.
+
+* Si vous utilisez iSCSI, le service iSCSI doit être en cours d’exécution.
+* Vous devez disposer d’un utilisateur de domaine avec des privilèges d’administrateur local avec des autorisations de connexion locales sur l’hôte distant.
+* Vous devez utiliser Microsoft Exchange Server 2013, 2016 ou 2019 pour les configurations autonomes et de groupe de disponibilité de base de données.
+* Lors de l'installation d'un plug-in sur un hôte Windows, si vous spécifiez des informations d'identification qui ne sont pas intégrées ou si l'utilisateur appartient à un utilisateur de groupe de travail local, vous devez désactiver l'UAC sur l'hôte.
+* Si vous gérez des nœuds de cluster dans SnapCenter, vous devez disposer d'un utilisateur disposant de privilèges administratifs sur tous les nœuds du cluster.
+* Vous devez disposer d’un utilisateur disposant d’autorisations administratives sur le serveur Exchange.
+* Si SnapManager pour Microsoft Exchange Server et SnapDrive pour Windows sont déjà installés, vous devez désinscrire le fournisseur de matériel VSS utilisé par SnapDrive pour Windows avant d'installer Plug-in pour Exchange sur le même serveur Exchange pour garantir une protection réussie des données à l'aide de SnapCenter.
+* Si SnapManager pour Microsoft Exchange Server et Plug-in pour Exchange sont installés sur le même serveur, vous devez suspendre ou supprimer du planificateur Windows toutes les planifications créées par SnapManager pour Microsoft Exchange Server.
+* L'hôte doit pouvoir être résolu par le nom de domaine complet (FQDN) du serveur.  Si le fichier hosts est modifié pour le rendre résoluble et si le nom court et le nom de domaine complet sont spécifiés dans le fichier hosts, créez une entrée dans le fichier hosts de SnapCenter au format suivant : _<adresse_ip> <nom_hôte_complet> <nom_hôte>_.
+* Assurez-vous que les ports suivants ne sont pas bloqués dans le pare-feu, sinon l'opération d'ajout d'hôte échoue.  Pour résoudre ce problème, vous devez configurer la plage de ports dynamique. Pour plus d'informations, consultez la section  https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-rpc-dynamic-port-allocation-with-firewalls["Documentation Microsoft"^] .
++
+** Plage de ports 50000 - 51000 pour Windows 2016 et Exchange 2016
+** Plage de ports 6000 - 6500 pour Windows 2012 R2 et Exchange 2013
+** Plage de ports 49152 - 65536 pour Windows 2019
+
+
+
+
+[NOTE]
+====
+Pour identifier la plage de ports, exécutez les commandes suivantes :
+
+* netsh int ipv4 afficher le port dynamique tcp
+* netsh int ipv4 afficher le port dynamique udp
+* netsh int ipv6 afficher le port dynamique tcp
+* netsh int ipv6 afficher le port dynamique udp
+
+
+====
+
+
+== Configuration requise pour l'installation du package de plug-ins SnapCenter pour Windows
+
+Avant d'installer le package de plug-ins SnapCenter pour Windows, vous devez vous familiariser avec certaines exigences de base en matière d'espace et de taille du système hôte.
+
+|===
+| Article | Exigences 
+
+
+ a| 
+Systèmes d'exploitation
+ a| 
+Microsoft Windows
+
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+
+
+ a| 
+RAM minimale pour le plug-in SnapCenter sur l'hôte
+ a| 
+1 Go
+
+
+
+ a| 
+Espace minimum d'installation et de journalisation pour le plug-in SnapCenter sur l'hôte
+ a| 
+5 Go
+
+
+NOTE: Vous devez allouer suffisamment d’espace disque et surveiller la consommation de stockage par le dossier des journaux.  L'espace journal requis varie en fonction du nombre d'entités à protéger et de la fréquence des opérations de protection des données.  S'il n'y a pas suffisamment d'espace disque, les journaux ne seront pas créés pour les opérations récemment exécutées.
+
+
+
+ a| 
+Logiciels requis
+ a| 
+* Pack d'hébergement ASP.NET Core Runtime 8.0.12 (et tous les correctifs 8.0.x ultérieurs)
+* PowerShell Core 7.4.2
+* Java 11 Oracle Java et OpenJDK
++
+Java 11 Oracle Java et OpenJDK sont requis uniquement pour SAP HANA, IBM Db2, PostgreSQL, MySQL, les plug-ins pris en charge par NetApp et d'autres applications personnalisées qui peuvent être installées sur l'hôte Windows.
+
+
+
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+Pour obtenir des informations de dépannage spécifiques à .NET, consultez https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["La mise à niveau ou l’installation de SnapCenter échoue pour les systèmes hérités qui ne disposent pas de connectivité Internet."]
+
+|===
+
+
+== Privilèges Exchange Server requis
+
+Pour permettre à SnapCenter d'ajouter Exchange Server ou DAG et d'installer SnapCenter Plug-in pour Microsoft Exchange Server sur un hôte ou DAG, vous devez configurer SnapCenter avec les informations d'identification d'un utilisateur disposant d'un ensemble minimal de privilèges et d'autorisations.
+
+Vous devez disposer d’un utilisateur de domaine avec des privilèges d’administrateur local et des autorisations de connexion locales sur l’hôte Exchange distant, ainsi que des autorisations administratives sur tous les nœuds du DAG.  L'utilisateur du domaine nécessite les autorisations minimales suivantes :
+
+* Ajouter-MailboxDatabaseCopy
+* Démonter la base de données
+* Obtenir les paramètres du serveur publicitaire
+* Obtenir-DatabaseAvailabilityGroup
+* Obtenir-ExchangeServer
+* Get-MailboxDatabase
+* Obtenir l'état de la copie de la base de données de la boîte aux lettres
+* Obtenir le serveur de boîtes aux lettres
+* Get-MailboxStatistics
+* Obtenir la base de données des dossiers publics
+* Déplacer la base de données ActiveMailbox
+* Déplacer-DatabasePath -ConfigurationOnly:$true
+* Mount-Base de données
+* Nouvelle base de données de boîtes aux lettres
+* Nouvelle base de données de dossiers publics
+* Supprimer la base de données de boîtes aux lettres
+* Supprimer-MailboxDatabaseCopy
+* Supprimer la base de données des dossiers publics
+* Copie de la base de données de la boîte aux lettres de CV
+* Définir les paramètres du serveur publicitaire
+* Set-MailboxDatabase -allowfilerestore:$true
+* Set-MailboxDatabaseCopy
+* Set-PublicFolderDatabase
+* Suspendre la copie de la base de données de la boîte aux lettres
+* Mise à jour-Copie de la base de données de la boîte aux lettres
+
+
+
+
+== Configuration requise pour l'installation du package de plug-ins SnapCenter pour Windows
+
+Avant d'installer le package de plug-ins SnapCenter pour Windows, vous devez vous familiariser avec certaines exigences de base en matière d'espace et de taille du système hôte.
+
+|===
+| Article | Exigences 
+
+
+ a| 
+Systèmes d'exploitation
+ a| 
+Microsoft Windows
+
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+
+
+ a| 
+RAM minimale pour le plug-in SnapCenter sur l'hôte
+ a| 
+1 Go
+
+
+
+ a| 
+Espace minimum d'installation et de journalisation pour le plug-in SnapCenter sur l'hôte
+ a| 
+5 Go
+
+
+NOTE: Vous devez allouer suffisamment d’espace disque et surveiller la consommation de stockage par le dossier des journaux.  L'espace journal requis varie en fonction du nombre d'entités à protéger et de la fréquence des opérations de protection des données.  S'il n'y a pas suffisamment d'espace disque, les journaux ne seront pas créés pour les opérations récemment exécutées.
+
+
+
+ a| 
+Logiciels requis
+ a| 
+* Pack d'hébergement ASP.NET Core Runtime 8.0.12 (et tous les correctifs 8.0.x ultérieurs)
+* PowerShell Core 7.4.2
+* Java 11 Oracle Java et OpenJDK
++
+Java 11 Oracle Java et OpenJDK sont requis uniquement pour SAP HANA, IBM Db2, PostgreSQL, MySQL, les plug-ins pris en charge par NetApp et d'autres applications personnalisées qui peuvent être installées sur l'hôte Windows.
+
+
+
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+Pour obtenir des informations de dépannage spécifiques à .NET, consultez https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["La mise à niveau ou l’installation de SnapCenter échoue pour les systèmes hérités qui ne disposent pas de connectivité Internet."]
+
+|===

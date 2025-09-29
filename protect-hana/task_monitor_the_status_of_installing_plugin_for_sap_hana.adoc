@@ -1,0 +1,40 @@
+---
+permalink: protect-hana/task_monitor_the_status_of_installing_plugin_for_sap_hana.html 
+sidebar: sidebar 
+keywords: monitor, install, snapCenter plug-in for SAP HANA 
+summary: 'Vous pouvez surveiller la progression de l"installation du package de plug-in SnapCenter à l"aide de la page Tâches.  Vous souhaiterez peut-être vérifier la progression de l’installation pour déterminer quand elle est terminée ou s’il y a un problème.' 
+---
+= Surveiller l'état d'installation du plug-in pour SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez surveiller la progression de l'installation du package de plug-in SnapCenter à l'aide de la page Tâches.  Vous souhaiterez peut-être vérifier la progression de l’installation pour déterminer quand elle est terminée ou s’il y a un problème.
+
+.À propos de cette tâche
+Les icônes suivantes apparaissent sur la page Tâches et indiquent l’état de l’opération :
+
+* image:../media/progress_icon.gif["Icône en cours"]En cours
+* image:../media/success_icon.gif["Icône terminée"]Terminé avec succès
+* image:../media/failed_icon.gif["Icône d'échec"]Échoué
+* image:../media/warning_icon.gif["Terminé avec l'icône d'avertissement"]Terminé avec des avertissements ou n'a pas pu démarrer en raison d'avertissements
+* image:../media/verification_job_in_queue.gif["La tâche de vérification est en file d'attente"]En file d'attente
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Dans la page *Moniteur*, cliquez sur *Tâches*.
+. Dans la page *Tâches*, pour filtrer la liste afin que seules les opérations d'installation de plug-ins soient répertoriées, procédez comme suit :
++
+.. Cliquez sur *Filtre*.
+.. Facultatif : précisez la date de début et de fin.
+.. Dans le menu déroulant Type, sélectionnez *Installation du plug-in*.
+.. Dans le menu déroulant État, sélectionnez l’état de l’installation.
+.. Cliquez sur *Appliquer*.
+
+
+. Sélectionnez la tâche d’installation et cliquez sur *Détails* pour afficher les détails de la tâche.
+. Dans la page *Détails du travail*, cliquez sur *Afficher les journaux*.
+

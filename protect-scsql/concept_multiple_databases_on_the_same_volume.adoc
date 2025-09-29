@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_multiple_databases_on_the_same_volume.html 
+sidebar: sidebar 
+keywords: Multiple databases 
+summary: 'Vous pouvez placer toutes les bases de données sur le même volume, car la politique de sauvegarde dispose d"une option permettant de définir le nombre maximal de bases de données par sauvegarde (la valeur par défaut est 100).' 
+---
+= Plusieurs bases de données sur le même volume
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez placer toutes les bases de données sur le même volume, car la politique de sauvegarde dispose d'une option permettant de définir le nombre maximal de bases de données par sauvegarde (la valeur par défaut est 100).
+
+Par exemple, si vous avez 200 bases de données dans le même volume, deux instantanés sont créés avec 100 bases de données dans chacun des deux instantanés.

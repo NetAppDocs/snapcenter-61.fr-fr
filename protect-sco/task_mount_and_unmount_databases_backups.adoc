@@ -1,0 +1,102 @@
+---
+permalink: protect-sco/task_mount_and_unmount_databases_backups.html 
+sidebar: sidebar 
+keywords: mount, unmount, backup, ASM, asm_diskstring 
+summary: 'Vous pouvez monter une ou plusieurs sauvegardes de données et de journaux uniquement si vous souhaitez accéder aux fichiers de la sauvegarde.  Vous pouvez monter la sauvegarde sur le même hôte où la sauvegarde a été créée ou sur un hôte distant ayant le même type de configurations Oracle et hôte.  Si vous avez monté manuellement les sauvegardes, vous devez les démonter manuellement une fois l"opération terminée.  Vous ne pouvez monter la sauvegarde de la base de données qu"une seule fois sur un hôte pour une base de données spécifique.  Lors de l"exécution d"une opération, vous ne pouvez monter qu"une seule sauvegarde.' 
+---
+= Monter et démonter des sauvegardes de bases de données
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez monter une ou plusieurs sauvegardes de données et de journaux uniquement si vous souhaitez accéder aux fichiers de la sauvegarde.  Vous pouvez monter la sauvegarde sur le même hôte où la sauvegarde a été créée ou sur un hôte distant ayant le même type de configurations Oracle et hôte.  Si vous avez monté manuellement les sauvegardes, vous devez les démonter manuellement une fois l'opération terminée.  À tout moment, une sauvegarde d’une base de données peut être montée sur n’importe quel hôte.  Lors de l'exécution d'une opération, vous ne pouvez monter qu'une seule sauvegarde.
+
+
+NOTE: Dans une configuration Flex ASM, vous ne pouvez pas effectuer d'opération de montage sur les nœuds feuille si la cardinalité est inférieure au nombre de nœuds dans le cluster RAC.
+
+
+
+== Monter une sauvegarde de base de données
+
+Vous devez monter manuellement une sauvegarde de base de données si vous souhaitez accéder aux fichiers de la sauvegarde.
+
+*Ce dont vous aurez besoin*
+
+* Si vous disposez d'une instance de base de données Automatic Storage Management (ASM) dans un environnement NFS et que vous souhaitez monter les sauvegardes ASM, vous devez avoir ajouté le chemin d'accès au disque ASM _/var/opt/snapcenter/sco/backup_*/_*_/_*_/_*_/_*_ au chemin existant défini dans le paramètre asm_diskstring.
+* Si vous disposez d'une instance de base de données ASM dans un environnement NFS et que vous souhaitez monter les sauvegardes du journal ASM dans le cadre d'une opération de récupération, vous devez avoir ajouté le chemin d'accès au disque ASM _/var/opt/snapcenter/scu/clones/_*_/_*_ au chemin existant défini dans le paramètre asm_diskstring.
+* Dans le paramètre asm_diskstring, vous devez configurer _AFD:*_ si vous utilisez ASMFD ou configurer _ORCL:*_ si vous utilisez ASMLIB.
+
+
+
+NOTE: Pour plus d'informations sur la modification du paramètre asm_diskstring, voir https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["Comment ajouter des chemins de disque à asm_diskstring"^] .
+
+* Vous devez configurer les informations d'identification ASM et le port ASM s'ils diffèrent de ceux de l'hôte de la base de données source lors du montage de la sauvegarde.
+* Si vous souhaitez effectuer un montage sur un autre hôte, vous devez vérifier que l'autre hôte répond aux exigences suivantes :
++
+** Même UID et GID que ceux de l'hôte d'origine
+** Même version Oracle que celle de l'hôte d'origine
+** Même distribution et version du système d'exploitation que celles de l'hôte d'origine
+** Pour NVMe, l'utilitaire NVMe doit être installé
+
+
+* Vous devez vous assurer que le LUN n'est pas mappé à l'hôte AIX à l'aide d'iGroup composé de protocoles mixtes iSCSI et FC. Pour plus d'informations, consultez la section  https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["L'opération échoue avec l'erreur Impossible de détecter le périphérique pour le LUN"^] .
+
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste *Affichage*.
+. Sélectionnez la base de données soit à partir de la vue des détails de la base de données, soit à partir de la vue des détails du groupe de ressources.
++
+La page de topologie de la base de données s'affiche.
+
+. Dans la vue Gérer les copies, sélectionnez *Sauvegardes* à partir du système de stockage principal ou secondaire (en miroir ou répliqué).
+. Sélectionnez la sauvegarde dans le tableau, puis cliquez surimage:../media/mount_icon.gif["icône de monture"] .
+. Dans la page Monter les sauvegardes, sélectionnez l'hôte sur lequel vous souhaitez monter la sauvegarde dans la liste déroulante *Choisir l'hôte sur lequel monter la sauvegarde*.
++
+Le chemin de montage _/var/opt/snapcenter/sco/backup_mount/backup_name/database_name_ s'affiche.
+
++
+Si vous montez la sauvegarde d'une base de données ASM, le chemin de montage +diskgroupname_SID_backupid s'affiche.
+
+. Cliquez sur *Monter*.
+
+
+*Après avoir fini*
+
+* Vous pouvez exécuter la commande suivante pour récupérer les informations relatives à la sauvegarde montée :
++
+`./sccli Get-SmBackup -BackupName backup_name -ListMountInfo`
+
+* Si vous avez monté une base de données ASM, vous pouvez exécuter la commande suivante pour récupérer les informations liées à la sauvegarde montée :
++
+`./sccli Get-Smbackup -BackupNamediskgroupname_SID_backupid-listmountinfo`
+
+* Pour récupérer l’ID de sauvegarde, exécutez la commande suivante :
++
+`./sccli Get-Smbackup-BackupNamebackup_name`
+
++
+Les informations concernant les paramètres pouvant être utilisés avec la commande et leurs descriptions peuvent être obtenues en exécutant Get-Help _command_name_. Alternativement, vous pouvez également vous référer à la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guide de référence des commandes du logiciel SnapCenter"^] .
+
+
+
+
+
+== Démonter une sauvegarde de base de données
+
+Vous pouvez démonter manuellement une sauvegarde de base de données montée lorsque vous ne souhaitez plus accéder aux fichiers de la sauvegarde.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste *Affichage*.
+. Sélectionnez la base de données soit à partir de la vue des détails de la base de données, soit à partir de la vue des détails du groupe de ressources.
++
+La page de topologie de la base de données s'affiche.
+
+. Sélectionnez la sauvegarde montée, puis cliquez surimage:../media/unmount_icon.gif["icône de démontage"] .
+. Cliquez sur *OK*.
+

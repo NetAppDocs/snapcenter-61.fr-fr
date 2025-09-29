@@ -1,0 +1,24 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: 'Le plug-in SnapCenter pour Microsoft Windows est un composant côté hôte du logiciel NetApp SnapCenter qui permet la gestion de la protection des données basée sur les applications des ressources du système de fichiers Microsoft.  En outre, il fournit un provisionnement de stockage, une cohérence des snapshots et une récupération d"espace pour les systèmes de fichiers Windows.  Le plug-in pour Windows automatise les opérations de sauvegarde, de restauration et de clonage du système de fichiers dans votre environnement SnapCenter .' 
+---
+= Présentation du plug-in SnapCenter pour Microsoft Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in SnapCenter pour Microsoft Windows est un composant côté hôte du logiciel NetApp SnapCenter qui permet la gestion de la protection des données basée sur les applications des ressources du système de fichiers Microsoft.  En outre, il fournit un provisionnement de stockage, une cohérence des snapshots et une récupération d'espace pour les systèmes de fichiers Windows.  Le plug-in pour Windows automatise les opérations de sauvegarde, de restauration et de clonage du système de fichiers dans votre environnement SnapCenter .
+
+Une fois le plug-in pour Windows installé, vous pouvez utiliser SnapCenter avec la technologie NetApp SnapMirror pour créer des copies miroir de jeux de sauvegarde sur un autre volume et avec la technologie NetApp SnapVault pour effectuer une réplication de sauvegarde de disque à disque à des fins d'archivage ou de conformité aux normes.
+
+* Active la protection des données prenant en charge les applications pour d'autres plug-ins exécutés sur des hôtes Windows dans votre environnement SnapCenter
+* Automatise les opérations de sauvegarde, de restauration et de clonage prenant en charge les applications pour les systèmes de fichiers Microsoft dans votre environnement SnapCenter
+* Prend en charge le provisionnement du stockage, la cohérence des snapshots et la récupération d'espace pour les hôtes Windows
+
+
+
+NOTE: Le plug-in pour Windows provisionne les partages SMB et les systèmes de fichiers Windows sur les LUN physiques et RDM, mais ne prend pas en charge les opérations de sauvegarde pour les systèmes de fichiers Windows sur les partages SMB.

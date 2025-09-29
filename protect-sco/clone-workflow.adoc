@@ -1,0 +1,25 @@
+---
+permalink: protect-sco/clone-workflow.html 
+sidebar: sidebar 
+keywords: clone operation, clone, workflow 
+summary: Le flux de travail de clonage comprend la planification, l’exécution de l’opération de clonage et la surveillance de l’opération. 
+---
+= Cloner le flux de travail
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le flux de travail de clonage comprend la planification, l’exécution de l’opération de clonage et la surveillance de l’opération.
+
+Vous pouvez cloner des bases de données pour les raisons suivantes :
+
+* Tester les fonctionnalités qui doivent être implémentées à l'aide de la structure et du contenu actuels de la base de données au cours des cycles de développement d'applications.
+* Remplir les entrepôts de données à l'aide d'outils d'extraction et de manipulation de données.
+* Pour récupérer des données qui ont été supprimées ou modifiées par erreur.
+
+
+Le flux de travail suivant montre la séquence dans laquelle vous devez effectuer l'opération de clonage :
+
+image::../media/sco_scc_wfs_clone_workflow.gif[flux de travail de clonage]

@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_when_to_schedule_verification_jobs.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: 'Bien que SnapCenter puisse vérifier les sauvegardes immédiatement après leur création, cette opération peut augmenter considérablement le temps nécessaire pour terminer la tâche de sauvegarde et nécessite beaucoup de ressources.  Par conséquent, il est presque toujours préférable de planifier la vérification dans une tâche distincte pour une date ultérieure.  Par exemple, si vous sauvegardez une base de données à 17h00 tous les jours, vous pouvez planifier la vérification pour qu"elle ait lieu une heure plus tard, à 18h00.' 
+---
+= Quand planifier des tâches de vérification
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bien que SnapCenter puisse vérifier les sauvegardes immédiatement après leur création, cette opération peut augmenter considérablement le temps nécessaire pour terminer la tâche de sauvegarde et nécessite beaucoup de ressources.  Par conséquent, il est presque toujours préférable de planifier la vérification dans une tâche distincte pour une date ultérieure.  Par exemple, si vous sauvegardez une base de données à 17h00 tous les jours, vous pouvez planifier la vérification pour qu'elle ait lieu une heure plus tard, à 18h00.
+
+Pour la même raison, il n’est généralement pas nécessaire d’exécuter une vérification de sauvegarde à chaque fois que vous effectuez une sauvegarde.  Effectuer une vérification à intervalles réguliers mais moins fréquents est généralement suffisant pour garantir l’intégrité de la sauvegarde.  Une seule tâche de vérification peut vérifier plusieurs sauvegardes en même temps.

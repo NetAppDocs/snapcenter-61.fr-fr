@@ -1,0 +1,43 @@
+---
+permalink: protect-nsp/what_you_can_do_with_the_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins 
+summary: Vous pouvez utiliser les plug-ins pris en charge par NetApp pour les opérations de protection des données. 
+---
+= Ce que vous pouvez faire avec les plug-ins pris en charge par NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser les plug-ins pris en charge par NetApp tels que MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB et le plug-in de stockage pour les opérations de protection des données.
+
+* Ajoutez des ressources telles que des bases de données, des instances, des documents ou des tablespaces.
+* Créer des sauvegardes.
+* Restaurer à partir de sauvegardes.
+* Cloner des sauvegardes.
+* Planifier des opérations de sauvegarde.
+* Surveillez les opérations de sauvegarde, de restauration et de clonage.
+* Afficher les rapports sur les opérations de sauvegarde, de restauration et de clonage.
+
+
+Vous pouvez utiliser les plug-ins pris en charge par NetApp pour les opérations de protection des données.
+
+* Prenez des instantanés de groupe de cohérence des volumes de stockage sur les clusters ONTAP .
+* Sauvegardez des applications personnalisées à l'aide du framework de pré- et post-script intégré
++
+Vous pouvez sauvegarder un volume ONTAP , un LUN ou un Qtree.
+
+* Mettre à jour les instantanés pris sur le serveur principal vers un serveur secondaire ONTAP , en tirant parti de la relation de réplication existante (SnapVault/ SnapMirror/ réplication unifiée) à l'aide de la politique SnapCenter
++
+Les volumes primaires et secondaires ONTAP peuvent être ONTAP FAS, AFF, ASA, ONTAP Select ou Cloud Volumes ONTAP.
+
+* Récupérez le volume ONTAP complet, le LUN ou les fichiers.
++
+Vous devez fournir le chemin d'accès au fichier respectif manuellement, car les fonctionnalités de navigation ou d'indexation ne sont pas intégrées au produit.
+
++
+La restauration de Qtree ou de répertoire n'est pas prise en charge, mais vous pouvez cloner et exporter uniquement le Qtree si l'étendue de la sauvegarde est définie au niveau du Qtree.
+
+

@@ -1,0 +1,65 @@
+---
+permalink: protect-sco/discover-oracle-database.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: Comment SnapCenter découvre les bases de données Oracle. 
+---
+= Comment SnapCenter découvre les bases de données Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les ressources sont des bases de données Oracle sur l'hôte qui sont gérées par SnapCenter.  Vous pouvez ajouter ces bases de données à des groupes de ressources pour effectuer des opérations de protection des données après avoir découvert les bases de données disponibles.
+
+Les sections suivantes décrivent le processus utilisé par SnapCenter pour découvrir différents types et versions de bases de données Oracle.
+
+
+
+== Pour les versions Oracle 11__g__ à 12__c__R1
+
+.Base de données RAC
+Les bases de données RAC sont découvertes uniquement sur la base des entrées /etc/oratab`.  Vous devriez avoir les entrées de la base de données dans le fichier /etc/oratab.
+
+.Autonome
+Les bases de données autonomes sont découvertes uniquement sur la base des entrées /etc/oratab.
+
+.ASM
+L'entrée d'instance ASM doit être disponible dans le fichier /etc/oratab.
+
+.Nœud RAC One
+Les bases de données RAC One Node sont découvertes uniquement sur la base des entrées /etc/oratab.  Les bases de données doivent être dans un état nomount, mount ou open.  Vous devriez avoir les entrées de la base de données dans le fichier /etc/oratab.
+
+L'état de la base de données RAC One Node sera marqué comme renommé ou supprimé si la base de données est déjà découverte et que des sauvegardes sont associées à la base de données.
+
+Vous devez effectuer les étapes suivantes si la base de données est déplacée :
+
+. Ajoutez manuellement l’entrée de base de données déplacée dans le fichier /etc/oratab sur le nœud RAC basculé.
+. Actualisez manuellement les ressources.
+. Sélectionnez la base de données RAC One Node sur la page des ressources, puis cliquez sur Paramètres de la base de données.
+. Configurez la base de données pour définir les nœuds de cluster préférés sur le nœud RAC hébergeant actuellement la base de données.
+. Exécutez les opérations SnapCenter .
+. Si vous avez déplacé une base de données d'un nœud vers un autre et si l'entrée oratab du nœud précédent n'est pas supprimée, supprimez manuellement l'entrée oratab pour éviter que la même base de données ne soit affichée deux fois.
+
+
+
+
+== Pour les versions Oracle 12cR2 à 18c, 19c ou 21c
+
+.Base de données RAC
+Les bases de données RAC sont découvertes à l’aide de la commande srvctl config.  Vous devriez avoir les entrées de la base de données dans le fichier /etc/oratab.
+
+.Autonome
+Les bases de données autonomes sont découvertes en fonction des entrées du fichier /etc/oratab et de la sortie de la commande srvctl config.
+
+.ASM
+L'entrée d'instance ASM n'a pas besoin d'être dans le fichier /etc/oratab.
+
+.Nœud RAC One
+Les bases de données RAC One Node sont découvertes à l'aide de la commande srvctl config uniquement.  Les bases de données doivent être dans un état nomount, mount ou open.  L'état de la base de données RAC One Node sera marqué comme renommé ou supprimé si la base de données est déjà découverte et que des sauvegardes sont associées à la base de données.
+
+Vous devez effectuer les étapes suivantes si la base de données est déplacée : .  Actualisez manuellement les ressources. .  Sélectionnez la base de données RAC One Node sur la page des ressources, puis cliquez sur Paramètres de la base de données. .  Configurez la base de données pour définir les nœuds de cluster préférés sur le nœud RAC hébergeant actuellement la base de données. .  Exécutez les opérations SnapCenter .
+
+
+NOTE: S'il existe des entrées de base de données Oracle 12__c__R2 et 18__c__ dans le fichier /etc/oratab et que la même base de données est enregistrée avec la commande srvctl config, SnapCenter éliminera les entrées de base de données en double.  S'il y a des entrées de base de données obsolètes, la base de données sera découverte mais elle sera inaccessible et le statut sera hors ligne.

@@ -1,0 +1,159 @@
+---
+permalink: protect-postgresql/prerequisites-to-adding-hosts-and-installing-snapcenter-plug-in-for-postgresql.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 'Avant d"ajouter un hôte et d"installer les packages de plug-ins, vous devez remplir toutes les conditions requises.  Le plug-in SnapCenter pour PostgreSQL est disponible dans les environnements Windows et Linux.' 
+---
+= Conditions préalables pour ajouter des hôtes et installer le plug-in SnapCenter pour PostgreSQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d'ajouter un hôte et d'installer les packages de plug-ins, vous devez remplir toutes les conditions requises.  Le plug-in SnapCenter pour PostgreSQL est disponible dans les environnements Windows et Linux.
+
+* Vous devez avoir installé Java 11 sur votre hôte.
++
+
+NOTE: IBM Java n'est pas pris en charge sur les hôtes Windows et Linux.
+
+* Pour Windows, le service de création de plug-in doit être exécuté à l'aide de l'utilisateur Windows « LocalSystem », qui est le comportement par défaut lorsque le plug-in pour PostgreSQL est installé en tant qu'administrateur de domaine.
+* Lors de l'installation d'un plug-in sur un hôte Windows, si vous spécifiez des informations d'identification qui ne sont pas intégrées ou si l'utilisateur appartient à un utilisateur de groupe de travail local, vous devez désactiver l'UAC sur l'hôte.  Le plug-in SnapCenter pour Microsoft Windows sera déployé par défaut avec le plug-in PostgreSQL sur les hôtes Windows.
+* SnapCenter Server doit avoir accès au port 8145 ou au port personnalisé de l'hôte Plug-in pour PostgreSQL.
+
+
+
+
+== hôtes Windows
+
+* Vous devez disposer d’un utilisateur de domaine avec des privilèges d’administrateur local avec des autorisations de connexion locales sur l’hôte distant.
+* Lors de l'installation du plug-in pour PostgreSQL sur un hôte Windows, le plug-in SnapCenter pour Microsoft Windows est installé automatiquement.
+* Vous devez avoir activé la connexion SSH basée sur un mot de passe pour l'utilisateur root ou non root.
+* Vous devez avoir installé Java 11 sur votre hôte Windows.
++
+http://www.java.com/en/download/manual.jsp["Télécharger JAVA pour tous les systèmes d'exploitation"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121069;&solution=1259&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"]
+
+
+
+
+
+== Hôtes Linux
+
+* Vous devez avoir activé la connexion SSH basée sur un mot de passe pour l'utilisateur root ou non root.
+* Vous devez avoir installé Java 11 sur votre hôte Linux.
++
+http://www.java.com/en/download/manual.jsp["Télécharger JAVA pour tous les systèmes d'exploitation"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121069;&solution=1259&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"]
+
+* Pour les clusters PostgreSQL exécutés sur un hôte Linux, lors de l'installation du plug-in pour PostgreSQL, le plug-in SnapCenter pour UNIX est installé automatiquement.
+* Vous devriez avoir *bash* comme shell par défaut pour l'installation du plug-in.
+
+
+
+
+== Commandes supplémentaires
+
+Pour exécuter une commande supplémentaire sur le plug-in SnapCenter pour PostgreSQL, vous devez l'inclure dans le fichier _allowed_commands.config_.
+
+* Emplacement par défaut sur l'hôte Windows : _C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+* Emplacement par défaut sur l'hôte Linux : _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+Pour autoriser les commandes supplémentaires sur l'hôte du plug-in, ouvrez le fichier _allowed_commands.config_ dans un éditeur.  Saisissez chaque commande sur une ligne distincte et les commandes ne sont pas sensibles à la casse.  Assurez-vous de spécifier le chemin d'accès complet et de placer le chemin d'accès entre guillemets (") s'il contient des espaces.
+
+Par exemple:
+
+commande : mount commande : umount commande : "C:\Program Files\ NetApp\SnapCreator commands\sdcli.exe" commande : myscript.bat
+
+Si le fichier _allowed_commands.config_ n'est pas présent, l'exécution des commandes ou du script sera bloquée et le workflow échouera avec l'erreur suivante :
+
+"[/mnt/mount -a] exécution non autorisée.  Autoriser en ajoutant la commande dans le fichier %s sur l'hôte du plugin."
+
+Si la commande ou le script n'est pas présent dans _allowed_commands.config_, l'exécution de la commande ou du script sera bloquée et le workflow échouera avec l'erreur suivante :
+
+"[/mnt/mount -a] exécution non autorisée.  Autoriser en ajoutant la commande dans le fichier %s sur l'hôte du plugin."
+
+
+NOTE: Vous ne devez pas utiliser d'entrée générique (*) pour autoriser toutes les commandes.
+
+
+
+== Configurer les privilèges sudo pour les utilisateurs non root pour l'hôte Linux
+
+SnapCenter permet à un utilisateur non root d'installer le package de plug-ins SnapCenter pour Linux et de démarrer le processus de plug-in.  Les processus du plug-in s'exécuteront en tant qu'utilisateur non root effectif.  Vous devez configurer les privilèges sudo pour l'utilisateur non root afin de fournir l'accès à plusieurs chemins.
+
+*Ce dont vous aurez besoin*
+
+* Sudo version 1.8.7 ou ultérieure.
+* Si le masque est 0027, assurez-vous que le dossier Java et tous les fichiers qu'il contient doivent avoir l'autorisation 555.  Dans le cas contraire, l’installation du plug-in risque d’échouer.
+* Pour l'utilisateur non root, assurez-vous que le nom de l'utilisateur non root et le groupe de l'utilisateur doivent être identiques.
+* Modifiez le fichier _/etc/ssh/sshd_config_ pour configurer les algorithmes de code d'authentification des messages : MAC hmac-sha2-256 et MAC hmac-sha2-512.
++
+Redémarrez le service sshd après avoir mis à jour le fichier de configuration.
+
++
+Exemple:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*À propos de cette tâche*
+
+Vous devez configurer les privilèges sudo pour l'utilisateur non root afin de fournir l'accès aux chemins suivants :
+
+* /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /custom_location/ NetApp/snapcenter/spl/installation/plugins/uninstall
+* /emplacement_personnalisé/ NetApp/snapcenter/spl/bin/spl
+
+
+*Mesures*
+
+. Connectez-vous à l’hôte Linux sur lequel vous souhaitez installer le package de plug-ins SnapCenter pour Linux.
+. Ajoutez les lignes suivantes au fichier /etc/sudoers en utilisant l’utilitaire Linux visudo.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+_LINUX_USER_ est le nom de l'utilisateur non root que vous avez créé.
+
+
+
+Vous pouvez obtenir la _valeur de somme de contrôle_ à partir du fichier *sc_unix_plugins_checksum.txt*, qui se trouve à :
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt _ si SnapCenter Server est installé sur l'hôte Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt _ si SnapCenter Server est installé sur un hôte Linux.
+
+
+
+IMPORTANT: L'exemple doit être utilisé uniquement comme référence pour la création de vos propres données.

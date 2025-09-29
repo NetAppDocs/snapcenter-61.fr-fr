@@ -1,0 +1,109 @@
+---
+permalink: protect-scu/task_create_resource_groups_and_attach_policies_for_unix_file_systems.html 
+sidebar: sidebar 
+keywords: unix file systems, resource group, policy 
+summary: Un groupe de ressources est un conteneur dans lequel vous ajoutez les ressources que vous souhaitez sauvegarder et protéger. 
+---
+= Créer des groupes de ressources et attacher des politiques pour les systèmes de fichiers Unix
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est un conteneur dans lequel vous ajoutez les ressources que vous souhaitez sauvegarder et protéger.  Un groupe de ressources vous permet de sauvegarder toutes les données associées aux systèmes de fichiers.
+
+.À propos de cette tâche
+* Une base de données avec des fichiers dans des groupes de disques ASM doit être à l'état « MOUNT » ou « OPEN » pour vérifier ses sauvegardes à l'aide de l'utilitaire Oracle DBVERIFY.
++
+Attachez une ou plusieurs politiques au groupe de ressources pour définir le type de tâche de protection des données que vous souhaitez effectuer.
+
++
+L'image suivante illustre la relation entre les ressources, les groupes de ressources et les stratégies pour les bases de données :
+
++
+image::../media/sco_resourcegroup_policy.gif[stratégie de groupe de ressources]
+
+* Pour les stratégies activées par SnapLock , pour ONTAP 9.12.1 et les versions antérieures, si vous spécifiez une période de verrouillage des snapshots, les clones créés à partir des snapshots inviolables dans le cadre de la restauration hériteront du délai d'expiration de SnapLock . L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+* L'ajout de nouveaux systèmes de fichiers sans synchronisation active SnapMirror à un groupe de ressources existant contenant des ressources avec synchronisation active SnapMirror n'est pas pris en charge.
+* L'ajout de nouveaux systèmes de fichiers à un groupe de ressources existant en mode de basculement de SnapMirror Active Sync n'est pas pris en charge.  Vous pouvez ajouter des ressources au groupe de ressources uniquement dans un état normal ou de restauration automatique.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources* et le plug-in approprié dans la liste.
+. Dans la page Ressources, cliquez sur *Nouveau groupe de ressources*.
+. Dans la page Nom, effectuez les actions suivantes :
++
+.. Saisissez un nom pour le groupe de ressources dans le champ Nom.
++
+
+NOTE: Le nom du groupe de ressources ne doit pas dépasser 250 caractères.
+
+.. Saisissez une ou plusieurs étiquettes dans le champ Balise pour vous aider à rechercher le groupe de ressources ultérieurement.
++
+Par exemple, si vous ajoutez RH comme balise à plusieurs groupes de ressources, vous pouvez ultérieurement trouver tous les groupes de ressources associés à la balise RH.
+
+.. Cochez la case et entrez un format de nom personnalisé que vous souhaitez utiliser pour le nom de l’instantané.
++
+Par exemple, customtext_resource group_policy_hostname ou resource group_hostname.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+
+
+. Dans la page Ressources, sélectionnez un nom d’hôte de système de fichiers Unix dans la liste déroulante *Hôte*.
++
+
+NOTE: Les ressources sont répertoriées dans la section Ressources disponibles uniquement si la ressource est découverte avec succès.  Si vous avez récemment ajouté des ressources, elles apparaîtront dans la liste des ressources disponibles uniquement après avoir actualisé votre liste de ressources.
+
+. Sélectionnez les ressources dans la section Ressources disponibles et déplacez-les vers la section Ressources sélectionnées.
+. Dans la page Paramètres de l’application, procédez comme suit :
++
+** Sélectionnez la flèche Scripts et entrez les commandes pré et post pour les opérations de mise en veille, de capture instantanée et de rétablissement.  Vous pouvez également saisir les commandes préalables à exécuter avant de quitter en cas de panne.
+** Sélectionnez l’une des options de cohérence de sauvegarde :
++
+*** Sélectionnez *Cohérent avec le système de fichiers* si vous souhaitez vous assurer que les données mises en cache des systèmes de fichiers sont vidées avant de créer la sauvegarde et qu'aucune opération d'entrée ou de sortie n'est autorisée sur le système de fichiers lors de la création de la sauvegarde.
++
+
+NOTE: Pour la cohérence du système de fichiers, des instantanés de groupe de cohérence seront pris pour les LUN impliqués dans le groupe de volumes.
+
+*** Sélectionnez *Crash Consistent* si vous souhaitez vous assurer que les données mises en cache des systèmes de fichiers sont vidées avant de créer la sauvegarde.
++
+
+NOTE: Si vous avez ajouté différents systèmes de fichiers dans le groupe de ressources, tous les volumes des différents systèmes de fichiers du groupe de ressources seront placés dans un groupe de cohérence.
+
+
+
+
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+
+NOTE: Vous pouvez également créer une politique en cliquant surimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] .
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer une planification.
+.. Dans la fenêtre Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis cliquez sur *OK*.
++
+Où, _policy_name_ est le nom de la politique que vous avez sélectionnée.
+
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
++
+Les planifications de sauvegarde tierces ne sont pas prises en charge lorsqu'elles chevauchent les planifications de sauvegarde SnapCenter .
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  Si vous souhaitez joindre le rapport de l'opération effectuée sur le groupe de ressources, sélectionnez *Joindre le rapport de travail*.
+
++
+
+NOTE: Pour la notification par e-mail, vous devez avoir spécifié les détails du serveur SMTP à l’aide de l’interface graphique ou de la commande PowerShell Set-SmSmtpServer.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+

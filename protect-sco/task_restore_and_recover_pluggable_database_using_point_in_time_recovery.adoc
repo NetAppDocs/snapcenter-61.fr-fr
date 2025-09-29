@@ -1,0 +1,130 @@
+---
+permalink: protect-sco/task_restore_and_recover_pluggable_database_using_point_in_time_recovery.html 
+sidebar: sidebar 
+keywords: PDB, pluggable database, restore, CDB, PITR, point-in-time recovery, RMAN 
+summary: 'Vous pouvez restaurer et récupérer une base de données enfichable (PDB) qui a été corrompue ou supprimée sans impacter les autres PDB de la base de données conteneur (CDB).  SnapCenter utilise RMAN pour effectuer une récupération ponctuelle (PITR) du PDB.' 
+---
+= Restaurer et récupérer une base de données enfichable à l'aide de la récupération à un instant T
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez restaurer et récupérer une base de données enfichable (PDB) qui a été corrompue ou supprimée sans impacter les autres PDB de la base de données conteneur (CDB).  SnapCenter utilise RMAN pour effectuer une récupération ponctuelle (PITR) du PDB.
+
+*Avant de commencer*
+
+* Les sauvegardes nécessaires à l'exécution du PITR d'un PDB doivent être cataloguées et montées.
++
+
+NOTE: Dans une configuration RAC, vous devez fermer manuellement le PDB (en changeant l'état en MONTÉ) sur tous les nœuds de la configuration RAC.
+
+* Si vous avez installé le plug-in en tant qu'utilisateur non root, vous devez attribuer manuellement les autorisations d'exécution aux répertoires prescript et postscript.
+
+
+*À propos de cette tâche*
+
+Pendant l’opération PITR, RMAN crée une instance auxiliaire à la destination auxiliaire spécifiée.  La destination auxiliaire peut être un point de montage ou un groupe de disques ASM.  S'il y a suffisamment d'espace dans l'emplacement monté, vous pouvez réutiliser l'un des emplacements montés au lieu d'un point de montage dédié.
+
+Vous devez spécifier la date et l'heure ou le SCN pour effectuer le PITR du PDB.  RMAN peut récupérer des PDB en LECTURE/ÉCRITURE, en LECTURE SEULE ou supprimés, y compris des fichiers de données.
+
+Vous pouvez restaurer et récupérer uniquement :
+
+* un PDB à la fois
+* un tablespace dans un PDB
+* plusieurs tablespaces du même PDB
+
+
+
+NOTE: Dans une configuration RAC, vous pouvez effectuer un PITR d'espaces table à partir de n'importe quel nœud du RAC.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste *Affichage*.
+. Sélectionnez la base de données de type instance unique (multilocataire) à partir de la vue des détails de la base de données ou de la vue des détails du groupe de ressources.
++
+La page de topologie de la base de données s'affiche.
+
+. Dans la vue Gérer les copies, sélectionnez *Sauvegardes* à partir du système de stockage principal ou secondaire (en miroir ou répliqué).
++
+Si la sauvegarde n'est pas cataloguée, vous devez sélectionner la sauvegarde et cliquer sur *Catalogue*.
+
+. Sélectionnez la sauvegarde cataloguée, puis cliquez sur *image:../media/restore_icon.gif["icône de restauration"] *.
+. Dans la page Restaurer l’étendue, effectuez les tâches suivantes :
++
+.. Si vous avez sélectionné une sauvegarde d'une base de données dans un environnement Real Application Clusters (RAC), sélectionnez le nœud RAC.
+.. Selon que vous souhaitez restaurer la PDB ou les tablespaces d'une PDB, effectuez l'une des actions suivantes :
++
+|===
+
+
+| Si vous voulez... | Mesures... 
+
+
+ a| 
+Restaurer un PDB
+ a| 
+... Sélectionnez *Bases de données enfichables (PDB)*.
+... Spécifiez le PDB que vous souhaitez restaurer.
++
+
+NOTE: Vous ne pouvez pas effectuer PITR sur la base de données PDB$SEED.
+
+
+
+
+
+ a| 
+Restaurer les tablespaces dans un PDB
+ a| 
+... Sélectionnez *Espaces table de base de données enfichables (PDB)*.
+... Spécifiez le PDB.
+... Spécifiez un seul espace table ou plusieurs espaces table que vous souhaitez restaurer.
++
+
+NOTE: Vous ne pouvez pas exécuter PITR sur les espaces table SYSAUX, SYSTEM et UNDO.
+
+
+
+|===
+.. Sélectionnez *Modifier l'état de la base de données si nécessaire pour la restauration et la récupération* pour modifier l'état de la base de données à l'état requis pour effectuer les opérations de restauration et de récupération.
+
+
+. Dans la page Étendue de la récupération, effectuez l’une des actions suivantes :
++
+** Si vous souhaitez récupérer un numéro de modification système (SCN) spécifique, sélectionnez *Jusqu'au SCN* et spécifiez le SCN et la destination auxiliaire.
+** Si vous souhaitez récupérer à une date et une heure spécifiques, sélectionnez *Date et heure* et spécifiez la date et l'heure ainsi que la destination auxiliaire.
++
+SnapCenter identifie, puis monte et catalogue le nombre optimal de sauvegardes de données et de journaux nécessaires pour effectuer le PITR en fonction du SCN spécifié ou de la date et de l'heure sélectionnées.
+
+
+
+. Dans la page PreOps, entrez le chemin et les arguments du prescript que vous souhaitez exécuter avant l’opération de restauration.
++
+Vous devez stocker les scripts soit dans le chemin /var/opt/snapcenter/spl/scripts, soit dans n'importe quel dossier à l'intérieur de ce chemin.  Par défaut, le chemin /var/opt/snapcenter/spl/scripts est renseigné.  Si vous avez créé des dossiers dans ce chemin pour stocker les scripts, vous devez spécifier ces dossiers dans le chemin.
+
++
+Vous pouvez également spécifier la valeur du délai d’expiration du script. La valeur par défaut est de 60 secondes.
+
++
+SnapCenter vous permet d'utiliser les variables d'environnement prédéfinies lorsque vous exécutez le prescript et le postscript.link:../protect-sco/predefined-environment-variables-prescript-postscript-restore.html["Apprendre encore plus"^]
+
+. Dans la page PostOps, effectuez les étapes suivantes :
++
+.. Entrez le chemin et les arguments du postscript que vous souhaitez exécuter après l'opération de restauration.
++
+
+NOTE: Si l'opération de restauration échoue, les postscripts ne seront pas exécutés et les activités de nettoyage seront déclenchées directement.
+
+.. Cochez la case si vous souhaitez ouvrir la base de données après la récupération.
++
+Dans une configuration RAC, le PDB sera ouvert uniquement sur le nœud où la base de données a été récupérée.  Vous devez ouvrir manuellement le PDB récupéré sur tous les autres nœuds de la configuration RAC.
+
+
+
+. Sur la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les notifications par courrier électronique.
+. Consultez le résumé, puis cliquez sur *Terminer*.
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

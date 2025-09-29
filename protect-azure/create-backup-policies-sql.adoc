@@ -1,0 +1,71 @@
+---
+permalink: protect-azure/create-backup-policies-sql.html 
+sidebar: sidebar 
+keywords: create policies, sql, backup policies 
+summary: Créez une politique de sauvegarde pour la ressource ou le groupe de ressources que vous souhaitez sauvegarder. 
+---
+= Créer des politiques de sauvegarde pour les bases de données SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez créer une stratégie de sauvegarde pour la ressource ou le groupe de ressources avant d'utiliser SnapCenter pour sauvegarder les ressources SQL Server, ou vous pouvez créer une stratégie de sauvegarde au moment où vous créez un groupe de ressources ou sauvegardez une ressource unique.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Politiques*.
+. Cliquez sur *Nouveau*.
+. Dans la page Nom, saisissez le nom et la description de la politique.
+. Dans la page Type de politique, procédez comme suit :
++
+.. Sélectionnez * Azure NetApp Files* comme type de stockage.
+.. Sélectionnez le type de sauvegarde.
++
+... Sélectionnez *Sauvegarde complète et sauvegarde du journal* si vous souhaitez sauvegarder les fichiers de base de données et les journaux de transactions.
+... Sélectionnez *Sauvegarde complète* si vous souhaitez sauvegarder uniquement les fichiers de base de données.
+... Sélectionnez *Sauvegarde du journal* si vous souhaitez sauvegarder uniquement les journaux de transactions.
+... Sélectionnez *Copier uniquement la sauvegarde* si vous souhaitez sauvegarder vos ressources à l'aide d'une autre application.
+
+
+.. Dans la section Paramètres du groupe de disponibilité, effectuez les actions suivantes :
++
+... Sélectionnez Sauvegarder sur la réplique de sauvegarde préférée si vous souhaitez sauvegarder uniquement sur la réplique.
+... Sélectionnez la réplique AG principale ou la réplique AG secondaire pour la sauvegarde.
+... Sélectionnez la priorité de sauvegarde.
+
+
+
+
+. Dans la page Instantané et sauvegarde, effectuez les étapes suivantes :
++
+.. Sélectionnez la fréquence de la sauvegarde planifiée.
+.. Spécifiez les paramètres de conservation en fonction du type de sauvegarde sélectionné.
+.. Si vous souhaitez activer la sauvegarde Azure NetApp Files , sélectionnez *Activer la sauvegarde* et spécifiez les paramètres de conservation.
+
+
+. Dans la page de vérification, effectuez les étapes suivantes :
++
+.. Dans la section Exécuter la vérification pour les planifications de sauvegarde suivantes, sélectionnez la fréquence de planification.
+.. Dans la section Options de vérification de la cohérence de la base de données, effectuez les actions suivantes :
++
+... Sélectionnez *Limiter la structure d'intégrité à la structure physique de la base de données (PHYSICAL_ONLY)* pour limiter le contrôle d'intégrité à la structure physique de la base de données et pour détecter les pages déchirées, les échecs de somme de contrôle et les pannes matérielles courantes qui ont un impact sur la base de données.
+... Sélectionnez *Supprimer tous les messages d'information (NO_INFOMSGS)* pour supprimer tous les messages d'information.
++
+Sélectionné par défaut.
+
+... Sélectionnez *Afficher tous les messages d’erreur signalés par objet (ALL_ERRORMSGS)* pour afficher toutes les erreurs signalées par objet.
+... Sélectionnez *Ne pas vérifier les index non clusterisés (NOINDEX)* si vous ne souhaitez pas vérifier les index non clusterisés.
++
+La base de données SQL Server utilise Microsoft SQL Server Database Consistency Checker (DBCC) pour vérifier l'intégrité logique et physique des objets de la base de données.
+
+... Sélectionnez *Limiter les vérifications et obtenir les verrous au lieu d'utiliser une copie instantanée de base de données interne (TABLOCK)* pour limiter les vérifications et obtenir les verrous au lieu d'utiliser une copie instantanée de base de données interne.
+
+
+.. Dans la section *Sauvegarde du journal*, sélectionnez *Vérifier la sauvegarde du journal une fois terminée* pour vérifier la sauvegarde du journal une fois terminée.
+.. Dans la section *Paramètres du script de vérification*, entrez le chemin et les arguments du prescript ou du postscript qui doivent être exécutés respectivement avant ou après l'opération de vérification.
+
+
+. Consultez le résumé et cliquez sur *Terminer*.
+

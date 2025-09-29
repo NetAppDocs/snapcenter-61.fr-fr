@@ -1,0 +1,258 @@
+---
+permalink: admin/concept_overview_of_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: 'Depuis le volet de navigation gauche de SnapCenter , le tableau de bord vous donne un premier aperçu de l"état de votre système, y compris l"activité des tâches récentes, les alertes, le résumé de la protection, l"efficacité et l"utilisation du stockage, l"état des tâches SnapCenter (Sauvegarde, Clonage, Restauration), l"état de configuration des hôtes de cluster autonomes et Windows, le nombre de machines virtuelles de stockage (SVM) gérées par SnapCenter et la capacité de la licence.' 
+---
+= Aperçu du tableau de bord
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Depuis le volet de navigation gauche de SnapCenter , le tableau de bord vous donne un premier aperçu de l'état de votre système, y compris l'activité des tâches récentes, les alertes, le résumé de la protection, l'efficacité et l'utilisation du stockage, l'état des tâches SnapCenter (sauvegarde, clonage, restauration), l'état de configuration des hôtes de cluster autonomes et Windows, le nombre de machines virtuelles de stockage (SVM) gérées par SnapCenter et la capacité de la licence.
+
+Les informations affichées dans la vue Tableau de bord dépendent du rôle attribué à l'utilisateur actuellement connecté à SnapCenter.  Certains contenus peuvent ne pas être affichés si l'utilisateur n'a pas l'autorisation de consulter ces informations.
+
+Dans de nombreux cas, vous pouvez afficher plus d'informations sur un écran en survolant *i*.  Dans certains cas, les informations affichées dans le tableau de bord sont liées à des informations sources détaillées dans les pages de l'interface utilisateur graphique SnapCenter , telles que Ressources, Surveiller et Rapports.
+
+
+
+== Activités professionnelles récentes
+
+La mosaïque Activités de travail récentes affiche la dernière activité de travail de toutes les tâches de sauvegarde, de restauration et de clonage auxquelles vous avez accès.  Les tâches dans cet affichage ont l'un des états suivants : Terminé, Avertissement, Échec, En cours d'exécution, En file d'attente et Annulé.
+
+Survoler une tâche fournit plus d'informations.  Vous pouvez afficher des informations supplémentaires sur un travail en cliquant sur un numéro de travail spécifique, ce qui vous redirige vers la page Monitor.  À partir de là, vous pouvez obtenir les détails du travail ou les informations du journal et générer un rapport spécifique à ce travail.
+
+Cliquez sur *Voir tout* pour afficher un historique de toutes les tâches SnapCenter .
+
+
+
+== Alertes
+
+La mosaïque Alertes affiche les dernières alertes critiques et d'avertissement non résolues pour les hôtes et SnapCenter Server.
+
+Le nombre total d'alertes de catégorie Critique et Avertissement est affiché en haut de l'écran.  Cliquer sur les totaux critiques ou d'avertissement vous redirige vers la page Alertes avec le filtre spécifique appliqué dans la page Alertes.
+
+Cliquer sur une alerte spécifique vous redirige vers la page Alertes pour plus de détails sur cette alerte.  En cliquant sur *Voir tout* en bas de l'écran, vous êtes redirigé vers la page Alertes pour obtenir une liste de toutes les alertes.
+
+
+
+== Dernier résumé de protection
+
+La mosaïque Résumé de la dernière protection vous donne l'état de protection de toutes les entités auxquelles vous avez accès.  Par défaut, l'affichage est configuré pour fournir l'état de tous les plug-ins.  Des informations sur l'état sont fournies pour les ressources sauvegardées sur le stockage principal sous forme d'instantanés et sur le stockage secondaire à l'aide des technologies SnapMirror et SnapVault .  La disponibilité des informations sur l'état de protection pour le stockage secondaire est basée sur le type de plug-in sélectionné.
+
+
+NOTE: Si vous utilisez une stratégie de protection de coffre-fort miroir, les compteurs du résumé de protection s'affichent dans le graphique récapitulatif SnapVault et non dans le graphique SnapMirror .
+
+L'état de protection des plug-ins individuels est disponible en sélectionnant un plug-in dans le menu déroulant.  Un graphique en anneau affiche le pourcentage de ressources protégées pour le plug-in sélectionné. Cliquer sur un anneau vous redirige vers la page *Rapports* > *Plug-in*, qui fournit un rapport détaillé de l'activité de stockage primaire et secondaire du plug-in spécifié.
+
+
+IMPORTANT: Les rapports sur le stockage secondaire s'appliquent uniquement à SnapVault ; les rapports SnapMirror ne sont pas pris en charge.
+
+
+NOTE: SAP HANA fournit des informations sur l'état de protection du stockage principal et secondaire pour les instantanés.  Seul l'état de protection du stockage principal est disponible pour les sauvegardes basées sur des fichiers.
+
+|===
+| Statut de protection | Stockage primaire | Stockage secondaire 
+
+
+ a| 
+Échec
+ a| 
+Nombre d'entités qui font partie d'un groupe de ressources, où le groupe de ressources a exécuté une sauvegarde, mais la sauvegarde a échoué.
+ a| 
+Nombre d'entités avec des sauvegardes qui n'ont pas pu être transférées vers une destination secondaire.
+
+
+
+ a| 
+Réussi
+ a| 
+Nombre d'entités dans un groupe de ressources, où le groupe de ressources a été sauvegardé avec succès.
+ a| 
+Nombre d'entités avec des sauvegardes qui ont été transférées avec succès vers une destination secondaire.
+
+
+
+ a| 
+Non configuré
+ a| 
+Nombre d'entités qui ne font partie d'aucun groupe de ressources et qui n'ont pas été sauvegardées.
+ a| 
+Nombre d'entités faisant partie d'un ou de plusieurs groupes de ressources qui ne sont pas configurés pour que les sauvegardes soient transférées vers une destination secondaire.
+
+
+
+ a| 
+Non initié
+ a| 
+Nombre d'entités qui font partie d'un groupe de ressources, mais aucune sauvegarde n'a été exécutée.
+ a| 
+Non applicable.
+
+|===
+
+NOTE: Si vous utilisez SnapCenter Server 4.2 et une version antérieure du plug-in (antérieure à 4.2) pour créer des sauvegardes, la mosaïque *Résumé de la dernière protection* n'affiche pas l'état de protection SnapMirror de ces sauvegardes.
+
+
+
+== Emplois
+
+La mosaïque Tâches vous fournit un résumé des tâches de sauvegarde, de restauration et de clonage auxquelles vous avez accès.  Vous pouvez personnaliser la période de n’importe quel rapport en utilisant le menu déroulant.  Les options de délai sont fixées aux dernières 24 heures, aux 7 derniers jours et aux 30 derniers jours.  Le rapport par défaut affiche les tâches de protection des données exécutées au cours des 7 derniers jours.
+
+Les informations sur les tâches de sauvegarde, de restauration et de clonage sont affichées dans des graphiques en anneau.  Cliquer sur une tranche de beignet vous redirige vers la page Moniteur avec des filtres de travail pré-appliqués à la sélection.
+
+|===
+| Statut de l'emploi | Description 
+
+
+ a| 
+Échec
+ a| 
+Nombre de tâches ayant échoué.
+
+
+
+ a| 
+Avertissement
+ a| 
+Nombre de tâches ayant rencontré une erreur.
+
+
+
+ a| 
+Réussi
+ a| 
+Nombre de tâches terminées avec succès.
+
+
+
+ a| 
+Exécution
+ a| 
+Nombre de tâches en cours d'exécution.
+
+|===
+
+
+== Stockage
+
+La mosaïque Stockage affiche le stockage principal et secondaire consommé par les tâches de protection sur une période de 90 jours, représente graphiquement les tendances de consommation et calcule les économies de stockage principal.  Les informations de stockage sont mises à jour une fois toutes les 24 heures à minuit
+
+Le total de consommation de la journée, qui comprend le nombre total de sauvegardes disponibles dans SnapCenter et la taille occupée par ces sauvegardes, sera affiché en haut de l'écran.  Une sauvegarde peut avoir plusieurs instantanés associés et le nombre reflétera la même chose.  Ceci s’applique aux instantanés primaires et secondaires.  Par exemple, vous avez créé 10 sauvegardes, dont 2 sont supprimées en raison de la conservation des sauvegardes basée sur une politique et 1 sauvegarde est explicitement supprimée par vous.  Ainsi, un décompte de 7 sauvegardes sera affiché ainsi que la taille occupée par ces 7 sauvegardes.
+
+Le facteur d'économies de stockage pour le stockage principal est le rapport entre la capacité logique (économies de clones et d'instantanés plus stockage consommé) et la capacité physique du stockage principal.  Un graphique à barres illustre les économies de stockage.
+
+Le graphique linéaire trace séparément la consommation de stockage primaire et secondaire au jour le jour sur une période glissante de 90 jours.  Survoler les graphiques permet d'obtenir des résultats détaillés jour par jour.
+
+
+NOTE: Si vous utilisez SnapCenter Server 4.2 et une version antérieure du plug-in (antérieure à 4.2) pour créer des sauvegardes, la mosaïque *Stockage* n'affiche pas le nombre de sauvegardes, le stockage consommé par ces sauvegardes, les économies de snapshot, les économies de clone et la taille du snapshot.
+
+
+
+== Configuration
+
+La mosaïque Configuration fournit des informations d'état consolidées pour tous les hôtes de cluster Windows et autonomes actifs que SnapCenter gère et auxquels vous avez accès.  Cela inclut les informations sur l’état du plug-in associées à ces hôtes.
+
+Cliquer sur le numéro adjacent à Hôtes vous redirige vers la section Hôtes gérés dans la page Hôtes.  À partir de là, vous pouvez obtenir des informations détaillées sur un hôte sélectionné.
+
+De plus, cet affichage affiche la somme des SVM ONTAP autonomes et des SVM ONTAP de cluster que SnapCenter gère et auxquels vous avez accès.  Cliquer sur le numéro adjacent à SVM vous redirige vers la page Systèmes de stockage.  À partir de là, vous pouvez obtenir des informations détaillées sur un SVM sélectionné.
+
+L'état de configuration de l'hôte est présenté en rouge (critique), jaune (avertissement) et vert (actif), ainsi que le nombre d'hôtes dans chaque état.  Des messages d’état sont fournis pour chaque état.
+
+|===
+| État de la configuration | Description 
+
+
+ a| 
+Mise à niveau obligatoire
+ a| 
+Nombre d'hôtes qui exécutent des plug-ins non pris en charge et nécessitent une mise à niveau.  Un plug-in non pris en charge n'est pas compatible avec cette version de SnapCenter.
+
+
+
+ a| 
+Migration obligatoire
+ a| 
+Nombre d'hôtes qui exécutent des plug-ins non pris en charge et nécessitent une migration.  Un plug-in non pris en charge n'est pas compatible avec cette version de SnapCenter.
+
+
+
+ a| 
+Aucun plug-in installé
+ a| 
+Nombre d'hôtes ajoutés avec succès mais dont les plug-ins doivent être installés ou dont l'installation a échoué.
+
+
+
+ a| 
+Suspendu
+ a| 
+Nombre d'hôtes dont les plannings sont suspendus et sont en maintenance.
+
+
+
+ a| 
+Arrêté
+ a| 
+Nombre d'hôtes qui sont opérationnels, mais les services du plug-in ne fonctionnent pas.
+
+
+
+ a| 
+Hôte en panne
+ a| 
+Nombre d'hôtes en panne ou inaccessibles.
+
+
+
+ a| 
+Mise à niveau disponible (en option)
+ a| 
+Nombre d'hôtes sur lesquels une version plus récente du package de plug-in est disponible pour la mise à niveau.
+
+
+
+ a| 
+Migration disponible (en option)
+ a| 
+Nombre d'hôtes sur lesquels une version plus récente du plug-in est disponible pour la migration.
+
+
+
+ a| 
+Configurer le répertoire des journaux
+ a| 
+Nombre d'hôtes où le répertoire de journaux doit être configuré pour que SCSQL effectue une sauvegarde du journal des transactions.
+
+
+
+ a| 
+Configurer les plug-ins VMware
+ a| 
+Nombre d'hôtes sur lesquels le SnapCenter Plug-in for VMware vSphere doit être ajouté.
+
+
+
+ a| 
+Inconnu
+ a| 
+Nombre d'hôtes qui ont été enregistrés mais dont l'installation n'est pas encore déclenchée.
+
+
+
+ a| 
+Exécution
+ a| 
+Nombre d'hôtes opérationnels et de plug-ins en cours d'exécution.  Et dans le cas des plug-ins SCSQL, le répertoire des journaux et l'hyperviseur sont configurés.
+
+
+
+ a| 
+Installation/Désinstallation des plug-ins
+ a| 
+Nombre d'hôtes sur lesquels l'installation ou la désinstallation du plug-in est en cours.
+
+|===

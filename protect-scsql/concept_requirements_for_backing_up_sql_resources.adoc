@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_requirements_for_backing_up_sql_resources.html 
+sidebar: sidebar 
+keywords: Requirements 
+summary: Avant de sauvegarder une ressource SQL, vous devez vous assurer que plusieurs exigences sont remplies. 
+---
+= Conditions requises pour la sauvegarde des ressources SQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant de sauvegarder une ressource SQL, vous devez vous assurer que plusieurs exigences sont remplies.
+
+* Vous devez avoir migré une ressource d'un système de stockage non NetApp vers un système de stockage NetApp .
+* Vous devez avoir créé une politique de sauvegarde.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle ONTAP attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+* L'opération de sauvegarde initiée par un utilisateur Active Directory (AD) échoue si les informations d'identification de l'instance SQL ne sont pas attribuées à l'utilisateur ou au groupe AD.  Vous devez attribuer les informations d'identification de l'instance SQL à l'utilisateur ou au groupe AD à partir de la page *Paramètres* > *Accès utilisateur*.
+* Vous devez avoir créé un groupe de ressources avec une politique associée.
+* Si un groupe de ressources possède plusieurs bases de données provenant d’hôtes différents, l’opération de sauvegarde sur certains hôtes peut être déclenchée tardivement en raison de problèmes de réseau.  Vous devez configurer la valeur de FMaxRetryForUninitializedHosts dans web.config à l’aide de l’applet de commande PS Set-SmConfigSettings.
+

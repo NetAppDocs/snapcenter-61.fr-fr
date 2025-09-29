@@ -1,0 +1,116 @@
+---
+permalink: protect-postgresql/restore-and-recover-an-auto-discovered-cluster-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: Vous pouvez utiliser SnapCenter pour restaurer et récupérer des données à partir d’une ou plusieurs sauvegardes. 
+---
+= Restaurer et récupérer une sauvegarde de cluster découverte automatiquement
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour restaurer et récupérer des données à partir d’une ou plusieurs sauvegardes.
+
+.Avant de commencer
+* Vous devez avoir sauvegardé la ressource ou les groupes de ressources.
+* Vous devez avoir annulé toute opération de sauvegarde actuellement en cours pour la ressource ou le groupe de ressources que vous souhaitez restaurer.
+* Pour les commandes de pré-restauration, de post-restauration, de montage et de démontage, vous devez vérifier si les commandes existent dans la liste de commandes disponible sur l'hôte du plug-in à partir des chemins suivants :
++
+** Emplacement par défaut sur l'hôte Windows : _C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Emplacement par défaut sur l'hôte Linux : _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Si les commandes n'existent pas dans la liste des commandes, l'opération échouera.
+
+.À propos de cette tâche
+* Les copies de sauvegarde basées sur des fichiers ne peuvent pas être restaurées à partir de SnapCenter.
+* Pour les ressources découvertes automatiquement, la restauration est prise en charge avec SFSR.
+* La récupération automatique n'est pas prise en charge.
+* Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des snapshots SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, filtrez les ressources de la liste déroulante *Afficher* en fonction du type de ressource.
++
+Les ressources sont affichées avec le type, l'hôte, les groupes de ressources et les politiques associés, ainsi que l'état.
+
++
+
+NOTE: Bien qu'une sauvegarde puisse concerner un groupe de ressources, lors de la restauration, vous devez sélectionner les ressources individuelles que vous souhaitez restaurer.
+
++
+Si la ressource n'est pas protégée, « Non protégé » s'affiche dans la colonne État général.  Cela peut signifier soit que la ressource n'est pas protégée, soit que la ressource a été sauvegardée par un autre utilisateur.
+
+. Sélectionnez la ressource ou sélectionnez un groupe de ressources, puis sélectionnez une ressource dans ce groupe.
++
+La page de topologie des ressources s'affiche.
+
+. Dans la vue Gérer les copies, sélectionnez *Sauvegardes* à partir des systèmes de stockage principal ou secondaire (en miroir ou en coffre).
+. Dans le tableau Sauvegarde(s) principale(s), sélectionnez la sauvegarde à partir de laquelle vous souhaitez effectuer la restauration, puis cliquez sur *image:../media/restore_icon.gif["icône de restauration"] *.
++
+image::../media/restoring_resource.gif[restaurer les ressources]
+
+. Dans la page Restaurer l’étendue, sélectionnez *Ressource complète* pour restaurer les volumes de données configurés du cluster PostgreSQL.
+. Dans la page Étendue de la récupération, sélectionnez l’une des options suivantes :
++
+|===
+
+
+| Si tu... | Fais ceci... 
+
+
+ a| 
+Vous souhaitez récupérer au plus près de l'heure actuelle
+ a| 
+Sélectionnez *Récupérer à l'état le plus récent*.  Pour les ressources de conteneur unique, spécifiez un ou plusieurs emplacements de sauvegarde de journaux et de catalogues.
+
+
+
+ a| 
+Vous souhaitez récupérer jusqu'au moment spécifié
+ a| 
+Sélectionnez *Récupérer jusqu'à un moment précis*.
+
+.. Entrez la date et l'heure.  Entrez la date et l'heure.  Par exemple, l'hôte Linux PostgreSQL est situé à Sunnyvale, en Californie, et l'utilisateur à Raleigh, en Caroline du Nord, récupère les journaux dans SnapCenter.
++
+Si l'utilisateur souhaite effectuer une récupération à 5 heures du matin à Sunnyvale, en Californie, il doit définir le fuseau horaire du navigateur sur le fuseau horaire de l'hôte Linux PostgreSQL, qui est GMT-07:00 et spécifier la date et l'heure à 5h00 du matin.
+
+
+
+
+
+ a| 
+Je ne veux pas récupérer
+ a| 
+Sélectionnez *Aucune récupération*.
+
+|===
+
+
+
+NOTE: Vous ne pouvez pas récupérer les ressources PostgreSQL ajoutées manuellement.
+
+
+NOTE: Le plug-in SnapCenter pour PostgreSQL crée un backup_label et un tablespace_map dans le dossier _/<OS_temp_folder>/postgresql_sc_recovery_<Restore_JobId>/_ pour faciliter la récupération manuelle.
+
+. Dans la page Pré-opérations, saisissez les commandes de pré-restauration et de démontage à exécuter avant d’effectuer une tâche de restauration.
++
+Les commandes de démontage ne sont pas disponibles pour les ressources découvertes automatiquement.
+
+. Dans la page Post-opérations, saisissez les commandes mount et post-restauration à exécuter après avoir effectué une tâche de restauration.
++
+Les commandes de montage ne sont pas disponibles pour les ressources découvertes automatiquement.
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire ainsi que l'objet de l'e-mail.  SMTP doit également être configuré sur la page *Paramètres* > *Paramètres globaux*.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

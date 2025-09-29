@@ -1,0 +1,28 @@
+---
+permalink: protect-scsql/reference_restore_sql_server_resources.html 
+sidebar: sidebar 
+keywords: Restore workflow 
+summary: 'Vous pouvez utiliser SnapCenter pour restaurer des bases de données SQL Server en restaurant les données d"une ou plusieurs sauvegardes sur votre système de fichiers actif, puis en récupérant la base de données.  Vous pouvez également restaurer des bases de données qui se trouvent dans des groupes de disponibilité, puis ajouter les bases de données restaurées au groupe de disponibilité.  Avant de restaurer une base de données SQL Server, vous devez effectuer plusieurs tâches préparatoires.' 
+---
+= Restaurer le flux de travail
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour restaurer des bases de données SQL Server en restaurant les données d'une ou plusieurs sauvegardes sur votre système de fichiers actif, puis en récupérant la base de données.  Vous pouvez également restaurer des bases de données qui se trouvent dans des groupes de disponibilité, puis ajouter les bases de données restaurées au groupe de disponibilité.  Avant de restaurer une base de données SQL Server, vous devez effectuer plusieurs tâches préparatoires.
+
+Le flux de travail suivant montre la séquence dans laquelle vous devez effectuer les opérations de restauration de la base de données :
+
+image::../media/all_plug_ins_restore_workflow.gif[flux de travail de restauration de tous les plug-ins]
+
+Vous pouvez également utiliser des applets de commande PowerShell manuellement ou dans des scripts pour effectuer des opérations de sauvegarde, de restauration, de récupération, de vérification et de clonage.  Pour obtenir des informations détaillées sur les applets de commande PowerShell, utilisez l'aide de l'applet de commande SnapCenter ou consultez le https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"]
+
+*Trouver plus d'informations*
+
+link:task_restore_a_sql_server_database_from_secondary_storage.html["Restaurer une base de données SQL Server à partir d'un stockage secondaire"]
+
+link:task_restore_and_recover_resources_using_powershell_cmdlets_for_sql.html["Restaurer et récupérer des ressources à l'aide des applets de commande PowerShell"]
+
+link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Restore_operation_might_fail_on_Windows_2008_R2["L'opération de restauration peut échouer sous Windows 2008 R2"]

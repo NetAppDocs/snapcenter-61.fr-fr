@@ -1,0 +1,57 @@
+---
+permalink: protect-scw/task_back_up_resource_groups_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: 'Un groupe de ressources est un ensemble de ressources sur un hôte ou un cluster.  Une opération de sauvegarde sur le groupe de ressources est effectuée sur toutes les ressources définies dans le groupe de ressources.  Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d"une politique associée et d"une planification configurée, les sauvegardes se produisent automatiquement conformément à la planification.' 
+---
+= Sauvegarder les groupes de ressources pour les systèmes de fichiers Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est un ensemble de ressources sur un hôte ou un cluster.  Une opération de sauvegarde sur le groupe de ressources est effectuée sur toutes les ressources définies dans le groupe de ressources.  Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d'une politique associée et d'une planification configurée, les sauvegardes se produisent automatiquement conformément à la planification.
+
+.Avant de commencer
+* Vous devez avoir créé un groupe de ressources avec une politique associée.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+* Si un groupe de ressources possède plusieurs bases de données provenant d'hôtes différents, l'opération de sauvegarde sur certains hôtes peut se déclencher tardivement en raison de problèmes de réseau.  Vous devez configurer la valeur de MaxRetryForUninitializedHosts dans web.config à l'aide de l'applet de commande PowerShell Set-SmConfigSettings.
+
+
+
+NOTE: Lors de la sauvegarde d'un système de fichiers, SnapCenter ne sauvegarde pas les LUN montés sur un point de montage de volume (VMP) dans le système de fichiers en cours de sauvegarde.
+
+
+IMPORTANT: Si vous travaillez dans un contexte de système de fichiers Windows, ne sauvegardez pas les fichiers de base de données.  Cela crée une sauvegarde incohérente et une possible perte de données lors de la restauration.  Pour protéger les fichiers de base de données, vous devez utiliser le plug-in SnapCenter approprié pour la base de données (par exemple, le plug-in SnapCenter pour Microsoft SQL Server ou le plug-in SnapCenter pour Microsoft Exchange Server).
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
++
+Vous pouvez rechercher le groupe de ressources soit en saisissant le nom du groupe de ressources dans la zone de recherche, soit en cliquant surimage:../media/filter_icon.gif["icône de filtre"] et en sélectionnant la balise.  Vous pouvez ensuite cliquer surimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Dans la page Groupes de ressources, sélectionnez le groupe de ressources que vous souhaitez sauvegarder, puis cliquez sur *Sauvegarder maintenant*.
++
+
+NOTE: Pour le plug-in SnapCenter pour Oracle Database, si vous disposez d'un groupe de ressources fédéré avec deux bases de données et que l'une des bases de données possède un fichier de données sur un stockage non NetApp , l'opération de sauvegarde est abandonnée même si l'autre base de données se trouve sur un stockage NetApp .
+
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez associé plusieurs stratégies au groupe de ressources, dans la liste déroulante *Stratégie*, sélectionnez la stratégie que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
++
+** Dans les configurations MetroCluster , SnapCenter peut ne pas être en mesure de détecter une relation de protection après un basculement.
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["Impossible de détecter la relation SnapMirror ou SnapVault après le basculement de MetroCluster"^]
+
+** Si vous sauvegardez des données d'application sur des VMDK et que la taille du tas Java pour le SnapCenter Plug-in for VMware vSphere n'est pas suffisamment grande, la sauvegarde peut échouer.  Pour augmenter la taille du tas Java, recherchez le fichier de script `/opt/netapp/init_scripts/scvservice` .  Dans ce script, le `do_start method` la commande démarre le service de plug-in SnapCenter VMware.  Mettez à jour cette commande comme suit : `Java -jar -Xmx8192M -Xms4096M` .
+
+
+

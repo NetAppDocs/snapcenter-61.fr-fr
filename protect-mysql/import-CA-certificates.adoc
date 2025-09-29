@@ -1,0 +1,60 @@
+---
+permalink: protect-mysql/import-CA-certificates.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Importer les certificats CA du serveur SnapCenter et des plug-ins hôtes Windows 
+---
+= Importer des certificats CA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez importer les certificats CA sur le serveur SnapCenter et les plug-ins hôtes Windows à l’aide de la console de gestion Microsoft (MMC).
+
+.Étapes
+. Accédez à la console de gestion Microsoft (MMC), puis cliquez sur *Fichier* > *Ajouter/Supprimer un composant logiciel enfichable*.
+. Dans la fenêtre Ajouter ou supprimer des composants logiciels enfichables, sélectionnez *Certificats*, puis cliquez sur *Ajouter*.
+. Dans la fenêtre du composant logiciel enfichable Certificats, sélectionnez l’option *Compte d’ordinateur*, puis cliquez sur *Terminer*.
+. Cliquez sur *Racine de la console* > *Certificats – Ordinateur local* > *Autorités de certification racines de confiance* > *Certificats*.
+. Cliquez avec le bouton droit sur le dossier « Autorités de certification racines de confiance », puis sélectionnez *Toutes les tâches* > *Importer* pour démarrer l’assistant d’importation.
+. Complétez l’assistant comme suit :
++
+|===
+| Dans cette fenêtre de l'assistant... | Procédez comme suit... 
+
+
+ a| 
+Importer la clé privée
+ a| 
+Sélectionnez l'option *Oui*, importez la clé privée, puis cliquez sur *Suivant*.
+
+
+
+ a| 
+Format de fichier d'importation
+ a| 
+N'effectuez aucune modification ; cliquez sur *Suivant*.
+
+
+
+ a| 
+Sécurité
+ a| 
+Spécifiez le nouveau mot de passe à utiliser pour le certificat exporté, puis cliquez sur *Suivant*.
+
+
+
+ a| 
+Terminer l'assistant d'importation de certificat
+ a| 
+Consultez le résumé, puis cliquez sur *Terminer* pour démarrer l’importation.
+
+|===
++
+
+NOTE: Le certificat d'importation doit être fourni avec la clé privée (les formats pris en charge sont : *.pfx, *.p12 et *.p7b).
+
+. Répétez l’étape 5 pour le dossier « Personnel ».
+

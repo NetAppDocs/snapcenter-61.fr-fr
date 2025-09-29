@@ -1,0 +1,82 @@
+---
+permalink: protect-scsql/task_determine_whether_resources_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Les ressources sont les bases de données, les instances d’application, les groupes de disponibilité et les composants similaires qui sont gérés par les plug-ins que vous avez installés.  Vous pouvez ajouter ces ressources à des groupes de ressources afin de pouvoir effectuer des tâches de protection des données, mais vous devez d’abord identifier les ressources dont vous disposez.  La détermination des ressources disponibles permet également de vérifier que l’installation du plug-in s’est terminée avec succès. 
+---
+= Déterminer si des ressources sont disponibles pour la sauvegarde
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les ressources sont les bases de données, les instances d’application, les groupes de disponibilité et les composants similaires qui sont gérés par les plug-ins que vous avez installés.  Vous pouvez ajouter ces ressources à des groupes de ressources afin de pouvoir effectuer des tâches de protection des données, mais vous devez d’abord identifier les ressources dont vous disposez.  La détermination des ressources disponibles permet également de vérifier que l’installation du plug-in s’est terminée avec succès.
+
+.Avant de commencer
+* Vous devez déjà avoir effectué des tâches telles que l’installation de SnapCenter Server, l’ajout d’hôtes, la création de connexions au système de stockage et l’ajout d’informations d’identification.
+* Pour découvrir les bases de données Microsoft SQL, l’une des conditions suivantes doit être remplie.
++
+** L'utilisateur utilisé pour ajouter l'hôte du plug-in à SnapCenter Server doit disposer des autorisations requises (sysadmin) sur Microsoft SQL Server.
+** Si la condition ci-dessus n'est pas remplie, dans le serveur SnapCenter , vous devez configurer l'utilisateur disposant des autorisations requises (sysadmin) sur le serveur Microsoft SQL.  L'utilisateur doit être configuré au niveau de l'instance Microsoft SQL Server et l'utilisateur peut être un utilisateur SQL ou Windows.
+
+
+* Pour découvrir les bases de données Microsoft SQL dans un cluster Windows, vous devez débloquer le port TCP/IP de l’instance de cluster de basculement (FCI).
+* Si les bases de données résident sur des LUN VMware RDM ou des VMDK, vous devez déployer le SnapCenter Plug-in for VMware vSphere et enregistrer le plug-in auprès de SnapCenter.
++
+Pour plus d'informations, voir https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["Déployer le SnapCenter Plug-in for VMware vSphere"^]
+
+* Si l'hôte est ajouté avec gMSA et si le gMSA dispose de privilèges de connexion et d'administrateur système, le gMSA sera utilisé pour se connecter à l'instance SQL.
+
+
+.À propos de cette tâche
+Vous ne pouvez pas sauvegarder les bases de données lorsque l'option *État général* de la page Détails est définie sur Non disponible pour la sauvegarde.  L'option *État général* est définie sur Non disponible pour la sauvegarde lorsque l'une des conditions suivantes est vraie :
+
+* Les bases de données ne se trouvent pas sur un LUN NetApp .
+* Les bases de données ne sont pas dans un état normal.
++
+Les bases de données ne sont pas dans un état normal lorsqu'elles sont hors ligne, en cours de restauration, en attente de récupération, suspectes, etc.
+
+* Les bases de données ont des privilèges insuffisants.
++
+Par exemple, si un utilisateur dispose uniquement d'un accès en lecture seule à la base de données, les fichiers et les propriétés de la base de données ne peuvent pas être identifiés et ne peuvent donc pas être sauvegardés.
+
+
+
+
+NOTE: SnapCenter peut sauvegarder uniquement la base de données principale si vous disposez d'une configuration de groupe de disponibilité sur SQL Server Standard Edition.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données*, ou *Instance*, ou *Groupe de disponibilité*, dans la liste déroulante *Affichage*.
++
+Cliquezimage:../media/filter_icon.gif["icône de filtre"] et sélectionnez le nom d'hôte et l'instance SQL Server pour filtrer les ressources.  Vous pouvez ensuite cliquer surimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Cliquez sur *Actualiser les ressources*.
++
+Les ressources nouvellement ajoutées, renommées ou supprimées sont mises à jour dans l'inventaire du serveur SnapCenter .
+
++
+
+IMPORTANT: Vous devez actualiser les ressources si les bases de données sont renommées en dehors de SnapCenter.
+
++
+Les ressources sont affichées avec des informations telles que le type de ressource, le nom de l'hôte ou du cluster, les groupes de ressources associés, le type de sauvegarde, les politiques et l'état général.
+
++
+** Si la base de données se trouve sur un stockage non NetApp , `Not available for backup` est affiché dans la colonne *État général*.
++
+Vous ne pouvez pas effectuer d’opérations de protection des données sur une base de données qui se trouve sur un stockage non NetApp .
+
+** Si la base de données se trouve sur un stockage NetApp et n'est pas protégée, `Not protected` est affiché dans la colonne *État général*.
+** Si la base de données se trouve sur un système de stockage NetApp et est protégée, l'interface utilisateur affiche `Backup not run` message dans la colonne *État général*.
+** Si la base de données est sur un système de stockage NetApp et protégée et si la sauvegarde est déclenchée pour la base de données, l'interface utilisateur affiche `Backup succeeded` message dans la colonne *État général*.
+
+
+
+
+
+NOTE: Si vous avez activé une authentification SQL lors de la configuration des informations d'identification, l'instance ou la base de données découverte est affichée avec une icône de cadenas rouge.  Si l'icône de cadenas apparaît, vous devez spécifier les informations d'identification de l'instance ou de la base de données pour ajouter avec succès l'instance ou la base de données à un groupe de ressources.
+
+. Une fois que l'administrateur SnapCenter a attribué les ressources à un utilisateur RBAC, l'utilisateur RBAC doit se connecter et cliquer sur *Actualiser les ressources* pour voir le dernier *État général* des ressources.
+

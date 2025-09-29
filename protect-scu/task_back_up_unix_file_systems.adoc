@@ -1,0 +1,83 @@
+---
+permalink: protect-scu/task_back_up_unix_file_systems.html 
+sidebar: sidebar 
+keywords: backup, Unix file system, policy, schedule, resources 
+summary: Si une ressource ne fait partie d’aucun groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources. 
+---
+= Sauvegarder les systèmes de fichiers Unix
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une ressource ne fait partie d’aucun groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources* et le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Chemin* dans la liste Affichage.
+. Cliquezimage:../media/filter_icon.gif["icône de filtre"] , puis sélectionnez le nom de l'hôte et les systèmes de fichiers Unix pour filtrer les ressources.
+. Sélectionnez le système de fichiers que vous souhaitez sauvegarder.
+. Dans la page Ressources, vous pouvez effectuer les étapes suivantes :
++
+.. Cochez la case et entrez un format de nom personnalisé que vous souhaitez utiliser pour le nom de l’instantané.
++
+Par exemple, `customtext_policy_hostname` ou `resource_hostname` .  Un horodatage est ajouté au nom de l'instantané par défaut.
+
+
+
+. Dans la page Paramètres de l’application, procédez comme suit :
++
+** Sélectionnez la flèche Scripts et entrez les commandes pré et post pour les opérations de mise en veille, de capture instantanée et de rétablissement.  Vous pouvez également saisir les commandes préalables à exécuter avant de quitter en cas de panne.
+** Sélectionnez l’une des options de cohérence de sauvegarde :
++
+*** Sélectionnez *Cohérent avec le système de fichiers* si vous souhaitez garantir que les données mises en cache des systèmes de fichiers sont vidées avant de créer la sauvegarde et qu'aucune opération n'est effectuée sur le système de fichiers lors de la création de la sauvegarde.
+*** Sélectionnez *Crash Consistent* si vous souhaitez vous assurer que les données mises en cache des systèmes de fichiers sont vidées avant de créer la sauvegarde.
+
+
+
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+
+NOTE: Vous pouvez créer une politique en cliquantimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] .
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] dans la colonne Configurer les planifications pour configurer une planification pour la politique souhaitée.
+.. Dans la fenêtre Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis sélectionnez `OK` .
++
+_policy_name_ est le nom de la politique que vous avez sélectionnée.
+
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
+. Dans la page Notification, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les e-mails dans la liste déroulante *Préférences de courrier électronique*.
++
+Vous devez spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  Si vous souhaitez joindre le rapport de l'opération de sauvegarde effectuée sur la ressource, sélectionnez *Joindre le rapport de travail*.
+
++
+
+NOTE: Pour la notification par e-mail, vous devez avoir spécifié les détails du serveur SMTP à l'aide de l'interface graphique ou de la commande PowerShell. `Set-SmSmtpServer` .
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+La page de topologie s'affiche.
+
+. Cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez appliqué plusieurs politiques à la ressource, dans la liste déroulante Politique, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+

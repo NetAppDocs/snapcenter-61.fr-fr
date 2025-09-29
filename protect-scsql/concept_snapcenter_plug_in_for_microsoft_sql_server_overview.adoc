@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_snapcenter_plug_in_for_microsoft_sql_server_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Le plug-in SnapCenter pour Microsoft SQL Server est un composant côté hôte du logiciel NetApp SnapCenter qui permet la gestion de la protection des données basée sur les applications des bases de données Microsoft SQL Server.  Le plug-in pour SQL Server automatise les opérations de sauvegarde, de vérification, de restauration et de clonage de la base de données SQL Server dans votre environnement SnapCenter . 
+---
+= Présentation du plug-in SnapCenter pour Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in SnapCenter pour Microsoft SQL Server est un composant côté hôte du logiciel NetApp SnapCenter qui permet la gestion de la protection des données basée sur les applications des bases de données Microsoft SQL Server.  Le plug-in pour SQL Server automatise les opérations de sauvegarde, de vérification, de restauration et de clonage de la base de données SQL Server dans votre environnement SnapCenter .
+
+Une fois le plug-in pour SQL Server installé, vous pouvez utiliser SnapCenter avec la technologie NetApp SnapMirror pour créer des copies miroir de jeux de sauvegarde sur un autre volume et avec la technologie NetApp SnapVault pour effectuer une réplication de sauvegarde de disque à disque à des fins de conformité aux normes ou d'archivage.
+
+* Automatise les opérations de sauvegarde, de restauration et de clonage prenant en charge les applications pour les bases de données Microsoft SQL Server dans votre environnement SnapCenter .
+* Prend en charge les bases de données Microsoft SQL Server sur VMDK et les LUN de mappage de périphériques bruts (RDM) lorsque vous déployez le SnapCenter Plug-in for VMware vSphere et enregistrez le plug-in avec SnapCenter
+* Prend en charge le provisionnement des partages SMB uniquement.  La prise en charge n'est pas fournie pour la sauvegarde des bases de données SQL Server sur les partages SMB.
+* Prend en charge l'importation de sauvegardes de SnapManager pour Microsoft SQL Server vers SnapCenter.
+

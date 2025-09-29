@@ -1,0 +1,932 @@
+---
+permalink: get-started/rbac-snapcenter.html 
+sidebar: sidebar 
+keywords: RBAC, roles, permissions, application-level RBAC, ONTAP permissions, default snapcenter roles, ONTAP permissions, SnapCenter Admin role 
+summary: 'Le contrôle d"accès basé sur les rôles (RBAC) de SnapCenter et les autorisations ONTAP permettent aux administrateurs de SnapCenter de créer des rôles et de définir des autorisations d"accès.  Cet accès géré de manière centralisée permet aux administrateurs d’applications de travailler en toute sécurité dans des environnements délégués.' 
+---
+= Contrôle d'accès basé sur les rôles dans SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le contrôle d'accès basé sur les rôles (RBAC) de SnapCenter et les autorisations ONTAP permettent aux administrateurs de SnapCenter de déléguer le contrôle des ressources SnapCenter à différents utilisateurs ou groupes d'utilisateurs.  Cet accès géré de manière centralisée permet aux administrateurs d’applications de travailler en toute sécurité dans des environnements délégués.
+
+Vous pouvez créer et modifier des rôles et ajouter un accès aux ressources aux utilisateurs à tout moment.  Cependant, lorsque vous configurez SnapCenter pour la première fois, vous devez au moins ajouter des utilisateurs ou des groupes Active Directory aux rôles, puis ajouter l'accès aux ressources à ces utilisateurs ou groupes.
+
+
+NOTE: Vous ne pouvez pas utiliser SnapCenter pour créer des comptes d’utilisateur ou de groupe.  Vous devez créer des comptes d’utilisateur ou de groupe dans Active Directory du système d’exploitation ou de la base de données.
+
+
+
+== Types de RBAC dans SnapCenter
+
+SnapCenter utilise les types de contrôle d’accès basé sur les rôles suivants :
+
+* SnapCenter RBAC
+* RBAC au niveau de l'application
+* Plug-in SnapCenter pour VMware vSphere RBAC
+* Autorisations ONTAP
+
+
+
+
+=== SnapCenter RBAC
+
+SnapCenter dispose de rôles prédéfinis et vous pouvez attribuer des utilisateurs ou des groupes d'utilisateurs à ces rôles.  Les rôles prédéfinis sont :
+
+* Rôle d'administrateur SnapCenter
+* Rôle d'administrateur de sauvegarde et de clonage d'applications
+* Rôle de visionneuse de sauvegarde et de clonage
+* Rôle d'administrateur d'infrastructure
+
+
+Lorsque vous attribuez un rôle à un utilisateur, seules les tâches pertinentes pour cet utilisateur sont visibles dans la page Tâches, sauf si vous avez attribué le rôle SnapCenterAdmin.
+
+Vous pouvez également créer de nouveaux rôles et gérer les autorisations et les utilisateurs.  Vous pouvez attribuer des autorisations aux utilisateurs ou aux groupes pour accéder aux objets SnapCenter tels que les hôtes, les connexions de stockage et les groupes de ressources.
+
+Vous pouvez attribuer des autorisations RBAC aux utilisateurs et aux groupes au sein de la même forêt et aux utilisateurs appartenant à différentes forêts.  Vous ne pouvez pas attribuer d’autorisations RBAC aux utilisateurs appartenant à des groupes imbriqués dans des forêts.
+
+
+NOTE: Si vous créez un rôle personnalisé, il doit contenir toutes les autorisations du rôle SnapCenterAdmin.  Si vous copiez uniquement certaines des autorisations, par exemple, l'ajout ou la suppression d'un hôte, vous ne pouvez pas effectuer ces opérations.
+
+Les utilisateurs doivent fournir une authentification lors de la connexion, via l’interface utilisateur graphique (GUI) ou à l’aide d’applets de commande PowerShell.  Si les utilisateurs sont membres de plusieurs rôles, après avoir saisi leurs informations de connexion, ils sont invités à spécifier le rôle qu'ils souhaitent utiliser.  Les utilisateurs doivent également fournir une authentification pour exécuter les API.
+
+
+
+=== RBAC au niveau de l'application
+
+SnapCenter utilise les informations d’identification pour vérifier que les utilisateurs SnapCenter autorisés disposent également d’autorisations au niveau de l’application.
+
+Par exemple, si vous souhaitez effectuer des opérations de protection des données dans un environnement SQL Server, vous devez définir les informations d’identification avec les informations d’identification Windows ou SQL appropriées.  Le serveur SnapCenter authentifie les informations d’identification définies à l’aide de l’une ou l’autre méthode. Si vous souhaitez effectuer des opérations de protection des données dans un environnement de système de fichiers Windows sur le stockage ONTAP , le rôle d’administrateur SnapCenter doit disposer de privilèges d’administrateur sur l’hôte Windows.
+
+De même, si vous souhaitez effectuer des opérations de protection des données sur une base de données Oracle et si l'authentification du système d'exploitation (OS) est désactivée dans l'hôte de la base de données, vous devez définir les informations d'identification avec les informations d'identification de la base de données Oracle ou Oracle ASM. Le serveur SnapCenter authentifie les informations d’identification définies à l’aide de l’une de ces méthodes en fonction de l’opération.
+
+
+
+=== SnapCenter Plug-in for VMware vSphere RBAC
+
+Si vous utilisez le plug-in SnapCenter VMware pour une protection des données cohérente avec la machine virtuelle, vCenter Server fournit un niveau supplémentaire de RBAC.  Le plug-in SnapCenter VMware prend en charge vCenter Server RBAC et ONTAP RBAC. https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["En savoir plus"^]
+
+|===
+
+
+| *Meilleure pratique :* NetApp recommande de créer un rôle ONTAP pour les opérations SnapCenter Plug-in for VMware vSphere et de lui attribuer tous les privilèges requis. 
+|===
+
+
+=== Autorisations ONTAP
+
+Vous devez créer un compte vsadmin avec les autorisations requises pour accéder au système de stockage.link:../install/task_add_a_user_or_group_and_assign_role_and_assets.html["En savoir plus"]
+
+
+
+== Autorisations attribuées aux rôles SnapCenter prédéfinis
+
+Lorsque vous ajoutez un utilisateur à un rôle, vous devez attribuer soit l'autorisation StorageConnection pour activer la communication de la machine virtuelle de stockage (SVM), soit attribuer une SVM à l'utilisateur pour activer l'autorisation d'utiliser la SVM.  L'autorisation Connexion de stockage permet aux utilisateurs de créer des connexions SVM.
+
+Par exemple, un utilisateur doté du rôle d'administrateur SnapCenter peut créer des connexions SVM et les attribuer à un utilisateur doté du rôle d'administrateur de sauvegarde et de clonage d'applications, qui, par défaut, n'a pas l'autorisation de créer ou de modifier des connexions SVM.  Sans connexion SVM, les utilisateurs ne peuvent effectuer aucune opération de sauvegarde, de clonage ou de restauration.
+
+
+
+=== Rôle d'administrateur SnapCenter
+
+Le rôle d’administrateur SnapCenter dispose de toutes les autorisations activées.  Vous ne pouvez pas modifier les autorisations pour ce rôle.  Vous pouvez ajouter des utilisateurs et des groupes au rôle ou les supprimer.
+
+
+
+=== Rôle d'administrateur de sauvegarde et de clonage d'applications
+
+Le rôle Administrateur de sauvegarde et de clonage d’applications dispose des autorisations requises pour effectuer des actions administratives pour les sauvegardes d’applications et les tâches liées au clonage.  Ce rôle ne dispose pas d'autorisations pour la gestion des hôtes, le provisionnement, la gestion des connexions de stockage ou l'installation à distance.
+
+|===
+| Autorisations | Activé | Créer | Lire | Mise à jour | Supprimer 
+
+
+ a| 
+Groupe de ressources
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Politique
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Sauvegarde
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Hôte
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Connexion de stockage
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Cloner
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Disposition
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Tableau de bord
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Rapports
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Restaurer
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Ressource
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Installation/désinstallation du plug-in
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Migration
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Monter
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Démonter
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Restauration complète du volume
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Protection secondaire
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Moniteur d'emploi
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+|===
+
+
+=== Rôle de visionneuse de sauvegarde et de clonage
+
+Le rôle Visualiseur de sauvegarde et de clonage dispose d'une vue en lecture seule de toutes les autorisations. Ce rôle dispose également d'autorisations activées pour la découverte, la création de rapports et l'accès au tableau de bord.
+
+|===
+| Autorisations | Activé | Créer | Lire | Mise à jour | Supprimer 
+
+
+ a| 
+Groupe de ressources
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Politique
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Sauvegarde
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Hôte
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Connexion de stockage
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Cloner
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Disposition
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Tableau de bord
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Rapports
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Restaurer
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Ressource
+ a| 
+Non
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Non
+
+
+
+ a| 
+Installation/désinstallation du plug-in
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Migration
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Monter
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Démonter
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Restauration complète du volume
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Protection secondaire
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Moniteur d'emploi
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+|===
+
+
+=== Rôle d'administrateur d'infrastructure
+
+Le rôle d'administrateur d'infrastructure dispose d'autorisations activées pour la gestion des hôtes, la gestion du stockage, le provisionnement, les groupes de ressources, les rapports d'installation à distance et l'accès au tableau de bord.
+
+|===
+| Autorisations | Activé | Créer | Lire | Mise à jour | Supprimer 
+
+
+ a| 
+Groupe de ressources
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Politique
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Sauvegarde
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Hôte
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Connexion de stockage
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Cloner
+ a| 
+Non Concerné
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+ a| 
+Non
+
+
+
+ a| 
+Disposition
+ a| 
+Non Concerné
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Tableau de bord
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Rapports
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Restaurer
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Ressource
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Installation/désinstallation du plug-in
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Migration
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Monter
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Démonter
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Restauration complète du volume
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Protection secondaire
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+
+
+ a| 
+Moniteur d'emploi
+ a| 
+Oui
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+ a| 
+Non Concerné
+
+|===

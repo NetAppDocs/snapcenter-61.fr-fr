@@ -1,0 +1,72 @@
+---
+permalink: protect-nsp/view_netapp_supported_plugins_resource_backups_and_clones_in_the_topology_page.html 
+sidebar: sidebar 
+keywords: view NetApp supported plug-in resource 
+summary: 'Lorsque vous vous préparez à sauvegarder ou à cloner une ressource, il peut être utile d"afficher une représentation graphique de toutes les sauvegardes et de tous les clones sur le stockage principal et secondaire.  Dans la page Topologie, vous pouvez voir toutes les sauvegardes et tous les clones disponibles pour la ressource ou le groupe de ressources sélectionné.  Vous pouvez afficher les détails de ces sauvegardes et clones, puis les sélectionner pour effectuer des opérations de protection des données.' 
+---
+= Afficher les sauvegardes et les clones liés aux ressources des plug-ins pris en charge par NetApp dans la page Topologie
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lorsque vous vous préparez à sauvegarder ou à cloner une ressource, il peut être utile d'afficher une représentation graphique de toutes les sauvegardes et de tous les clones sur le stockage principal et secondaire.  Dans la page Topologie, vous pouvez voir toutes les sauvegardes et tous les clones disponibles pour la ressource ou le groupe de ressources sélectionné.  Vous pouvez afficher les détails de ces sauvegardes et clones, puis les sélectionner pour effectuer des opérations de protection des données.
+
+.À propos de cette tâche
+Vous pouvez consulter les icônes suivantes dans la vue Gérer les copies pour déterminer si les sauvegardes et les clones sont disponibles sur le stockage principal ou secondaire (copies miroir ou copies Vault).
+
+* image:../media/topology_primary_storage.gif["icône de stockage principal"]affiche le nombre de sauvegardes et de clones disponibles sur le stockage principal.
+* image:../media/topology_mirror_secondary_storage.gif["stockage secondaire icône miroir"]affiche le nombre de sauvegardes et de clones mis en miroir sur le stockage secondaire à l'aide de la technologie SnapMirror .
++
+
+NOTE: Les clones d'une sauvegarde d'un miroir flexible en termes de version sur un volume de type coffre-fort miroir sont affichés dans la vue topologique, mais le nombre de sauvegardes miroir dans la vue topologique n'inclut pas la sauvegarde flexible en termes de version.
+
+* image:../media/topology_vault_secondary_storage.gif["icône de coffre-fort secondaire"]affiche le nombre de sauvegardes et de clones répliqués sur le stockage secondaire à l'aide de la technologie SnapVault .
++
+Le nombre de sauvegardes affichées inclut les sauvegardes supprimées du stockage secondaire.  Par exemple, si vous avez créé 6 sauvegardes à l'aide d'une politique visant à conserver uniquement 4 sauvegardes, le nombre de sauvegardes affichées est de 6.
+
++
+
+NOTE: Les clones d'une sauvegarde d'un miroir flexible en termes de version sur un volume de type coffre-fort miroir sont affichés dans la vue topologique, mais le nombre de sauvegardes miroir dans la vue topologique n'inclut pas la sauvegarde flexible en termes de version.
+
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez la ressource ou le groupe de ressources dans la liste déroulante *Afficher*.
+. Sélectionnez la ressource soit à partir de la vue des détails de la ressource, soit à partir de la vue des détails du groupe de ressources.
++
+Si la ressource est protégée, la page de topologie de la ressource sélectionnée s'affiche.
+
+. Consultez la carte récapitulative pour voir un résumé du nombre de sauvegardes et de clones disponibles sur le stockage principal et secondaire.
++
+La section Carte récapitulative affiche le nombre total de sauvegardes et de clones.
+
++
+Cliquer sur le bouton Actualiser lance une requête sur le stockage pour afficher un décompte précis.
+
++
+Si une sauvegarde activée par SnapLock est effectuée, cliquer sur le bouton *Actualiser* actualise l'heure d'expiration principale et secondaire de SnapLock récupérée à partir d' ONTAP.  Un calendrier hebdomadaire actualise également l'heure d'expiration du SnapLock principal et secondaire récupérée à partir d' ONTAP.
+
++
+Lorsque la ressource d'application est répartie sur plusieurs volumes, le délai d'expiration de SnapLock pour la sauvegarde correspond au délai d'expiration de SnapLock le plus long défini pour un snapshot dans un volume.  Le délai d'expiration SnapLock le plus long est récupéré à partir d' ONTAP.
+
++
+Après une sauvegarde à la demande, cliquez sur le bouton *Actualiser* pour actualiser les détails de la sauvegarde ou du clonage.
+
+. Dans la vue Gérer les copies, cliquez sur *Sauvegardes* ou *Clones* à partir du stockage principal ou secondaire pour afficher les détails d'une sauvegarde ou d'un clone.
++
+Les détails des sauvegardes et des clones sont affichés sous forme de tableau.
+
+. Sélectionnez la sauvegarde dans le tableau, puis cliquez sur les icônes de protection des données pour effectuer des opérations de restauration, de clonage, de renommage et de suppression.
++
+
+NOTE: Vous ne pouvez pas renommer ou supprimer les sauvegardes qui se trouvent sur le système de stockage secondaire.
+
++
+
+NOTE: Vous ne pouvez pas renommer les sauvegardes qui se trouvent sur le système de stockage principal.
+
+. Si vous souhaitez supprimer un clone, sélectionnez-le dans le tableau et cliquez surimage:../media/delete_icon.gif["icône de suppression"] pour supprimer le clone.
+

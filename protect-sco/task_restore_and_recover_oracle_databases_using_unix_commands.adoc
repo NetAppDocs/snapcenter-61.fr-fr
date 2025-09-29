@@ -1,0 +1,34 @@
+---
+permalink: protect-sco/task_restore_and_recover_oracle_databases_using_unix_commands.html 
+sidebar: sidebar 
+keywords: restore, recover, CLI 
+summary: Le flux de travail de restauration et de récupération comprend la planification, l’exécution des opérations de restauration et de récupération et la surveillance des opérations. 
+---
+= Restaurer et récupérer des bases de données Oracle à l'aide de commandes UNIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le flux de travail de restauration et de récupération comprend la planification, l’exécution des opérations de restauration et de récupération et la surveillance des opérations.
+
+*À propos de cette tâche*
+
+* Vous devez exécuter les commandes suivantes pour établir la connexion avec le serveur SnapCenter , répertorier les sauvegardes et récupérer ses informations, puis restaurer la sauvegarde.
++
+Les informations concernant les paramètres pouvant être utilisés avec la commande et leurs descriptions peuvent être obtenues en exécutant Get-Help _command_name_. Alternativement, vous pouvez également vous référer à la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guide de référence des commandes du logiciel SnapCenter"^] .
+
+* Pour l’opération de restauration de synchronisation active de SnapMirror , vous devez sélectionner la sauvegarde à partir de l’emplacement principal.
+
+
+*Mesures*
+
+. Lancer une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié : _Open-SmConnection_
+. Récupérez les informations sur les sauvegardes que vous souhaitez restaurer : _Get-SmBackup_
+. Récupérer les informations détaillées sur la sauvegarde spécifiée : _Get-SmBackupDetails_
++
+Cette commande récupère les informations détaillées sur la sauvegarde d'une ressource spécifiée avec un ID de sauvegarde donné.  Les informations incluent le nom de la base de données, la version, le répertoire de départ, le SCN de début et de fin, les espaces table, les bases de données enfichables et ses espaces table.
+
+. Restaurer les données à partir de la sauvegarde : _Restore-SmBackup_
+

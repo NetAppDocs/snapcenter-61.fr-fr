@@ -1,0 +1,33 @@
+---
+permalink: protect-db2/backup-naming-conventions-for-plugin-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: Backup naming conventions 
+summary: Vous pouvez utiliser la convention de dénomination des instantanés par défaut ou utiliser une convention de dénomination personnalisée.  La convention de dénomination de sauvegarde par défaut ajoute un horodatage aux noms des snapshots qui vous aide à identifier quand les copies ont été créées. 
+---
+= Conventions de dénomination de sauvegarde pour les bases de données Plug-in for IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser la convention de nommage par défaut des instantanés ou une convention de nommage personnalisée.  La convention de dénomination de sauvegarde par défaut ajoute un horodatage aux noms d'instantanés qui vous aide à identifier le moment où les copies ont été créées.
+
+L'instantané utilise la convention de dénomination par défaut suivante :
+
+`resourcegroupname_hostname_timestamp`
+
+Vous devez nommer vos groupes de ressources de sauvegarde de manière logique, comme dans l'exemple suivant :
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+Dans cet exemple, les éléments de syntaxe ont les significations suivantes :
+
+* _dts1_ est le nom du groupe de ressources.
+* _mach1x88_ est le nom de l'hôte.
+* _03-12-2015_23.17.26_ est la date et l'horodatage.
+
+
+Vous pouvez également spécifier le format du nom de l'instantané lors de la protection des ressources ou des groupes de ressources en sélectionnant *Utiliser un format de nom personnalisé pour la copie de l'instantané*.  Par exemple, customtext_resourcegroup_policy_hostname ou resourcegroup_hostname.  Par défaut, le suffixe d’horodatage est ajouté au nom de l’instantané.

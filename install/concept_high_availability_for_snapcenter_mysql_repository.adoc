@@ -1,0 +1,38 @@
+---
+permalink: install/concept_high_availability_for_snapcenter_mysql_repository.html 
+sidebar: sidebar 
+keywords: SnapCenter, MySQL high availability 
+summary: 'La réplication MySQL est une fonctionnalité de MySQL Server qui vous permet de répliquer des données d"un serveur de base de données MySQL (maître) vers un autre serveur de base de données MySQL (esclave).  SnapCenter prend en charge la réplication MySQL pour une haute disponibilité uniquement sur deux nœuds compatibles NLB (Network Load Balancing).' 
+---
+= Haute disponibilité pour le référentiel MySQL SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La réplication MySQL est une fonctionnalité de MySQL Server qui vous permet de répliquer des données d'un serveur de base de données MySQL (maître) vers un autre serveur de base de données MySQL (esclave).  SnapCenter prend en charge la réplication MySQL pour une haute disponibilité uniquement sur deux nœuds compatibles NLB (Network Load Balancing).
+
+SnapCenter effectue des opérations de lecture ou d'écriture sur le référentiel maître et achemine sa connexion vers le référentiel esclave en cas de panne sur le référentiel maître.  Le référentiel esclave devient alors le référentiel maître.  SnapCenter prend également en charge la réplication inverse, qui est activée uniquement lors du basculement.
+
+Si vous souhaitez utiliser la fonctionnalité de haute disponibilité (HA) de MySQL, vous devez configurer Network Load Balancer (NLB) sur le premier nœud.  Le référentiel MySQL est installé sur ce nœud dans le cadre de l'installation.  Lors de l'installation de SnapCenter sur le deuxième nœud, vous devez vous connecter au F5 du premier nœud et créer une copie du référentiel MySQL sur le deuxième nœud.
+
+SnapCenter fournit les applets de commande PowerShell _Get-SmRepositoryConfig_ et _Set-SmRepositoryConfig_ pour gérer la réplication MySQL.
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+Vous devez être conscient des limitations liées à la fonctionnalité MySQL HA :
+
+* NLB et MySQL HA ne sont pas pris en charge au-delà de deux nœuds.
+* Le passage d'une installation autonome de SnapCenter à une installation NLB ou vice versa et le passage d'une configuration autonome MySQL à MySQL HA ne sont pas pris en charge.
+* Le basculement automatique n'est pas pris en charge si les données du référentiel esclave ne sont pas synchronisées avec les données du référentiel maître.
++
+Vous pouvez lancer un basculement forcé à l’aide de l’applet de commande _Set-SmRepositoryConfig_.
+
+* Lorsque le basculement est lancé, les tâches en cours d'exécution peuvent échouer.
++
+Si le basculement se produit parce que MySQL Server ou SnapCenter Server est en panne, toutes les tâches en cours d'exécution peuvent échouer.  Après le basculement vers le deuxième nœud, toutes les tâches suivantes s'exécutent avec succès.
+
+
+
+Pour plus d'informations sur la configuration de la haute disponibilité, voir https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_NLB_and_ARR_with_SnapCenter["Comment configurer NLB et ARR avec SnapCenter"^] .

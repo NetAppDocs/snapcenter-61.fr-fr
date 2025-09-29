@@ -1,0 +1,185 @@
+---
+permalink: admin/concept_what_operations_can_be_performed_from_the_resource_page.html 
+sidebar: sidebar 
+keywords: Resources page 
+summary: Vous pouvez découvrir des ressources et effectuer des opérations de protection des données à partir de la page Ressources.  Les opérations que vous pouvez effectuer diffèrent en fonction du plug-in que vous utilisez pour gérer vos ressources. 
+---
+= Opérations prises en charge à partir de la page Ressources
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez découvrir des ressources et effectuer des opérations de protection des données à partir de la page Ressources.  Les opérations que vous pouvez effectuer diffèrent en fonction du plug-in que vous utilisez pour gérer vos ressources.
+
+Depuis la page Ressources, vous pouvez effectuer les tâches suivantes :
+
+|===
+| Vous pouvez effectuer ces tâches... | Pour Microsoft Exchange Server | Pour Microsoft SQL Server | Pour Microsoft Windows | Pour la base de données Oracle | Pour la base de données SAP HANA 
+
+
+ a| 
+Déterminer si des ressources sont disponibles pour la sauvegarde
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Effectuer une sauvegarde à la demande d'une ressource
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Restaurer à partir de sauvegardes
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Cloner des sauvegardes
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Gérer les sauvegardes
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Gérer les clones
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Gérer les politiques
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Gérer les connexions de stockage
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+
+
+ a| 
+Monter les sauvegardes
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+
+
+
+ a| 
+Démonter les sauvegardes
+ a| 
+Non
+ a| 
+Non
+ a| 
+Non
+ a| 
+Oui
+ a| 
+Non
+
+
+
+ a| 
+Voir les détails
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+ a| 
+Oui
+
+|===

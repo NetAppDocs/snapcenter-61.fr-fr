@@ -1,0 +1,181 @@
+---
+permalink: protect-scw/task_create_backup_policies_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backup policy 
+summary: 'Vous pouvez créer une nouvelle stratégie de sauvegarde pour les ressources avant d"utiliser SnapCenter pour sauvegarder les systèmes de fichiers Windows, ou vous pouvez créer une nouvelle stratégie de sauvegarde au moment où vous créez un groupe de ressources ou lorsque vous sauvegardez une ressource.' 
+---
+= Créer des politiques de sauvegarde pour les systèmes de fichiers Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez créer une nouvelle stratégie de sauvegarde pour les ressources avant d'utiliser SnapCenter pour sauvegarder les systèmes de fichiers Windows, ou vous pouvez créer une nouvelle stratégie de sauvegarde au moment où vous créez un groupe de ressources ou lorsque vous sauvegardez une ressource.
+
+.Avant de commencer
+* Vous devez avoir défini votre stratégie de sauvegarde.link:task_define_a_backup_strategy_for_windows_file_systems.html["Apprendre encore plus"^]
+* Vous devez vous être préparé à la protection des données.
++
+Pour préparer la protection des données, vous devez effectuer des tâches telles que l'installation de SnapCenter, l'ajout d'hôtes, la découverte de ressources et la création de connexions à une machine virtuelle de stockage (SVM).
+
+* Si vous répliquez des snapshots vers un stockage secondaire miroir ou coffre, l'administrateur SnapCenter doit vous avoir attribué les SVM pour les volumes source et de destination.
+* Si vous souhaitez exécuter les scripts PowerShell dans des prescripts et des postscripts, vous devez définir la valeur du paramètre usePowershellProcessforScripts sur true dans le fichier web.config.
++
+La valeur par défaut est false
+
+* Consultez les conditions préalables et les limitations spécifiques à la synchronisation active de SnapMirror . Pour plus d'informations, reportez-vous à https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Limites d'objets pour la synchronisation active de SnapMirror"] .
+
+
+.À propos de cette tâche
+* SCRIPTS_PATH est défini à l'aide de la clé PredefinedWindowsScriptsDirectory située dans le fichier SMCoreServiceHost.exe.Config de l'hôte du plug-in.
++
+Si nécessaire, vous pouvez modifier ce chemin et redémarrer le service SMcore.  Il est recommandé d'utiliser le chemin par défaut pour des raisons de sécurité.
+
++
+La valeur de la clé peut être affichée depuis Swagger via l'API : API /4.7/configsettings
+
++
+Vous pouvez utiliser l'API GET pour afficher la valeur de la clé.  L'API SET n'est pas prise en charge.
+
+* SnapLock
++
+** Si l'option « Conserver les copies de sauvegarde pendant un nombre de jours spécifique » est sélectionnée, la période de conservation de SnapLock doit être inférieure ou égale aux jours de conservation mentionnés.
+** La spécification d'une période de verrouillage des instantanés empêche la suppression des instantanés jusqu'à l'expiration de la période de conservation. Cela pourrait conduire à conserver un nombre d’instantanés supérieur au nombre spécifié dans la politique.
+** Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des instantanés SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+
+
+
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Paramètres*.
+. Dans la page Paramètres, sélectionnez *Politiques*.
+. Sélectionnez *Nouveau*.
+. Dans la page Nom, saisissez le nom et les détails de la politique.
+. Dans la page Sauvegarde et réplication, effectuez les tâches suivantes :
++
+.. Sélectionnez un paramètre de sauvegarde.
++
+|===
+| Option | Description 
+
+
+ a| 
+Sauvegarde cohérente du système de fichiers
+ a| 
+Choisissez cette option si vous souhaitez que SnapCenter mette en veille le lecteur de disque sur lequel réside le système de fichiers avant le début de l'opération de sauvegarde, puis reprenne le lecteur de disque une fois l'opération de sauvegarde terminée.
+
+
+
+ a| 
+Sauvegarde cohérente en cas de panne du système de fichiers
+ a| 
+Choisissez cette option si vous ne souhaitez pas que SnapCenter mette en veille le lecteur de disque sur lequel réside le système de fichiers.
+
+|===
+.. Sélectionnez une fréquence de planification (également appelée type de politique).
++
+La politique spécifie uniquement la fréquence de sauvegarde.  Le calendrier de protection spécifique pour la sauvegarde est défini dans le groupe de ressources.  Par conséquent, deux ou plusieurs groupes de ressources peuvent partager la même politique et la même fréquence de sauvegarde, mais avoir des planifications de sauvegarde différentes.
+
++
+
+NOTE: Si vous avez programmé à 2 h 00 du matin, la planification ne sera pas déclenchée pendant l'heure d'été (DST).
+
+.. Sélectionnez une étiquette de politique.
++
+En fonction de l’étiquette d’instantané que vous sélectionnez, ONTAP applique la stratégie de rétention d’instantané secondaire qui correspond à l’étiquette.
+
++
+
+NOTE: Si vous avez sélectionné *Mettre à jour SnapMirror après avoir créé une copie Snapshot locale*, vous pouvez éventuellement spécifier l'étiquette de stratégie secondaire.  Cependant, si vous avez sélectionné *Mettre à jour SnapVault après avoir créé une copie Snapshot locale*, vous devez spécifier l'étiquette de la politique secondaire.
+
+
+
+. Dans la section Sélectionner les options de réplication secondaire, sélectionnez l’une ou les deux options de réplication secondaire suivantes :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Mettre à jour SnapMirror après avoir créé une copie Snapshot locale
+ a| 
+Sélectionnez cette option pour créer des copies miroir des jeux de sauvegarde sur un autre volume (SnapMirror).
+
+Cette option doit être activée pour la synchronisation active de SnapSnapMirror.
+
+Lors de la réplication secondaire, l’heure d’expiration de SnapLock charge l’heure d’expiration de SnapLock principale.  Cliquer sur le bouton *Actualiser* dans la page Topologie actualise l'heure d'expiration du SnapLock secondaire et principal récupérée à partir d' ONTAP.
+
+Voir link:../protect-scw/task_view_related_backups_and_clones_in_the_topology_page.html["Afficher les sauvegardes et les clones associés dans la page Topologie"] .
+
+
+
+ a| 
+Mettre à jour SnapVault après avoir créé une copie Snapshot
+ a| 
+Sélectionnez cette option pour effectuer une réplication de sauvegarde de disque à disque.
+
+Lors de la réplication secondaire, l’heure d’expiration de SnapLock charge l’heure d’expiration de SnapLock principale.  Cliquer sur le bouton Actualiser dans la page Topologie actualise l'heure d'expiration du SnapLock secondaire et principal récupérée à partir d' ONTAP.
+
+Lorsque SnapLock est configuré uniquement sur le secondaire d' ONTAP appelé SnapLock Vault, cliquer sur le bouton Actualiser dans la page Topologie actualise la période de verrouillage sur le secondaire récupéré à partir d' ONTAP.
+
+Pour plus d'informations sur SnapLock Vault, voir https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Valider les copies instantanées vers WORM sur une destination de coffre-fort"]
+
+
+
+ a| 
+Nombre de tentatives d'erreur
+ a| 
+Entrez le nombre de tentatives de réplication qui doivent se produire avant l’arrêt du processus.
+
+|===
++
+
+NOTE: Vous devez configurer la stratégie de rétention SnapMirror dans ONTAP pour le stockage secondaire afin d’éviter d’atteindre la limite maximale de snapshots sur le stockage secondaire.
+
+. Dans la page Paramètres de conservation, spécifiez les paramètres de conservation pour les sauvegardes à la demande et pour chaque fréquence de planification que vous avez sélectionnée.
++
+|===
+| Option | Description 
+
+
+ a| 
+Copies totales d'instantanés à conserver
+ a| 
+Choisissez cette option si vous souhaitez spécifier le nombre d'instantanés que SnapCenter stocke avant de les supprimer automatiquement.
+
+
+
+ a| 
+Conservez des copies instantanées pour
+ a| 
+Choisissez cette option si vous souhaitez spécifier le nombre de jours pendant lesquels SnapCenter conserve une copie de sauvegarde avant de la supprimer.
+
+
+
+ a| 
+Période de verrouillage de la copie instantanée
+ a| 
+Sélectionnez la période de verrouillage des instantanés et spécifiez la durée en jours, mois ou années.
+
+La période de conservation de SnapLock doit être inférieure à 100 ans.
+
+|===
++
+
+IMPORTANT: Vous devez définir le nombre de rétentions sur 2 ou plus.  La valeur minimale pour le nombre de rétentions est de 2.
+
++
+
+NOTE: La valeur de rétention maximale est de 1018. Les sauvegardes échoueront si la rétention est définie sur une valeur supérieure à celle prise en charge par la version ONTAP .
+
+. Dans la page Script, entrez le chemin du prescript ou du postscript que vous souhaitez que SnapCenter Server exécute avant ou après l'opération de sauvegarde, respectivement, ainsi qu'une limite de temps pendant laquelle SnapCenter attend que le script s'exécute avant d'expirer.
++
+Par exemple, vous pouvez exécuter un script pour mettre à jour les interruptions SNMP, automatiser les alertes et envoyer des journaux.
+
++
+
+NOTE: Le chemin des prescripts ou des postscripts ne doit pas inclure de lecteurs ou de partages.  Le chemin doit être relatif à SCRIPTS_PATH.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
+

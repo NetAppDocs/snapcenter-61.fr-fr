@@ -1,0 +1,48 @@
+---
+permalink: protect-nsp/netapp_supported_plugins_features.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins features, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: 'SnapCenter s"intègre à l"application plug-in et aux technologies NetApp sur le système de stockage.  Pour travailler avec les plug-ins pris en charge par NetApp , utilisez l"interface utilisateur graphique SnapCenter .' 
+---
+= Fonctionnalités des plug-ins pris en charge par NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter s'intègre à l'application plug-in et aux technologies NetApp sur le système de stockage.  Pour travailler avec les plug-ins pris en charge par NetApp tels que MongoDB, ORASCPM (Oracle Applications), SAP ASE, SAP MaxDB et le plug-in de stockage, vous utilisez l'interface utilisateur graphique SnapCenter .
+
+* *Interface utilisateur graphique unifiée*
++
+L'interface SnapCenter assure la standardisation et la cohérence entre les plug-ins et les environnements.  L'interface SnapCenter vous permet d'effectuer des opérations de sauvegarde, de restauration, de récupération et de clonage cohérentes sur tous les plug-ins, d'utiliser des rapports centralisés, d'utiliser des vues de tableau de bord en un coup d'œil, de configurer le contrôle d'accès basé sur les rôles (RBAC) et de surveiller les tâches sur tous les plug-ins.
+
+* *Administration centrale automatisée*
++
+Vous pouvez planifier des opérations de sauvegarde, configurer la conservation des sauvegardes basée sur des politiques et effectuer des opérations de restauration.  Vous pouvez également surveiller de manière proactive votre environnement en configurant SnapCenter pour envoyer des alertes par e-mail.
+
+* *Technologie NetApp Snapshot non perturbatrice*
++
+SnapCenter utilise la technologie NetApp Snapshot avec les plug-ins pris en charge par NetApp pour sauvegarder les ressources.  Les instantanés consomment un espace de stockage minimal.
+
+
+
+Les plug-ins pris en charge par NetApp offrent également les avantages suivants :
+
+* Prise en charge des flux de travail de sauvegarde, de restauration et de clonage
+* Sécurité prise en charge par RBAC et délégation de rôles centralisée
++
+Vous pouvez également définir les informations d’identification afin que les utilisateurs SnapCenter autorisés disposent d’autorisations au niveau de l’application.
+
+* Création de copies de ressources à faible encombrement et ponctuelles pour les tests ou l'extraction de données à l'aide de la technologie NetApp FlexClone
++
+Une licence FlexClone est requise sur le système de stockage sur lequel vous souhaitez créer le clone.
+
+* Prise en charge de la fonctionnalité Snapshot du groupe de cohérence (CG) d' ONTAP dans le cadre de la création de sauvegardes.
+* Capacité à exécuter plusieurs sauvegardes simultanément sur plusieurs hôtes de ressources
++
+En une seule opération, les instantanés sont consolidés lorsque les ressources d'un seul hôte partagent le même volume.
+
+* Capacité à créer des instantanés à l'aide de commandes externes.
+* Capacité à créer des instantanés cohérents avec le système de fichiers dans les environnements Windows.
+

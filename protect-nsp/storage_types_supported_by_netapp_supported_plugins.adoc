@@ -1,0 +1,48 @@
+---
+permalink: protect-nsp/storage_types_supported_by_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins 
+summary: 'SnapCenter prend en charge une large gamme de types de stockage sur les machines physiques et virtuelles.  Vous devez vérifier la prise en charge de votre type de stockage avant d"installer les plug-ins pris en charge par NetApp .' 
+---
+= Types de stockage pris en charge par les plug-ins pris en charge par NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter prend en charge une large gamme de types de stockage sur les machines physiques et virtuelles.  Vous devez vérifier la prise en charge de votre type de stockage avant d'installer les plug-ins pris en charge par NetApp .
+
+|===
+| Machine | Type de stockage 
+
+
+ a| 
+Montages physiques et NFS directs sur les hôtes VM (les VMDK et les LUN RDM ne sont pas pris en charge.)
+ a| 
+LUN connectés au FC
+
+
+
+ a| 
+Montages physiques et NFS directs sur les hôtes VM (les VMDK et les LUN RDM ne sont pas pris en charge.)
+ a| 
+LUN connectés à iSCSI
+
+
+
+ a| 
+Montages physiques et NFS directs sur les hôtes VM (les VMDK et les LUN RDM ne sont pas pris en charge.)
+ a| 
+Volumes connectés NFS
+
+
+
+ a| 
+VMware ESXi
+ a| 
+Banques de données vVol sur NFS et SAN
+
+La banque de données vVol ne peut être provisionnée qu'avec ONTAP Tools pour VMware vSphere.
+
+|===

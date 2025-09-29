@@ -1,0 +1,41 @@
+---
+permalink: uninstall/task_uninstalling_the_snapcenter_server.html 
+sidebar: sidebar 
+keywords: uninstall, snapcenter server, windows 
+summary: 'Si vous ne souhaitez plus utiliser SnapCenter Server pour gérer les tâches de protection des données, vous pouvez désinstaller SnapCenter Server à l"aide du Panneau de configuration Programmes et fonctionnalités sur l"hôte SnapCenter Server.  La désinstallation du serveur SnapCenter supprime tous ses composants.' 
+---
+= Désinstaller le serveur SnapCenter sur l'hôte Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si vous ne souhaitez plus utiliser SnapCenter Server pour gérer les tâches de protection des données, vous pouvez désinstaller SnapCenter Server à l'aide du Panneau de configuration Programmes et fonctionnalités sur l'hôte SnapCenter Server.  La désinstallation du serveur SnapCenter supprime tous ses composants.
+
+.Avant de commencer
+* Assurez-vous que vous disposez d’au moins 2 Go d’espace libre sur le lecteur sur lequel le serveur SnapCenter est installé.
+* Assurez-vous que le domaine dans lequel le serveur SnapCenter est installé n'est pas supprimé.
++
+Si vous supprimez le domaine sur lequel le serveur SnapCenter a été installé, puis essayez de le désinstaller, l'opération échoue.
+
+* Vous devez avoir sauvegardé la base de données du référentiel car celle-ci sera nettoyée et désinstallée.
+
+
+.Étapes
+. Sur l’hôte SnapCenter Server, accédez au Panneau de configuration.
+. Assurez-vous que vous êtes dans la vue *Catégorie*.
+. Sous Programmes, cliquez sur *Désinstaller un programme*.
++
+La fenêtre Programmes et fonctionnalités s'ouvre.
+
+. Sélectionnez NetApp SnapCenter Server, puis cliquez sur *Désinstaller*.
++
+À partir de SnapCenter 4.2, lorsque vous désinstallez le serveur SnapCenter , tous ses composants, y compris la base de données du référentiel MySQL Server, sont désinstallés.
+
++
+** La suppression du nœud NLB d'un cluster NLB nécessite le redémarrage de l'hôte SnapCenter Server.  Si vous ne redémarrez pas l'hôte, vous risquez de rencontrer un échec si vous tentez de réinstaller le serveur SnapCenter .
+** Vous devez désinstaller manuellement .NET Framework qui n’est pas supprimé lors de la désinstallation.
+
+
+

@@ -1,0 +1,15 @@
+= 
+:allow-uri-read: 
+
+
+Le volet Activité affiche les cinq opérations les plus récentes effectuées.  Le volet Activité affiche également le moment où l’opération a été lancée et l’état de l’opération.
+
+Le volet Activité affiche des informations concernant les opérations de sauvegarde, de restauration, de clonage et de sauvegarde planifiée.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Cliquezimage:../media/activity_pane_icon.gif["icône du volet d'activité"] dans le volet Activité pour afficher les cinq opérations les plus récentes.
++
+Lorsque vous cliquez sur l'une des opérations, les détails de l'opération sont répertoriés dans la page *Détails du travail*.
+
+

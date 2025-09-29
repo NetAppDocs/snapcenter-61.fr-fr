@@ -1,0 +1,221 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_input_variables_controlling_an_api_request.html 
+keywords: http methods, request headers, request body, filtering objects, size, pagination 
+summary: Vous pouvez contrôler la manière dont un appel API est traité via des paramètres et des variables définis dans la requête HTTP. 
+---
+= Variables d'entrée contrôlant une requête API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez contrôler la manière dont un appel API est traité via des paramètres et des variables définis dans la requête HTTP.
+
+
+
+== Méthodes HTTP
+
+Les méthodes HTTP prises en charge par l’API REST SnapCenter sont présentées dans le tableau suivant.
+
+
+NOTE: Toutes les méthodes HTTP ne sont pas disponibles à chacun des points de terminaison REST.
+
+|===
+| Méthode HTTP | Description 
+
+
+| OBTENIR | Récupère les propriétés d'objet sur une instance de ressource ou une collection. 
+
+
+| POSTE | Crée une nouvelle instance de ressource basée sur l'entrée fournie. 
+
+
+| SUPPRIMER | Supprime une instance de ressource existante. 
+
+
+| METTRE | Modifie une instance de ressource existante. 
+|===
+
+
+== En-têtes de requête
+
+Vous devez inclure plusieurs en-têtes dans la requête HTTP.
+
+
+
+=== Type de contenu
+
+Si le corps de la demande inclut JSON, cet en-tête doit être défini sur _application/json_.
+
+
+
+=== Accepter
+
+Cet en-tête doit être défini sur _application/json_.
+
+
+
+=== Autorisation
+
+L'authentification de base doit être définie avec le nom d'utilisateur et le mot de passe codés sous forme de chaîne base64.
+
+
+
+== Corps de la requête
+
+Le contenu du corps de la requête varie selon l'appel. Le corps de la requête HTTP se compose de l'un des éléments suivants :
+
+* Objet JSON avec variables d'entrée
+* Vide
+
+
+
+
+== Filtrage des objets
+
+Lors d'un appel d'API utilisant GET, vous pouvez limiter ou filtrer les objets renvoyés en fonction de n'importe quel attribut. Par exemple, vous pouvez spécifier une valeur exacte à laquelle correspondre :
+
+`<field>=<query value>`
+
+En plus d'une correspondance exacte, d'autres opérateurs sont disponibles pour renvoyer un ensemble d'objets sur une plage de valeurs.  L'API REST SnapCenter prend en charge les opérateurs de filtrage indiqués dans le tableau ci-dessous.
+
+|===
+| Opérateur | Description 
+
+
+| = | Égal à 
+
+
+| < | Moins que 
+
+
+| > | Plus grand que 
+
+
+| <= | Inférieur ou égal à 
+
+
+| >= | Supérieur ou égal à 
+
+
+| MISE À JOUR | Ou 
+
+
+| ! | Pas égal à 
+
+
+| * | Caractère générique gourmand 
+|===
+Vous pouvez également renvoyer une collection d'objets selon qu'un champ spécifique est défini ou non en utilisant le mot-clé *null* ou sa négation *!null* dans le cadre de la requête.
+
+
+NOTE: Tous les champs qui ne sont pas définis sont généralement exclus des requêtes correspondantes.
+
+
+
+== Demande de champs d'objet spécifiques
+
+Par défaut, un appel d'API via GET ne renvoie que les attributs identifiant de manière unique le ou les objets. Cet ensemble minimal de champs sert de clé pour chaque objet et varie selon son type. Vous pouvez sélectionner des propriétés d'objet supplémentaires à l'aide du `fields` paramètre de requête des manières suivantes :
+
+
+
+=== Champs communs ou standards
+
+Spécifiez *fields=** pour récupérer les champs d'objet les plus couramment utilisés.  Ces champs sont généralement conservés dans la mémoire du serveur local ou nécessitent peu de traitement pour y accéder.  Il s’agit des mêmes propriétés renvoyées pour un objet après l’utilisation de GET avec une clé de chemin d’URL (UUID).
+
+
+
+=== Tous les domaines
+
+Spécifiez *fields=*** pour récupérer tous les champs de l'objet, y compris ceux nécessitant un traitement serveur supplémentaire pour y accéder.
+
+
+
+=== Sélection de champs personnalisés
+
+Utilisez *fields=<field_name>* pour spécifier le champ exact que vous souhaitez. Lorsque vous demandez plusieurs champs, les valeurs doivent être séparées par des virgules sans espaces.
+
+
+IMPORTANT: Il est recommandé de toujours identifier les champs spécifiques souhaités. Vous ne devez récupérer que l'ensemble des champs communs ou tous les champs lorsque cela est nécessaire.  Les champs classés comme communs et renvoyés à l'aide de _fields=*_ sont déterminés par NetApp en fonction d'une analyse des performances internes.  La classification d'un champ pourrait changer dans les versions futures.
+
+
+
+== Tri des objets dans l'ensemble de sortie
+
+Les enregistrements d'une collection de ressources sont renvoyés dans l'ordre par défaut défini par l'objet. Vous pouvez modifier l'ordre en utilisant le `order_by` paramètre de requête avec le nom du champ et le sens de tri comme suit :
+
+`order_by=<field name> asc|desc`
+
+Par exemple, vous pouvez trier le champ type par ordre décroissant suivi de l'ID par ordre croissant :
+
+`order_by=type desc, id asc`
+
+* Si vous spécifiez un champ de tri mais ne fournissez pas de direction, les valeurs sont triées par ordre croissant.
+* Lorsque vous incluez plusieurs paramètres, vous devez séparer les champs par une virgule.
+
+
+
+
+== Pagination lors de la récupération d'objets dans une collection
+
+Lors de l'émission d'un appel d'API à l'aide de GET pour accéder à une collection d'objets du même type, SnapCenter tente de renvoyer autant d'objets que possible en fonction de deux contraintes.  Vous pouvez contrôler chacune de ces contraintes à l’aide de paramètres de requête supplémentaires sur la demande.  La première contrainte atteinte pour une requête GET spécifique met fin à la requête et limite donc le nombre d'enregistrements renvoyés.
+
+
+NOTE: Si une requête se termine avant d'avoir parcouru tous les objets, la réponse contient le lien nécessaire pour récupérer le prochain lot d'enregistrements.
+
+
+
+=== Limiter le nombre d'objets
+
+Par défaut, SnapCenter renvoie un maximum de 10 000 objets pour une requête GET.  Vous pouvez modifier cette limite à l'aide du paramètre de requête _max_records_. Par exemple:
+
+`max_records=20`
+
+Le nombre d'objets réellement renvoyés peut être inférieur au maximum en vigueur, en fonction de la contrainte de temps associée ainsi que du nombre total d'objets dans le système.
+
+
+
+=== Limiter le temps utilisé pour récupérer les objets
+
+Par défaut, SnapCenter renvoie autant d'objets que possible dans le délai autorisé pour la requête GET.  Le délai d'expiration par défaut est de 15 secondes.  Vous pouvez modifier cette limite à l'aide du paramètre de requête _return_timeout_. Par exemple:
+
+`return_timeout=5`
+
+Le nombre d'objets réellement renvoyés peut être inférieur au maximum en vigueur, en fonction de la contrainte associée au nombre d'objets ainsi qu'au nombre total d'objets dans le système.
+
+
+
+=== Réduire l'ensemble des résultats
+
+Si nécessaire, vous pouvez combiner ces deux paramètres avec des paramètres de requête supplémentaires pour affiner l'ensemble de résultats.  Par exemple, ce qui suit renvoie jusqu'à 10 événements EMS générés après l'heure spécifiée :
+
+`time=> 2018-04-04T15:41:29.140265Z&max_records=10`
+
+Vous pouvez émettre plusieurs requêtes pour parcourir les objets. Chaque appel d'API ultérieur doit utiliser une nouvelle valeur temporelle basée sur le dernier événement du dernier ensemble de résultats.
+
+
+
+== Propriétés de taille
+
+Les valeurs d'entrée utilisées avec certains appels d'API ainsi que certains paramètres de requête sont numériques.  Plutôt que de fournir un entier en octets, vous pouvez éventuellement utiliser un suffixe comme indiqué dans le tableau suivant.
+
+|===
+| Suffixe | Description 
+
+
+| Ko | Ko Kilooctets (1024 octets) ou kibioctets 
+
+
+| MB | MB Mégaoctets (Ko x 1024 octets) ou mébioctets 
+
+
+| GB | GB Gigaoctets (Mo x 1024 octets) ou gibioctets 
+
+
+| To | To Téraoctets (Go x 1024 octets) ou tebioctets 
+
+
+| PB | PB Pétaoctets (To x 1024 octets) ou pébioctets 
+|===

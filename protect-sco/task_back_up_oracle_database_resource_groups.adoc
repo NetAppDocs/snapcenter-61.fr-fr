@@ -1,0 +1,55 @@
+---
+permalink: protect-sco/task_back_up_oracle_database_resource_groups.html 
+sidebar: sidebar 
+keywords: backup, resource group 
+summary: Un groupe de ressources est un ensemble de ressources sur un hôte ou un cluster.  Une opération de sauvegarde sur le groupe de ressources est effectuée sur toutes les ressources définies dans le groupe de ressources. 
+---
+= Sauvegarder les groupes de ressources de base de données Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est un ensemble de ressources sur un hôte ou un cluster.  L'opération de sauvegarde est effectuée sur toutes les ressources définies dans le groupe de ressources.
+
+Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d’une politique associée et d’une planification configurée, les sauvegardes sont créées conformément à la planification.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources* et le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
+. Saisissez le nom du groupe de ressources dans la zone de recherche ou cliquez surimage:../media/filter_icon.gif["icône de filtre"] , et sélectionnez la balise.
++
+Cliquezimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Dans la page Groupe de ressources, sélectionnez le groupe de ressources à sauvegarder.
++
+
+NOTE: Si vous disposez d'un groupe de ressources fédéré avec deux bases de données et que l'une d'elles contient des données sur un stockage non NetApp , l'opération de sauvegarde est abandonnée même si l'autre base de données se trouve sur un stockage NetApp .
+
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez plusieurs politiques associées au groupe de ressources, sélectionnez la politique de sauvegarde que vous souhaitez utiliser dans la liste déroulante *Politique*.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Sélectionnez *Sauvegarde*.
+
+
+. Surveillez la progression en sélectionnant *Surveillance > Tâches*.
+
+
+.Après avoir terminé
+* Dans la configuration AIX, vous pouvez utiliser le `lkdev` commande pour verrouiller et le `rendev` commande pour renommer les disques sur lesquels résidait la base de données sauvegardée.
++
+Le verrouillage ou le changement de nom des appareils n'affectera pas l'opération de restauration lorsque vous restaurez à l'aide de cette sauvegarde.
+
+* Si l'opération de sauvegarde échoue parce que le temps d'exécution de la requête de base de données a dépassé la valeur du délai d'expiration, vous devez modifier la valeur des paramètres ORACLE_SQL_QUERY_TIMEOUT et ORACLE_PLUGIN_SQL_QUERY_TIMEOUT en exécutant la commande `Set-SmConfigSettings` applet de commande :
++
+Après avoir modifié la valeur des paramètres, redémarrez le service SnapCenter Plug-in Loader (SPL) en exécutant la commande suivante `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+* Si le fichier n'est pas accessible et que le point de montage n'est pas disponible pendant le processus de vérification, l'opération peut échouer avec le code d'erreur DBV-00100 du fichier spécifié.  Vous devez modifier les valeurs des paramètres VERIFICATION_DELAY_ et VERIFICATION_RETRY_COUNT dans sco.properties.
++
+Après avoir modifié la valeur des paramètres, redémarrez le service SnapCenter Plug-in Loader (SPL) en exécutant la commande suivante `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+

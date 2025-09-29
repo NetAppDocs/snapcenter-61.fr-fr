@@ -1,0 +1,46 @@
+---
+permalink: protect-nsp/back_up_resource_groups_of_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: backup, NetApp supported plug-ins 
+summary: 'Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d"une politique associée et d"une planification configurée, les sauvegardes se produisent automatiquement selon la planification.' 
+---
+= Sauvegarder les groupes de ressources des ressources de plug-in prises en charge par NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez sauvegarder un groupe de ressources à la demande à partir de la page Ressources.  Si un groupe de ressources dispose d'une politique associée et d'une planification configurée, les sauvegardes se produisent automatiquement selon la planification.
+
+.Avant de commencer
+* Vous devez avoir créé un groupe de ressources avec une politique associée.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle ONTAP attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
++
+Vous pouvez rechercher le groupe de ressources soit en saisissant le nom du groupe de ressources dans la zone de recherche, soit en cliquant surimage:../media/filter_icon.gif["icône de filtre"] et en sélectionnant la balise.  Vous pouvez ensuite cliquer surimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Dans la page Groupes de ressources, sélectionnez le groupe de ressources que vous souhaitez sauvegarder, puis cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez associé plusieurs stratégies au groupe de ressources, dans la liste déroulante *Stratégie*, sélectionnez la stratégie que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
++
+** Dans les configurations MetroCluster , SnapCenter peut ne pas être en mesure de détecter une relation de protection après un basculement.
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["Impossible de détecter la relation SnapMirror ou SnapVault après le basculement de MetroCluster"]
+
+** Si vous sauvegardez des données d'application sur des VMDK et que la taille du tas Java pour le SnapCenter Plug-in for VMware vSphere n'est pas suffisamment grande, la sauvegarde peut échouer.  Pour augmenter la taille du tas Java, recherchez le fichier de script /opt/netapp/init_scripts/scvservice.  Dans ce script, le `do_start method` la commande démarre le service plug-in SnapCenter VMware.  Mettez à jour cette commande comme suit : `Java -jar -Xmx8192M -Xms4096M` .
+
+
+

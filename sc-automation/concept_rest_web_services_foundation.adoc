@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_rest_web_services_foundation.html 
+keywords: uri endpoints, http messages, json format 
+summary: 'REST est un style de création d"applications Web distribuées. Appliqué à la conception d"une API de services web, il établit un ensemble de technologies et de bonnes pratiques pour exposer les ressources serveur et gérer leurs états.  Il utilise des protocoles et des normes courants pour fournir une base flexible pour la gestion de SnapCenter.' 
+---
+= Fondation des services Web REST
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le transfert d'état représentatif (REST) est un style de création d'applications web distribuées. Appliqué à la conception d'une API de services web, il établit un ensemble de technologies et de bonnes pratiques pour exposer les ressources serveur et gérer leurs états. Il utilise des protocoles et des normes courants pour fournir une base flexible pour la gestion de SnapCenter.
+
+
+
+== Ressources et représentation de l'État
+
+Les ressources sont les composants de base d'un système web. Lors de la création d'une application de services web REST, les premières tâches de conception incluent :
+
+
+
+=== Identification des ressources système ou serveur
+
+Chaque système utilise et entretient des ressources. Une ressource peut être un fichier, une transaction métier, un processus ou une entité administrative. L'une des premières tâches de la conception d'une application basée sur les services Web REST est d'identifier les ressources.
+
+
+
+=== Définition des états des ressources et des opérations d'état associées
+
+Les ressources sont toujours dans l’un des nombreux états possibles.  Les états, ainsi que les opérations associées utilisées pour affecter les changements d’état, doivent être clairement définis.
+
+
+
+== Points de terminaison URI
+
+Chaque ressource REST doit être définie et rendue disponible selon un schéma d'adressage précis. Les points de terminaison où les ressources sont localisées et identifiées utilisent un identifiant de ressource uniforme (URI).
+
+Cet URI fournit un cadre général pour créer un nom unique pour chaque ressource du réseau. L'URL (Uniform Resource Locator) est un type d'URI utilisé par les services web pour identifier et accéder aux ressources. Les ressources sont généralement présentées dans une structure hiérarchique similaire à un répertoire de fichiers.
+
+
+
+== messages HTTP
+
+Le protocole HTTP (Hypertext Transfer Protocol) est utilisé par le client et le serveur de services Web pour échanger des messages de requête et de réponse concernant les ressources.
+
+Dans le cadre de la conception d'une application de services Web, les méthodes HTTP sont mappées aux ressources et aux actions de gestion d'état correspondantes. HTTP est un protocole sans état.  Par conséquent, pour associer un ensemble de requêtes et de réponses associées dans le cadre d’une transaction, des informations supplémentaires doivent être incluses dans les en-têtes HTTP transportés avec les flux de données de requête et de réponse.
+
+
+
+== Formatage JSON
+
+Bien que les informations puissent être structurées et transférées entre un client et un serveur de services Web de plusieurs manières, l'option la plus populaire est JavaScript Object Notation (JSON).
+
+JSON est une norme industrielle pour la représentation de structures de données simples en texte brut et permet de transférer des informations d'état décrivant les ressources. L'API REST SnapCenter utilise JSON pour formater les données transportées dans le corps de chaque requête et réponse HTTP.

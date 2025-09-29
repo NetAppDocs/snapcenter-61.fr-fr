@@ -1,0 +1,77 @@
+---
+permalink: protect-scsql/task_split_a_clone_for_sql.html 
+sidebar: sidebar 
+keywords: split clone 
+summary: Vous pouvez utiliser SnapCenter pour diviser une ressource clonée de la ressource parent.  Le clone divisé devient indépendant de la ressource parent. 
+---
+= Diviser un clone
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour diviser une ressource clonée de la ressource parent.  Le clone divisé devient indépendant de la ressource parent.
+
+.À propos de cette tâche
+* Vous ne pouvez pas effectuer l’opération de division de clone sur un clone intermédiaire.
++
+Par exemple, après avoir créé clone1 à partir d'une sauvegarde de base de données, vous pouvez créer une sauvegarde de clone1, puis cloner cette sauvegarde (clone2).  Après avoir créé clone2, clone1 est un clone intermédiaire et vous ne pouvez pas effectuer l'opération de division de clone sur clone1.  Cependant, vous pouvez effectuer l'opération de division de clone sur clone2.
+
++
+Après avoir divisé le clone2, vous pouvez effectuer l'opération de division du clone sur le clone1 car le clone1 n'est plus le clone intermédiaire.
+
+* Lorsque vous divisez un clone, les copies de sauvegarde et les tâches de clonage du clone sont supprimées.
+* Pour plus d'informations sur les opérations de division de volume FlexClone , voir, https://docs.netapp.com/us-en/ontap/volumes/split-flexclone-from-parent-task.html["Diviser un volume FlexClone de son volume parent"^] .
+* Assurez-vous que le volume ou l’agrégat sur le système de stockage est en ligne.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page *Ressources*, sélectionnez l'option appropriée dans la liste Afficher :
++
+|===
+| Option | Description 
+
+
+ a| 
+Pour les applications de base de données
+ a| 
+Sélectionnez *Base de données* dans la liste Affichage.
+
+
+
+ a| 
+Pour les systèmes de fichiers
+ a| 
+Sélectionnez *Chemin* dans la liste Affichage.
+
+|===
+. Sélectionnez la ressource appropriée dans la liste.
++
+La page de topologie des ressources s'affiche.
+
+. Dans la vue *Gérer les copies*, sélectionnez la ressource clonée (par exemple, la base de données ou le LUN), puis cliquez sur *image:../media/split_clone.gif["Icône de clonage fractionné"] *.
+. Vérifiez la taille estimée du clone à diviser et l’espace requis disponible sur l’agrégat, puis cliquez sur *Démarrer*.
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
++
+L'opération de division du clone cesse de répondre si le service SMCore redémarre.  Vous devez exécuter l’applet de commande Stop-SmJob pour arrêter l’opération de division du clonage, puis réessayer l’opération de division du clonage.
+
++
+Si vous souhaitez un temps d'interrogation plus long ou plus court pour vérifier si le clone est divisé ou non, vous pouvez modifier la valeur du paramètre _CloneSplitStatusCheckPollTime_ dans le fichier _SMCoreServiceHost.exe.config_ pour définir l'intervalle de temps pendant lequel SMCore doit interroger l'état de l'opération de division du clone.  La valeur est en millisecondes et la valeur par défaut est de 5 minutes.
+
++
+Par exemple:
+
++
+[listing]
+----
+<add key="CloneSplitStatusCheckPollTime" value="300000" />
+----
++
+L'opération de démarrage du fractionnement du clone échoue si une sauvegarde, une restauration ou un autre fractionnement du clone est en cours.  Vous ne devez redémarrer l'opération de division du clone qu'une fois les opérations en cours terminées.
+
+
+
+.Informations connexes
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_clone_or_verfication_fails_with_aggregate_does_not_exist["Le clonage ou la vérification de SnapCenter échoue avec l'agrégat qui n'existe pas"]

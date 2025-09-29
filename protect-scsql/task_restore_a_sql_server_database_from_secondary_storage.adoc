@@ -1,0 +1,38 @@
+---
+permalink: protect-scsql/task_restore_a_sql_server_database_from_secondary_storage.html 
+sidebar: sidebar 
+keywords: restore operation 
+summary: 'Vous pouvez restaurer les bases de données SQL Server sauvegardées à partir des LUN physiques (RDM, iSCSI ou FCP) sur un système de stockage secondaire.  La fonction de restauration est un processus en plusieurs phases qui copie toutes les données et les pages de journal d"une sauvegarde SQL Server spécifiée résidant sur le système de stockage secondaire vers une base de données spécifiée.' 
+---
+= Restaurer une base de données SQL Server à partir d'un stockage secondaire
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez restaurer les bases de données SQL Server sauvegardées à partir des LUN physiques (RDM, iSCSI ou FCP) sur un système de stockage secondaire.  La fonctionnalité de restauration est un processus en plusieurs phases qui copie toutes les données et les pages de journal d'une sauvegarde SQL Server spécifiée résidant sur le système de stockage secondaire vers une base de données spécifiée.
+
+.Avant de commencer
+* Vous devez avoir répliqué les instantanés du système de stockage principal vers le système de stockage secondaire.
+* Vous devez vous assurer que le serveur SnapCenter et l'hôte du plug-in peuvent se connecter au système de stockage secondaire.
+* La plupart des champs des pages de l’assistant de restauration sont expliqués dans le processus de restauration de base.  Les informations suivantes décrivent certains des domaines pour lesquels vous pourriez avoir besoin de conseils.
+
+
+.À propos de cette tâche
+Pour les stratégies activées par SnapLock , pour ONTAP 9.12.1 et les versions antérieures, si vous spécifiez une période de verrouillage des snapshots, les clones créés à partir des snapshots inviolables dans le cadre de la restauration hériteront du délai d'expiration de SnapLock . L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez *Plug-in SnapCenter pour SQL Server* dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste déroulante *Affichage*.
+. Sélectionnez la base de données ou le groupe de ressources.
++
+La page de topologie de la base de données ou du groupe de ressources s'affiche.
+
+. Dans la section Gérer les copies, sélectionnez *Sauvegardes* à partir du système de stockage secondaire (en miroir ou coffre-fort).
+. Sélectionnez la sauvegarde dans la liste, puis cliquez surimage:../media/restore_icon.gif["icône de restauration"] .
+. Dans la page Emplacement, choisissez le volume de destination pour la restauration de la ressource sélectionnée.
+. Terminez l’assistant de restauration, vérifiez le résumé, puis cliquez sur *Terminer*.
+
+
+Si vous avez restauré une base de données sur un chemin différent partagé par d'autres bases de données, vous devez effectuer une sauvegarde complète et une vérification de sauvegarde pour confirmer que votre base de données restaurée est exempte de corruption au niveau physique.

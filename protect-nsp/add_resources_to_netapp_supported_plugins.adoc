@@ -1,0 +1,202 @@
+---
+permalink: protect-nsp/add_resources_to_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-in, resources, NetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: Vous devez ajouter les ressources que vous souhaitez sauvegarder ou cloner.  Selon votre environnement, les ressources peuvent être des instances de base de données ou des collections que vous souhaitez sauvegarder ou cloner. 
+---
+= Ajouter des ressources aux plug-ins pris en charge par NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez ajouter les ressources que vous souhaitez sauvegarder ou cloner.  Selon votre environnement, les ressources peuvent être des instances de base de données ou des collections que vous souhaitez sauvegarder ou cloner.
+
+.Avant de commencer
+* Vous devez avoir effectué des tâches telles que l’installation du serveur SnapCenter , l’ajout d’hôtes, la création de connexions au système de stockage et l’ajout d’informations d’identification.
+* Vous devez avoir téléchargé les plug-ins sur SnapCenter Server.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Ajouter une ressource*.
+. Dans la page Fournir les détails des ressources, effectuez les actions suivantes :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom
+ a| 
+Entrez le nom de la ressource.
+
+
+
+ a| 
+Nom d'hôte
+ a| 
+Sélectionnez l'hôte.
+
+
+
+ a| 
+Type
+ a| 
+Sélectionnez le type.  Le type est défini par l'utilisateur conformément au fichier de description du plug-in.  Par exemple, base de données et instance.
+
+Si le type sélectionné a un parent, saisissez les détails du parent.  Par exemple, si le type est Base de données et le parent est Instance, entrez les détails de l'instance.
+
+
+
+ a| 
+Nom d'identification
+ a| 
+Sélectionnez les informations d’identification ou créez-en une nouvelle.
+
+
+
+ a| 
+Chemins de montagne
+ a| 
+Saisissez les chemins de montage où la ressource est montée.  Ceci s'applique uniquement à un hôte Windows.
+
+|===
+. Sur la page Fournir l'empreinte de stockage, sélectionnez un système de stockage et choisissez un ou plusieurs volumes, LUN et qtrees, puis sélectionnez *Enregistrer*.
++
+Facultatif : sélectionnez leimage:../media/add_policy_from_resourcegroup.gif["Icône Plus"] icône pour ajouter plus de volumes, de LUN et de qtrees à partir d'autres systèmes de stockage.
+
++
+
+NOTE: Les plug-ins pris en charge par NetApp ne prennent pas en charge la découverte automatique des ressources.  Les détails de stockage des environnements physiques et virtuels ne sont pas non plus découverts automatiquement.  Vous devez fournir les informations de stockage pour les environnements physiques et virtuels lors de la création des ressources.
+
++
+image::../media/storage_footprint.png[Empreinte de stockage]
+
+. Dans la page Paramètres des ressources, fournissez des paires clé-valeur personnalisées pour la ressource.
++
+
+NOTE: Assurez-vous que le nom des clés personnalisées est en majuscules.
+
++
+image::../media/resource_settings.gif[paramètres des ressources]
+
++
+Pour les paramètres respectifs du plug-in, reportez-vous àlink:add_resources_to_netapp_supported_plugins.html#parameters-to-configure-the-resource["Paramètres pour configurer la ressource"]
+
+. Consultez le résumé, puis sélectionnez *Terminer*.
+
+
+.Résultat
+Les ressources sont affichées avec des informations telles que le type, le nom de l'hôte ou du cluster, les groupes de ressources et les politiques associés, ainsi que l'état général.
+
+
+IMPORTANT: Vous devez actualiser les ressources si les bases de données sont renommées en dehors de SnapCenter.
+
+.Après avoir terminé
+Si vous souhaitez fournir l’accès aux ressources à d’autres utilisateurs, l’administrateur SnapCenter doit attribuer des ressources à ces utilisateurs.  Cela permet aux utilisateurs d’effectuer les actions pour lesquelles ils disposent d’autorisations sur les actifs qui leur sont attribués.
+
+Après avoir ajouté les ressources, vous pouvez modifier les détails des ressources.  Si une ressource de plug-ins prise en charge par NetApp est associée à des sauvegardes, les champs suivants ne peuvent pas être modifiés : nom de la ressource, type de ressource et nom d'hôte.
+
+
+
+== Paramètres pour configurer la ressource
+
+Si vous ajoutez les plug-ins manuellement, vous pouvez utiliser les paramètres suivants pour configurer la ressource dans la page Paramètres des ressources.
+
+
+
+=== Plug-in pour MongoDB
+
+Paramètres des ressources :
+
+* MONGODB_APP_SERVER=(pour le type de ressource en tant que cluster fragmenté) ou MONGODB_REPLICASET_SERVER=(pour le type de ressource en tant que replicaset)
+* OPLOG_PATH=(Paramètre facultatif s'il est fourni à partir du fichier MongoDB.propertiesfile)
+* MONGODB_AUTHENTICATION_TYPE= (PLAIN pour l'authentification LDAP et None pour les autres)
+
+
+Vous devez fournir les paramètres suivants qui doivent être fournis dans le fichier MongoDB.properties :
+
+* DÉSACTIVER_DÉMARRAGE_ARRET_SERVICES=
++
+** N si les services de démarrage/arrêt sont effectués par le plug-in.
+** Y si les services de démarrage/**arrêt sont exécutés par l'utilisateur.
+** Le paramètre facultatif par défaut est défini sur N.
+
+
+* OPLOG_PATH_= (Paramètre facultatif au cas où il serait déjà fourni en tant que paire clé-valeur personnalisée dans SnapCenter).
+
+
+
+
+=== Plug-in pour MaxDB
+
+Paramètres des ressources :
+
+* XUSER_ENABLE (Y|N) active ou désactive l'utilisation d'un xuser pour MaxDB afin qu'un mot de passe ne soit pas requis pour l'utilisateur de la base de données.
+* HANDLE_LOGWRITER (Y|N) exécute les opérations de suspension du journalwriter (N) ou de reprise du journalwriter (Y).
+* DBMCLICMD (path_to_dbmcli_cmd) spécifie le chemin d'accès à la commande dbmcli MaxDB.  Si non défini, dbmcli sur le chemin de recherche est utilisé.
+
+
+
+NOTE: Pour l'environnement Windows, le chemin doit être entre guillemets ("...").
+
+* SQLCLICMD (path_to_sqlcli_cmd) spécifie le chemin d'accès à la commande sqlcli MaxDB.  Si le chemin n'est pas défini, sqlcli est utilisé sur le chemin de recherche.
+* MAXDB_UPDATE_HIST_LOG (Y|N) indique au programme de sauvegarde MaxDB s'il doit mettre à jour le journal d'historique MaxDB.
+* MAXDB_CHECK_SNAPSHOT_DIR : Exemple, SID1:directory[,directory...]; [SID2:directoary[,directory...] vérifie qu'une opération de copie d'instantané Snap Creator est réussie et garantit que l'instantané est créé.
++
+Ceci s'applique uniquement à NFS.  Le répertoire doit pointer vers l’emplacement qui contient le répertoire .snapshot.  Plusieurs répertoires peuvent être inclus dans une liste séparée par des virgules.
+
++
+Dans MaxDB 7.8 et les versions ultérieures, la demande de sauvegarde de la base de données est marquée comme Échec dans l'historique de sauvegarde.
+
+* MAXDB_BACKUP_TEMPLATES : spécifie un modèle de sauvegarde pour chaque base de données.
++
+Le modèle doit exister et être un type de modèle de sauvegarde externe.  Pour activer l'intégration de snapshots pour MaxDB 7.8 et versions ultérieures, vous devez disposer de la fonctionnalité de serveur d'arrière-plan MaxDB et d'un modèle de sauvegarde MaxDB déjà configuré de type EXTERNE.
+
+* MAXDB_BG_SERVER_PREFIX : spécifie le préfixe du nom du serveur d’arrière-plan.
++
+Si le paramètre MAXDB_BACKUP_TEMPLATES est défini, vous devez également définir le paramètre MAXDB_BG_SERVER_PREFIX.  Si vous ne définissez pas le préfixe, la valeur par défaut na_bg_ est utilisée.
+
+
+
+
+
+=== Plug-in pour SAP ASE
+
+Paramètres des ressources :
+
+* SYBASE_SERVER (data_server_name) spécifie le nom du serveur de données Sybase (option -S sur la commande isql).  Par exemple, p_test.
+* SYBASE_DATABASES_EXCLUDE (db_name) permet d'exclure des bases de données si la construction « ALL » est utilisée.
++
+Vous pouvez spécifier plusieurs bases de données en utilisant une liste séparée par des points-virgules.  Par exemple : pubs2 ; test_db1.
+
+* SYBASE_USER : user_name spécifie l'utilisateur du système d'exploitation qui peut exécuter la commande isql.
++
+Requis pour UNIX.  Ce paramètre est requis si l'utilisateur exécutant les commandes de démarrage et d'arrêt de Snap Creator Agent (généralement l'utilisateur root) et l'utilisateur exécutant la commande isql sont différents.
+
+* SYBASE_TRAN_DUMP db_name:directory_path vous permet d'effectuer un vidage de transaction Sybase après la création d'un instantané.  Par exemple, pubs2:/sybasedumps/ pubs2
++
+Vous devez spécifier chaque base de données nécessitant un vidage de transaction.
+
+* SYBASE_TRAN_DUMP_COMPRESS (Y|N) active ou désactive la compression native du vidage des transactions Sybase.
+* SYBASE_ISQL_CMD (par exemple, /opt/sybase/OCS-15_0/bin/isql) définit le chemin d'accès à la commande isql.
+* SYBASE_EXCLUDE_TEMPDB (Y|N) vous permet d'exclure automatiquement les bases de données temporaires créées par l'utilisateur.
+
+
+
+
+=== Plug-in pour les applications Oracle (ORASCPM)
+
+Paramètres des ressources :
+
+* SQLPLUS_CMD spécifie le chemin vers SQLplus.
+* ORACLE_DATABASES répertorie les bases de données Oracle à sauvegarder et l'utilisateur correspondant (base de données : utilisateur).
+* CNTL_FILE_BACKUP_DIR spécifie le répertoire de sauvegarde du fichier de contrôle.
+* ORA_TEMP spécifie le répertoire des fichiers temporaires.
+* ORACLE_HOME spécifie le répertoire dans lequel le logiciel Oracle est installé.
+* ARCHIVE_LOG_ONLY spécifie s'il faut sauvegarder les journaux d'archive ou non.
+* ORACLE_BACKUPMODE spécifie s'il faut effectuer une sauvegarde en ligne ou hors ligne.
+* ORACLE_EXPORT_PARAMETERS spécifie si les variables d'environnement définies ci-dessus doivent être réexportées lors de l'exécution de _/bin/su <user running sqlplus> -c sqlplus /nolog <cmd>_.  C'est généralement le cas lorsque l'utilisateur qui exécute sqlplus n'a pas défini toutes les variables d'environnement nécessaires pour se connecter à la base de données en utilisant _connect / as sysdba_.
+

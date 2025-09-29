@@ -1,0 +1,104 @@
+---
+permalink: protect-sce/task_install_the_snapcenter_plug_in_for_exchange_silently_from_the_command_line.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 'Vous devez installer le plug-in pour Exchange à partir de l"interface utilisateur de SnapCenter .  Toutefois, si pour une raison quelconque vous ne pouvez pas le faire, vous pouvez exécuter le programme d"installation du plug-in pour Exchange sans surveillance en mode silencieux à partir de la ligne de commande Windows.' 
+---
+= Installez le plug-in SnapCenter pour Exchange en mode silencieux à partir de la ligne de commande
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez installer le plug-in pour Exchange à partir de l'interface utilisateur de SnapCenter .  Toutefois, si pour une raison quelconque vous ne pouvez pas le faire, vous pouvez exécuter le programme d'installation du plug-in pour Exchange sans surveillance en mode silencieux à partir de la ligne de commande Windows.
+
+.Avant de commencer
+* Vous devez avoir sauvegardé vos ressources Microsoft Exchange Server.
+* Vous devez avoir installé les packages de plug-ins SnapCenter .
+* Vous devez supprimer la version antérieure du plug-in SnapCenter pour Microsoft SQL Server avant l'installation.
++
+Pour plus d'informations, consultez la section  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_Install_a_SnapCenter_Plug-In_manually_and_directly_from_thePlug-In_Host["Comment installer un plug-in SnapCenter manuellement et directement depuis l'hôte du plug-in"^] .
+
+
+
+.Étapes
+. Vérifiez si le dossier _C:\temp_ existe sur l'hôte du plug-in et si l'utilisateur connecté y a un accès complet.
+. Téléchargez le plug-in SnapCenter pour Microsoft Windows à partir de _C:\ProgramData\ NetApp\ SnapCenter\Package_ Repository.
++
+Ce chemin est accessible depuis l’hôte sur lequel le serveur SnapCenter est installé.
+
+. Copiez le fichier d’installation sur l’hôte sur lequel vous souhaitez installer le plug-in.
+. À partir d’une invite de commande Windows sur l’hôte local, accédez au répertoire dans lequel vous avez enregistré les fichiers d’installation du plug-in.
+. Entrez la commande suivante pour installer le plug-in.
++
+_snapcenter_windows_host_plugin.exe"/silent /debuglog"<Chemin_du_journal_de_débogage>" /log"<Chemin_du_journal>" BI_SNAPCENTER_PORT=<Num> SUITE_INSTALLDIR="<Chemin_du_répertoire_d'installation>" BI_SERVICEACCOUNT=<domaine\administrateur> BI_SERVICEPWD=<mot_de_passe> ISFeatureInstall=HPPW,SCW,SCE_
+
++
+Par exemple:
+
++
+_C:\ProgramData\ NetApp\ SnapCenter\Package Repository\snapcenter_windows_host_plugin.exe"/silent /debuglog"C:\HPPW_SCSQL_Install.log" /log"C:\temp" BI_SNAPCENTER_PORT=8145 SUITE_INSTALLDIR="C:\Program Files\ NetApp\ SnapCenter" BI_SERVICEACCOUNT=domaine\administrateur BI_SERVICEPWD=mot de passe ISFeatureInstall=HPPW,SCW,SCE_
+
++
+
+NOTE: Tous les paramètres transmis lors de l'installation du Plug-in pour Exchange sont sensibles à la casse.
+
++
+Saisissez les valeurs suivantes pour les variables :
+
++
+|===
+| Variable | Valeur 
+
+
+ a| 
+_/debuglog"<Chemin_du_journal_de_débogage>_
+ a| 
+Spécifiez le nom et l’emplacement du fichier journal du programme d’installation de la suite, comme dans l’exemple suivant :
+
+_Setup.exe /debuglog"C:\CheminVersLeJournal\setupexe.log_
+
+
+
+ a| 
+BI_SNAPCENTER_PORT
+ a| 
+Spécifiez le port sur lequel SnapCenter communique avec SMCore.
+
+
+
+ a| 
+SUITE_INSTALLDIR
+ a| 
+Spécifiez le répertoire d'installation du package du plug-in hôte.
+
+
+
+ a| 
+BI_SERVICEACCOUNT
+ a| 
+Spécifiez le plug-in SnapCenter pour le compte de service Web Microsoft Windows.
+
+
+
+ a| 
+BI_SERVICEPWD
+ a| 
+Spécifiez le mot de passe du compte de service Web SnapCenter Plug-in pour Microsoft Windows.
+
+
+
+ a| 
+Installation de la fonctionnalité ISFeature
+ a| 
+Spécifiez la solution à déployer par SnapCenter sur l'hôte distant.
+
+|===
+. Surveillez le planificateur de tâches Windows, le fichier journal d'installation principal _C:\Installdebug.log_ et les fichiers d'installation supplémentaires dans _C:\Temp_.
+. Surveillez le répertoire _%temp%_ pour vérifier si les programmes d'installation _msiexe.exe_ installent le logiciel sans erreur.
++
+
+NOTE: L'installation du plug-in pour Exchange enregistre le plug-in sur l'hôte et non sur le serveur SnapCenter .  Vous pouvez enregistrer le plug-in sur le serveur SnapCenter en ajoutant l’hôte à l’aide de l’interface graphique SnapCenter ou de l’applet de commande PowerShell.  Une fois l’hôte ajouté, le plug-in est automatiquement découvert.
+
+

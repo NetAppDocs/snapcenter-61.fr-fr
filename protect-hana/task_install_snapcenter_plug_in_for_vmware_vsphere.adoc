@@ -1,0 +1,30 @@
+---
+permalink: protect-hana/task_install_snapcenter_plug_in_for_vmware_vsphere.html 
+sidebar: sidebar 
+keywords: install, VMware vSphere 
+summary: 'Si votre base de données est stockée sur des machines virtuelles (VM) ou si vous souhaitez protéger les machines virtuelles et les banques de données, vous devez déployer le SnapCenter Plug-in for VMware vSphere .' 
+---
+= Installer le SnapCenter Plug-in for VMware vSphere
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si votre base de données ou votre système de fichiers est stocké sur des machines virtuelles (VM), ou si vous souhaitez protéger les machines virtuelles et les banques de données, vous devez déployer le SnapCenter Plug-in for VMware vSphere .
+
+Pour plus d'informations sur le déploiement, voir https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["Présentation du déploiement"^] .
+
+
+
+== Déployer un certificat CA
+
+Pour configurer le certificat CA avec le SnapCenter Plug-in for VMware vSphere, consultez https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_create_and_or_import_an_SSL_certificate_to_SnapCenter_Plug-in_for_VMware_vSphere_(SCV)["Créer ou importer un certificat SSL"^] .
+
+
+
+== Configurer le fichier CRL
+
+Le SnapCenter Plug-in for VMware vSphere recherche les fichiers CRL dans un répertoire préconfiguré.  Le répertoire par défaut des fichiers CRL pour SnapCenter Plug-in for VMware vSphere est _/opt/netapp/config/crl_.
+
+Vous pouvez placer plusieurs fichiers CRL dans ce répertoire.  Les certificats entrants seront vérifiés par rapport à chaque CRL.

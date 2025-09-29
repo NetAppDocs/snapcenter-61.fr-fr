@@ -1,0 +1,70 @@
+---
+permalink: upgrade/upgrade_workflow.html 
+sidebar: sidebar 
+keywords: upgrade, snapcenter server, plug-ins, workflow, upgrade path 
+summary: Décrit comment mettre à niveau SnapCenter Server et les plug-ins et quels sont les chemins de mise à niveau pris en charge 
+---
+= Flux de travail de mise à niveau
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Chaque version de SnapCenter contient un serveur SnapCenter mis à jour et un package de plug-in.  Les mises à jour du package de plug-in sont distribuées avec le programme d'installation de SnapCenter .  Vous pouvez configurer SnapCenter pour vérifier les mises à jour disponibles.
+
+Le flux de travail montre les différentes tâches requises pour mettre à niveau le serveur SnapCenter et les packages de plug-ins.
+
+image::../media/upgrade_workflow.gif[flux de travail de mise à niveau]
+
+
+
+== Chemins de mise à niveau pris en charge
+
+Le chemin de mise à niveau vous aide à comprendre à partir de quelles versions antérieures de SnapCenter vous pouvez effectuer une mise à niveau vers les dernières versions de SnapCenter et quelles versions des plug-ins sont prises en charge.
+
+|===
+| Si vous utilisez la version SnapCenter Server... | Vous pouvez directement mettre à niveau SnapCenter Server vers... | Versions de plug-ins prises en charge 
+
+
+.3+| 5,0 | 6,0  a| 
+* 5,0
+* 6,0
+
+
+
+
+| 6.0.1  a| 
+* 6.0.1
+
+
+
+
+| 6,1  a| 
+* 6,1
+
+
+
+
+.2+| 6,0  a| 
+6.0.1
+ a| 
+* 6,0
+* 6.0.1
+
+
+
+
+| 6,1  a| 
+* 6,1
+
+
+
+
+| 6.0.1 | 6,1  a| 
+* 6.0.1
+* 6,1
+
+
+|===
+Pour plus d'informations sur la mise à niveau du SnapCenter Plug-in for VMware vSphere, consultez https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_upgrade.html["Mettre à niveau le SnapCenter Plug-in for VMware vSphere"^] .

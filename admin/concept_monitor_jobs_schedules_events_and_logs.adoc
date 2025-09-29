@@ -1,0 +1,170 @@
+---
+permalink: admin/concept_monitor_jobs_schedules_events_and_logs.html 
+sidebar: sidebar 
+keywords: Monitor jobs, schedules, events, logs 
+summary: Vous pouvez surveiller la progression de vos tâches, obtenir des informations sur les tâches planifiées et consulter les événements et les journaux à partir de la page Surveiller. 
+---
+= Surveiller les tâches, les planifications, les événements et les journaux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez surveiller la progression de vos tâches, obtenir des informations sur les tâches planifiées et consulter les événements et les journaux à partir de la page Surveiller.
+
+
+
+== Surveiller les emplois
+
+Vous pouvez afficher des informations sur les tâches de sauvegarde, de clonage, de restauration et de vérification de SnapCenter .  Vous pouvez filtrer cette vue selon les dates de début et de fin, le type de tâche, le groupe de ressources, la stratégie ou le plug-in SnapCenter . Vous pouvez également obtenir des détails supplémentaires et des fichiers journaux pour des tâches spécifiques.
+
+Vous pouvez également surveiller les tâches liées aux opérations SnapMirror et SnapVault .
+
+
+NOTE: Vous ne pouvez surveiller que les tâches que vous avez créées et qui vous concernent, sauf si le rôle d'administrateur SnapCenter ou un autre rôle de superutilisateur vous est attribué.
+
+Vous pouvez effectuer les tâches suivantes liées à la surveillance des tâches :
+
+* Surveillez les opérations de sauvegarde, de clonage, de restauration et de vérification.
+* Afficher les détails et les rapports du travail.
+* Arrêter une tâche planifiée.
+
+
+
+
+=== Gérer les tâches de sauvegarde planifiées
+
+À partir de la version SnapCenter 6.0.1, un nouveau paramètre *JobConcurrencyThreshold* a été introduit qui définit un seuil pour le nombre de tâches planifiées pouvant s'exécuter à un moment donné.  Cela vous permet de contrôler le nombre de sauvegardes que vous souhaitez exécuter en fonction de la configuration matérielle de votre système.
+
+La valeur par défaut attribuée à *JobConcurrencyThreshold* est 0 et est désactivée.  Vous pouvez l'activer en attribuant une valeur, si vous observez une dégradation des performances pendant la fenêtre de sauvegarde planifiée.
+
+
+NOTE: Si vous activez *JobConcurrencyThreshold* pour gérer les tâches simultanées, SnapCenter ne vous permettra pas de contrôler l'ordre des sauvegardes et les sauvegardes risquent de ne pas être déclenchées au même moment spécifié dans la planification.
+
+.Étapes
+. Définissez la valeur du paramètre _JobConcurrencyThreshold_ situé dans _C:\Program Files\ NetApp\ SnapCenter WebApp\ SnapManager.Web.UI.dll.config_.
+. Recyclez le pool d’applications SnapCenter en cliquant sur IIS > Pools d’applications > SnapCenter > Redémarrer.
+. Redémarrez le service Web SnapCenter en cliquant sur IIS > Sites > SnapCenter > Redémarrer.
+
+
+
+
+=== Gérer les emplois obsolètes
+
+Les tâches obsolètes sont créées à partir d'interruptions dans SnapCenter ou de mises à jour de tâches incorrectes.  À partir de la version SnapCenter 6.0.1, une planification prédéfinie est introduite pour nettoyer ces tâches obsolètes bloquées depuis plus de 72 heures.  Vous pouvez modifier la fréquence de planification en modifiant le paramètre configurable *CleanUpStaleJobsIntervalHours*.
+
+Vous pouvez déclencher le nettoyage à la demande en exécutant la planification depuis *Monitor* > *Schedules* > *SnapCenter_StaleJobCleanUp*.
+
+.Étapes
+. Définissez la valeur du paramètre _CleanUpStaleJobsIntervalHours_ situé dans _C:\Program Files\ NetApp\ SnapCenter WebApp\ SnapManager.Web.UI.dll.config_.
+. Recyclez le pool d’applications SnapCenter en cliquant sur IIS > Pools d’applications > SnapCenter > Redémarrer.
+. Redémarrez le service Web SnapCenter en cliquant sur IIS > Sites > SnapCenter > Redémarrer.
+
+
+
+
+== Surveiller les horaires
+
+Vous souhaiterez peut-être afficher les planifications actuelles pour déterminer quand l'opération démarre, quand elle a été exécutée pour la dernière fois et quand elle s'exécutera ensuite.  Vous pouvez également déterminer l'hôte sur lequel l'opération s'exécute, ainsi que le groupe de ressources et les informations de stratégie de l'opération.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Dans la page Moniteur, cliquez sur *Planifications*.
+. Sélectionnez le groupe de ressources et le type de planification.
+. Afficher la liste des opérations planifiées.
+
+
+
+
+== Surveiller les événements
+
+Vous pouvez afficher une liste des événements SnapCenter dans le système, par exemple lorsqu'un utilisateur crée un groupe de ressources ou lorsque le système lance des activités, telles que la création d'une sauvegarde planifiée.  Vous souhaiterez peut-être afficher les événements pour déterminer si une opération telle qu'une sauvegarde ou une restauration est actuellement en cours.
+
+*À propos de cette tâche*
+
+Toutes les informations sur les emplois apparaissent dans la page Événements.  Par exemple, lorsqu'une tâche de sauvegarde démarre, un événement « démarrage de la sauvegarde » apparaît.  Une fois la sauvegarde terminée, un événement « sauvegarde terminée » s'affiche.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Dans la page Moniteur, cliquez sur *Événements*.
+. (Facultatif) Dans la zone Filtre, saisissez la date de début ou de fin, la catégorie d'événement (par exemple, sauvegarde, groupe de ressources ou stratégie) et le niveau de gravité, puis cliquez sur *Appliquer*.  Vous pouvez également saisir des caractères dans la zone de recherche.
+. Consultez la liste des événements.
+
+
+
+
+== Surveiller les journaux
+
+Vous pouvez afficher et télécharger les journaux du serveur SnapCenter , les journaux de l'agent hôte SnapCenter et les journaux des plug-ins.  Vous souhaiterez peut-être consulter les journaux pour faciliter le dépannage.
+
+*À propos de cette tâche*
+
+Vous pouvez filtrer les journaux pour afficher uniquement un niveau de gravité de journal spécifique :
+
+* Déboguer
+* Informations
+* Avertir
+* Erreur
+* Fatal
+
+
+Vous pouvez également obtenir des journaux au niveau des tâches, par exemple des journaux qui vous aident à résoudre la raison de l'échec d'une tâche de sauvegarde.  Pour les journaux de niveau de travail, utilisez l'option *Surveillance* > *Tâches*.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Sur la page Tâches, sélectionnez une tâche et cliquez sur Télécharger les journaux.
++
+Le dossier zippé téléchargé contient les journaux de travail et les journaux communs.  Le nom du dossier zippé contient l'ID de tâche et le type de tâche sélectionné.
+
+. Dans la page Moniteur, cliquez sur *Journaux*.
+. Sélectionnez le type de journal, l’hôte et l’instance.
++
+Si vous sélectionnez le type de journal « plugin », vous pouvez sélectionner un hôte ou un plug-in SnapCenter . Ceci n'est pas possible si le type de journal est « serveur ».
+
+. Pour filtrer les journaux par une source, un message ou un niveau de journal spécifique, cliquez sur l'icône de filtre en haut de l'en-tête de la colonne.
++
+Pour afficher tous les journaux, choisissez *Supérieur ou égal à* comme `Debug` niveau.
+
+. Cliquez sur *Actualiser*.
+. Afficher la liste des journaux.
+. Cliquez sur *Télécharger* pour télécharger les journaux.
++
+Le dossier zippé téléchargé contient les journaux de travail et les journaux communs.  Le nom du dossier zippé contient l'ID de tâche et le type de tâche sélectionné.
+
+
+
+Dans les configurations volumineuses pour des performances optimales, vous devez définir les paramètres de journal pour SnapCenter au niveau minimal à l’aide de l’applet de commande PowerShell.
+
+`Set-SmLogSettings -LogLevel All -MaxFileSize 10MB -MaxSizeRollBackups 10 -JobLogsMaxFileSize 10MB -Server`
+
+
+NOTE: Pour accéder aux informations d'intégrité ou de configuration après la fin d'une tâche de basculement, exécutez l'applet de commande `Get-SmRepositoryConfig` .
+
+
+
+== Supprimer les tâches et les journaux de SnapCenter
+
+Vous pouvez supprimer les tâches et les journaux de sauvegarde, de restauration, de clonage et de vérification de SnapCenter.  SnapCenter stocke les journaux des tâches réussies et échouées indéfiniment, sauf si vous les supprimez.  Vous souhaiterez peut-être les supprimer pour reconstituer l'espace de stockage.
+
+*À propos de cette tâche*
+
+Il ne doit y avoir aucun emploi actuellement en activité.  Vous pouvez supprimer un travail spécifique en fournissant un ID de travail ou vous pouvez supprimer des travaux dans une période spécifiée.
+
+Vous n’avez pas besoin de placer l’hôte en mode maintenance pour supprimer des tâches.
+
+*Mesures*
+
+. Lancez PowerShell.
+. Depuis l’invite de commande, entrez : `Open-SMConnection`
+. Depuis l’invite de commande, entrez : `Remove-SmJobs`
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Dans la page Moniteur, cliquez sur *Tâches*.
+. Dans la page Emplois, vérifiez l’état du travail.
+
+
+.Informations connexes
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .

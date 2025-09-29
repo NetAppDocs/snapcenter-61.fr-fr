@@ -1,0 +1,20 @@
+---
+permalink: protect-db2/type-of-backups-supported.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Le type de sauvegarde spécifie le type de sauvegarde que vous souhaitez créer.  SnapCenter prend en charge le type de sauvegarde basé sur une copie instantanée pour les bases de données IBM Db2. 
+---
+= Type de sauvegardes prises en charge
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le type de sauvegarde spécifie le type de sauvegarde que vous souhaitez créer.  SnapCenter prend en charge le type de sauvegarde basé sur une copie instantanée pour les bases de données IBM Db2.
+
+
+
+== Sauvegarde basée sur une copie instantanée
+
+Les sauvegardes basées sur des copies instantanées exploitent la technologie de capture instantanée NetApp pour créer des copies en ligne en lecture seule des volumes sur lesquels résident les bases de données IBM Db2.

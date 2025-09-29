@@ -1,0 +1,61 @@
+---
+permalink: install/task_export_ca_certificates_from_snapcenter_server.html 
+sidebar: sidebar 
+keywords: security,authentication, export CA certificates 
+summary: Vous devez exporter les certificats CA du serveur SnapCenter vers les hôtes du plug-in. 
+---
+= Exporter les certificats d'autorité de certification (CA) depuis SnapCenter Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez exporter les certificats CA du serveur SnapCenter vers les hôtes du plug-in à l'aide de la console de gestion Microsoft (MMC).
+
+.Avant de commencer
+Vous devriez avoir configuré le SSL bidirectionnel.
+
+*Mesures*
+
+. Accédez à la console de gestion Microsoft (MMC), puis cliquez sur *Fichier* > *Ajouter/Supprimer un composant logiciel enfichable*.
+. Dans la fenêtre Ajouter ou supprimer des composants logiciels enfichables, sélectionnez *Certificats*, puis cliquez sur *Ajouter*.
+. Dans la fenêtre du composant logiciel enfichable Certificats, sélectionnez l’option *Compte d’ordinateur*, puis cliquez sur *Terminer*.
+. Cliquez sur *Racine de la console* > *Certificats - Ordinateur local* > *Personnel* > *Certificats*.
+. Cliquez avec le bouton droit sur le certificat CA obtenu, qui est utilisé pour SnapCenter Server, puis sélectionnez *Toutes les tâches* > *Exporter* pour démarrer l'assistant d'exportation.
+. Effectuez les actions suivantes dans l’assistant.
+
+
+|===
+| Pour cette option... | Procédez comme suit... 
+
+
+ a| 
+Exporter la clé privée
+ a| 
+Sélectionnez *Non, ne pas exporter la clé privée*, puis cliquez sur *Suivant*.
+
+
+
+ a| 
+Format du fichier d'exportation
+ a| 
+Cliquez sur *Suivant*.
+
+
+
+ a| 
+Nom de fichier
+ a| 
+Cliquez sur *Parcourir* et spécifiez le chemin du fichier pour enregistrer le certificat, puis cliquez sur *Suivant*.
+
+
+
+ a| 
+Terminer l'assistant d'exportation de certificat
+ a| 
+Consultez le résumé, puis cliquez sur *Terminer* pour démarrer l’exportation.
+
+|===
+
+NOTE: L'authentification basée sur les certificats n'est pas prise en charge pour les configurations SnapCenter HA et SnapCenter Plug-in for VMware vSphere.

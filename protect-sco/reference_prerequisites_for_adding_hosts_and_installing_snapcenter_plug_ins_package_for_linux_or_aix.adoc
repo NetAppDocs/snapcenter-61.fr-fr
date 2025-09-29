@@ -1,0 +1,452 @@
+---
+permalink: protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html 
+sidebar: sidebar 
+keywords: prerequisites, iSCSI, Oracle path, host requirement for Linux, sudo privileges, non-root user, host requirements for AIX, credentials, authenticate, domain administrator, local administrator, workgroup, sudo, root user 
+summary: 'Avant d"ajouter un hôte et d"installer les packages de plug-ins, vous devez remplir toutes les conditions requises.' 
+---
+= Conditions préalables à l'ajout d'hôtes et à l'installation du package de plug-ins pour Linux ou AIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d'ajouter un hôte et d'installer les packages de plug-ins, vous devez remplir toutes les conditions requises.
+
+* Si vous utilisez iSCSI, le service iSCSI doit être en cours d’exécution.
+* Vous devez avoir activé la connexion SSH basée sur un mot de passe pour l'utilisateur root ou non root.
++
+Le plug-in SnapCenter pour Oracle Database peut être installé par un utilisateur non root.  Cependant, vous devez configurer les privilèges sudo pour que l'utilisateur non root puisse installer et démarrer le processus du plug-in.  Après l'installation du plug-in, les processus s'exécuteront en tant qu'utilisateur non root effectif.
+
+* Si vous installez le package de plug-ins SnapCenter pour AIX sur un hôte AIX, vous devez avoir résolu manuellement les liens symboliques au niveau du répertoire.
++
+Le package de plug-ins SnapCenter pour AIX résout automatiquement le lien symbolique au niveau du fichier, mais pas les liens symboliques au niveau du répertoire pour obtenir le chemin absolu JAVA_HOME.
+
+* Créez des informations d’identification avec le mode d’authentification Linux ou AIX pour l’utilisateur d’installation.
+* Vous devez avoir installé Java 11 sur votre hôte Linux ou AIX.
++
+** Java d'Oracle et OpenJDK est pris en charge pour Linux
+** IBM Java pour AIX.  Vous pouvez télécharger à partir de https://developer.ibm.com/languages/java/semeru-runtimes/downloads/?version=11&os=AIX["Téléchargements des environnements d'exécution IBM Semeru"]
++
+
+NOTE: Assurez-vous d’avoir installé uniquement l’édition certifiée de JAVA 11 sur l’hôte Linux.
+
+
+
+* Pour les bases de données Oracle exécutées sur un hôte Linux ou AIX, vous devez installer SnapCenter Plug-in pour Oracle Database et SnapCenter Plug-in pour UNIX.
++
+
+NOTE: Vous pouvez également utiliser le plug-in pour Oracle Database pour gérer les bases de données Oracle pour SAP.  Cependant, l'intégration de SAP BR*Tools n'est pas prise en charge.
+
+* Si vous utilisez la base de données Oracle 11.2.0.3 ou une version ultérieure, vous devez installer le correctif Oracle 13366202.
+
+
+
+NOTE: Le mappage UUID dans le fichier /etc/fstab n'est pas pris en charge par SnapCenter.
+
+* Vous devriez avoir *bash* comme shell par défaut pour l'installation du plug-in.
+
+
+
+
+== Configuration requise pour l'hôte Linux
+
+Vous devez vous assurer que l'hôte répond aux exigences avant d'installer le package de plug-ins SnapCenter pour Linux.
+
+|===
+| Article | Exigences 
+
+
+ a| 
+Systèmes d'exploitation
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
++
+
+NOTE: Si vous utilisez une base de données Oracle sur LVM dans les systèmes d'exploitation Oracle Linux ou Red Hat Enterprise Linux 6.6 ou 7.0, vous devez installer la dernière version de Logical Volume Manager (LVM).
+
+* Serveur d'entreprise SUSE Linux (SLES)
+
+
+
+
+ a| 
+RAM minimale pour le plug-in SnapCenter sur l'hôte
+ a| 
+2 Go
+
+
+
+ a| 
+Espace minimum d'installation et de journalisation pour le plug-in SnapCenter sur l'hôte
+ a| 
+2 Go
+
+
+NOTE: Vous devez allouer suffisamment d’espace disque et surveiller la consommation de stockage par le dossier des journaux.  L'espace journal requis varie en fonction du nombre d'entités à protéger et de la fréquence des opérations de protection des données.  S'il n'y a pas suffisamment d'espace disque, les journaux ne seront pas créés pour les opérations récemment exécutées.
+
+
+
+ a| 
+Logiciels requis
+ a| 
+Java 11 Oracle et OpenJDK
+
+
+NOTE: Assurez-vous d’avoir installé uniquement l’édition certifiée de JAVA 11 sur l’hôte Linux.
+
+Si vous avez mis à niveau JAVA vers la dernière version, vous devez vous assurer que l'option JAVA_HOME située dans /var/opt/snapcenter/spl/etc/spl.properties est définie sur la version JAVA correcte et le chemin correct.
+
+|===
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+
+
+=== Configurer les privilèges sudo pour les utilisateurs non root pour l'hôte Linux
+
+SnapCenter 2.0 et les versions ultérieures permettent à un utilisateur non root d'installer le package de plug-ins SnapCenter pour Linux et de démarrer le processus de plug-in.  Les processus du plug-in s'exécuteront en tant qu'utilisateur non root effectif.  Vous devez configurer les privilèges sudo pour l'utilisateur non root afin de fournir l'accès à plusieurs chemins.
+
+*Ce dont vous aurez besoin*
+
+* Sudo version 1.8.7 ou ultérieure.
+* Si le masque est 0027, assurez-vous que le dossier Java et tous les fichiers qu'il contient doivent avoir l'autorisation 555.  Dans le cas contraire, l’installation du plug-in risque d’échouer.
+* Pour l'utilisateur non root, assurez-vous que le nom de l'utilisateur non root et le groupe de l'utilisateur doivent être identiques.
+* Modifiez le fichier _/etc/ssh/sshd_config_ pour configurer les algorithmes de code d'authentification des messages : MAC hmac-sha2-256 et MAC hmac-sha2-512.
++
+Redémarrez le service sshd après avoir mis à jour le fichier de configuration.
+
++
+Exemple:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*À propos de cette tâche*
+
+Vous devez configurer les privilèges sudo pour l'utilisateur non root afin de fournir l'accès aux chemins suivants :
+
+* /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /custom_location/ NetApp/snapcenter/spl/installation/plugins/uninstall
+* /emplacement_personnalisé/ NetApp/snapcenter/spl/bin/spl
+
+
+*Mesures*
+
+. Connectez-vous à l’hôte Linux sur lequel vous souhaitez installer le package de plug-ins SnapCenter pour Linux.
+. Ajoutez les lignes suivantes au fichier /etc/sudoers en utilisant l’utilitaire Linux visudo.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+
+NOTE: Si vous avez une configuration RAC, avec les autres commandes autorisées, vous devez ajouter ce qui suit au fichier /etc/sudoers : '/<crs_home>/bin/olsnodes'
+
+
+
+Vous pouvez obtenir la valeur de _crs_home_ à partir du fichier _/etc/oracle/olr.loc_.
+
+_LINUX_USER_ est le nom de l'utilisateur non root que vous avez créé.
+
+Vous pouvez obtenir la _valeur de somme de contrôle_ à partir du fichier *sc_unix_plugins_checksum.txt*, qui se trouve à :
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ si SnapCenter Server est installé sur l'hôte Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ si SnapCenter Server est installé sur un hôte Linux.
+
+
+
+IMPORTANT: L'exemple doit être utilisé uniquement comme référence pour la création de vos propres données.
+
+
+
+== Exigences de l'hôte AIX
+
+Vous devez vous assurer que l'hôte répond aux exigences avant d'installer le package de plug-ins SnapCenter pour AIX.
+
+
+NOTE: Le plug-in SnapCenter pour UNIX, qui fait partie du package de plug-ins SnapCenter pour AIX, ne prend pas en charge les groupes de volumes simultanés.
+
+|===
+| Article | Exigences 
+
+
+ a| 
+Systèmes d'exploitation
+ a| 
+AIX 7.1 ou version ultérieure
+
+
+
+ a| 
+RAM minimale pour le plug-in SnapCenter sur l'hôte
+ a| 
+4 Go
+
+
+
+ a| 
+Espace minimum d'installation et de journalisation pour le plug-in SnapCenter sur l'hôte
+ a| 
+2 Go
+
+
+NOTE: Vous devez allouer suffisamment d’espace disque et surveiller la consommation de stockage par le dossier des journaux.  L'espace journal requis varie en fonction du nombre d'entités à protéger et de la fréquence des opérations de protection des données.  S'il n'y a pas suffisamment d'espace disque, les journaux ne seront pas créés pour les opérations récemment exécutées.
+
+
+
+ a| 
+Logiciels requis
+ a| 
+Java 11 IBM Java
+
+Si vous avez mis à niveau JAVA vers la dernière version, vous devez vous assurer que l'option JAVA_HOME située dans /var/opt/snapcenter/spl/etc/spl.properties est définie sur la version JAVA correcte et le chemin correct.
+
+|===
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+
+
+=== Configurer les privilèges sudo pour les utilisateurs non root pour l'hôte AIX
+
+SnapCenter 4.4 et les versions ultérieures permettent à un utilisateur non root d'installer le package de plug-ins SnapCenter pour AIX et de démarrer le processus de plug-in.  Les processus du plug-in s'exécuteront en tant qu'utilisateur non root effectif.  Vous devez configurer les privilèges sudo pour l'utilisateur non root afin de fournir l'accès à plusieurs chemins.
+
+*Ce dont vous aurez besoin*
+
+* Sudo version 1.8.7 ou ultérieure.
+* Si le masque est 0027, assurez-vous que le dossier Java et tous les fichiers qu'il contient doivent avoir l'autorisation 555.  Dans le cas contraire, l’installation du plug-in risque d’échouer.
+* Modifiez le fichier _/etc/ssh/sshd_config_ pour configurer les algorithmes de code d'authentification des messages : MAC hmac-sha2-256 et MAC hmac-sha2-512.
++
+Redémarrez le service sshd après avoir mis à jour le fichier de configuration.
+
++
+Exemple:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*À propos de cette tâche*
+
+Vous devez configurer les privilèges sudo pour l'utilisateur non root afin de fournir l'accès aux chemins suivants :
+
+* /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx
+* /custom_location/ NetApp/snapcenter/spl/installation/plugins/uninstall
+* /emplacement_personnalisé/ NetApp/snapcenter/spl/bin/spl
+
+
+*Mesures*
+
+. Connectez-vous à l’hôte AIX sur lequel vous souhaitez installer le package de plug-ins SnapCenter pour AIX.
+. Ajoutez les lignes suivantes au fichier /etc/sudoers en utilisant l’utilitaire Linux visudo.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPACMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx,
+/opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/AIX_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+_AIX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPACMD, PRECHECKCMD, CONFIGCHECKCMD, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _AIX_USER_ !visiblepw
+Defaults: _AIX_USER_ !requiretty
+----
++
+
+NOTE: Si vous avez une configuration RAC, avec les autres commandes autorisées, vous devez ajouter ce qui suit au fichier /etc/sudoers : '/<crs_home>/bin/olsnodes'
+
+
+
+Vous pouvez obtenir la valeur de _crs_home_ à partir du fichier _/etc/oracle/olr.loc_.
+
+_AIX_USER_ est le nom de l'utilisateur non root que vous avez créé.
+
+Vous pouvez obtenir la _valeur de somme de contrôle_ à partir du fichier *sc_unix_plugins_checksum.txt*, qui se trouve à :
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ si SnapCenter Server est installé sur l'hôte Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ si SnapCenter Server est installé sur un hôte Linux.
+
+
+
+IMPORTANT: L'exemple doit être utilisé uniquement comme référence pour la création de vos propres données.
+
+
+
+== Configurer les informations d'identification
+
+SnapCenter utilise des informations d’identification pour authentifier les utilisateurs pour les opérations SnapCenter .  Vous devez créer des informations d’identification pour installer le package de plug-in sur des hôtes Linux ou AIX.
+
+*À propos de cette tâche*
+
+Les informations d'identification sont créées soit pour l'utilisateur root, soit pour un utilisateur non root disposant de privilèges sudo pour installer et démarrer le processus du plug-in.
+
+Pour plus d'informations, voir :<<Configurer les privilèges sudo pour les utilisateurs non root pour l'hôte Linux>> ou<<Configurer les privilèges sudo pour les utilisateurs non root pour l'hôte AIX>>
+
+|===
+
+
+| *Meilleure pratique :* bien que vous soyez autorisé à créer des informations d’identification après avoir déployé des hôtes et installé des plug-ins, la meilleure pratique consiste à créer des informations d’identification après avoir ajouté des SVM, avant de déployer des hôtes et d’installer des plug-ins. 
+|===
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Informations d'identification*.
+. Cliquez sur *Nouveau*.
+. Dans la page Informations d'identification, saisissez les informations d'identification :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom d'identification
+ a| 
+Entrez un nom pour les informations d’identification.
+
+
+
+ a| 
+Nom d'utilisateur/Mot de passe
+ a| 
+Saisissez le nom d’utilisateur et le mot de passe qui doivent être utilisés pour l’authentification.
+
+** Administrateur de domaine
++
+Indiquez l'administrateur du domaine du système sur lequel vous installez le plug-in SnapCenter . Les formats valides pour le champ Nom d'utilisateur sont :
+
++
+*** _NetBIOS\Nom d'utilisateur_
+*** _Domaine FQDN\Nom d'utilisateur_
+
+
+** Administrateur local (pour les groupes de travail uniquement)
++
+Pour les systèmes appartenant à un groupe de travail, spécifiez l'administrateur local intégré du système sur lequel vous installez le plug-in SnapCenter . Vous pouvez spécifier un compte utilisateur local appartenant au groupe des administrateurs locaux si ce compte dispose de privilèges élevés ou si la fonctionnalité de contrôle d'accès utilisateur est désactivée sur le système hôte.  Le format valide pour le champ Nom d'utilisateur est : _UserName_
+
+
+
+
+
+ a| 
+Mode d'authentification
+ a| 
+Sélectionnez le mode d’authentification que vous souhaitez utiliser.
+
+Selon le système d’exploitation de l’hôte du plug-in, sélectionnez Linux ou AIX.
+
+
+
+ a| 
+Utiliser les privilèges sudo
+ a| 
+Cochez la case *Utiliser les privilèges sudo* si vous créez des informations d’identification pour un utilisateur non root.
+
+|===
+. Cliquez sur *OK*.
+
+
+Une fois la configuration des informations d'identification terminée, vous souhaiterez peut-être attribuer la maintenance des informations d'identification à un utilisateur ou à un groupe d'utilisateurs sur la page *Utilisateur et accès*.
+
+
+
+== Configurer les informations d'identification pour une base de données Oracle
+
+Vous devez configurer les informations d’identification utilisées pour effectuer des opérations de protection des données sur les bases de données Oracle.
+
+*À propos de cette tâche*
+
+Vous devez examiner les différentes méthodes d’authentification prises en charge pour la base de données Oracle. Pour plus d'informations, voirlink:../get-started/concept_authentication_methods_for_your_credentials.html["Méthodes d'authentification pour vos informations d'identification"^] .
+
+Si vous configurez des informations d'identification pour des groupes de ressources individuels et que le nom d'utilisateur ne dispose pas de privilèges d'administrateur complets, le nom d'utilisateur doit au moins disposer de privilèges de groupe de ressources et de sauvegarde.
+
+Si vous avez activé l'authentification de la base de données Oracle, une icône de cadenas rouge s'affiche dans la vue des ressources.  Vous devez configurer les informations d’identification de la base de données pour pouvoir protéger la base de données ou l’ajouter au groupe de ressources pour effectuer des opérations de protection des données.
+
+
+NOTE: Si vous spécifiez des informations incorrectes lors de la création d'un justificatif d'identité, un message d'erreur s'affiche.  Vous devez cliquer sur *Annuler*, puis réessayer.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* dans la liste *Affichage*.
+. Cliquezimage:../media/filter_icon.gif["icône de filtre"] , puis sélectionnez le nom d’hôte et le type de base de données pour filtrer les ressources.
++
+Vous pouvez ensuite cliquer surimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Sélectionnez la base de données, puis cliquez sur *Paramètres de la base de données* > *Configurer la base de données*.
+. Dans la section Configurer les paramètres de la base de données, dans la liste déroulante *Utiliser les informations d'identification existantes*, sélectionnez les informations d'identification à utiliser pour effectuer les tâches de protection des données sur la base de données Oracle.
++
+
+NOTE: L'utilisateur Oracle doit disposer des privilèges sysdba.
+
++
+Vous pouvez également créer un justificatif d'identité en cliquant surimage:../media/add_icon_configure_database.gif["ajouter une icône dans l'écran de configuration de la base de données"] .
+
+. Dans la section Configurer les paramètres ASM, dans la liste déroulante *Utiliser les informations d'identification existantes*, sélectionnez les informations d'identification à utiliser pour effectuer des tâches de protection des données sur l'instance ASM.
++
+
+NOTE: L'utilisateur ASM doit avoir le privilège sysasm.
+
++
+Vous pouvez également créer un justificatif d'identité en cliquant surimage:../media/add_icon_configure_database.gif["ajouter une icône dans l'écran de configuration de la base de données"] .
+
+. Dans la section Configurer les paramètres du catalogue RMAN, dans la liste déroulante *Utiliser les informations d'identification existantes*, sélectionnez les informations d'identification à utiliser pour effectuer des tâches de protection des données sur la base de données du catalogue Oracle Recovery Manager (RMAN).
++
+Vous pouvez également créer un justificatif d'identité en cliquant surimage:../media/add_icon_configure_database.gif["ajouter une icône dans l'écran de configuration de la base de données"] .
+
++
+Dans le champ *TNSName*, entrez le nom du fichier Transparent Network Substrate (TNS) qui sera utilisé par le serveur SnapCenter pour communiquer avec la base de données.
+
+. Dans le champ *Nœuds RAC préférés*, spécifiez les nœuds Real Application Cluster (RAC) préférés pour la sauvegarde.
++
+Les nœuds préférés peuvent être un ou tous les nœuds de cluster où les instances de base de données RAC sont présentes.  L'opération de sauvegarde est déclenchée uniquement sur ces nœuds préférés dans l'ordre de préférence.
+
++
+Dans RAC One Node, un seul nœud est répertorié dans les nœuds préférés, et ce nœud préféré est le nœud sur lequel la base de données est actuellement hébergée.
+
++
+Après le basculement ou le déplacement de la base de données RAC One Node, l'actualisation des ressources dans la page Ressources SnapCenter supprimera l'hôte de la liste *Nœuds RAC préférés* où la base de données était précédemment hébergée.  Le nœud RAC sur lequel la base de données est déplacée sera répertorié dans *Nœuds RAC* et devra être configuré manuellement comme nœud RAC préféré.
+
++
+Pour plus d'informations, consultez la section link:../protect-sco/task_define_a_backup_strategy_for_oracle_databases.html#preferred-nodes-in-rac-setup["Nœuds préférés dans la configuration RAC"^] .
+
+. Cliquez sur *OK*.
+

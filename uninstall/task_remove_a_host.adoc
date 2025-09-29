@@ -1,0 +1,40 @@
+---
+permalink: uninstall/task_remove_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, remove, remove host 
+summary: 'Lorsque le serveur SnapCenter supprime un hôte, il supprime d"abord la sauvegarde, les clones, les tâches de clonage, les groupes de ressources et les ressources répertoriés pour cet hôte sur la page Ressources SnapCenter , puis il désinstalle les packages de plug-in sur l"hôte.' 
+---
+= Supprimer un hôte
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lorsque le serveur SnapCenter supprime un hôte, il supprime d'abord la sauvegarde, les clones, les tâches de clonage, les groupes de ressources et les ressources répertoriés pour cet hôte sur la page Ressources SnapCenter , puis il désinstalle les packages de plug-in sur l'hôte.
+
+.À propos de cette tâche
+* Si vous supprimez un hôte, les sauvegardes, les clones et les groupes de ressources associés à l'hôte sont également supprimés.
+* Lorsque vous supprimez les groupes de ressources, toutes les planifications associées sont également supprimées.
+* Si l'hôte dispose d'un groupe de ressources partagé avec un autre hôte et que vous supprimez l'hôte, le groupe de ressources est également supprimé.
+* Vous devez utiliser l’applet de commande _Remove-SmHost_ pour supprimer les hôtes de plug-in hors service ou inaccessibles.
++
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_.  Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^]
+
+* Le temps nécessaire pour supprimer un hôte dépend du nombre de sauvegardes et des paramètres de conservation.  Cela est dû au fait que les instantanés sont supprimés de chacun des contrôleurs et que les métadonnées sont nettoyées.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Hôtes*.
+. Dans la page *Hôtes*, cliquez sur *Hôtes gérés*.
+. Sélectionnez l'hôte que vous souhaitez supprimer, puis cliquez sur *Supprimer*.
+. Pour les clusters Oracle RAC, pour supprimer le SnapCenter software de tous les hôtes du cluster, sélectionnez *Inclure tous les hôtes du cluster*.
++
+Vous pouvez également supprimer un nœud d’un cluster et ainsi supprimer tous les nœuds un par un.
+
+. Cliquez sur *OK*.
++
+
+NOTE: Lorsque vous désinstallez et réinstallez des plug-ins hôtes sur un cluster, les ressources du cluster ne sont pas automatiquement découvertes.  Sélectionnez le nom d’hôte du cluster, puis cliquez sur *Actualiser les ressources* pour découvrir automatiquement les ressources du cluster.
+
+

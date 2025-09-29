@@ -1,0 +1,210 @@
+---
+permalink: protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: Si une ressource ne fait pas partie d’un groupe de ressources, vous pouvez sauvegarder la ressource à la demande à partir de la page Ressources. 
+---
+= Sauvegarder une ressource unique à la demande pour les systèmes de fichiers Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une ressource ne fait pas partie d’un groupe de ressources, vous pouvez sauvegarder la ressource à la demande à partir de la page Ressources.
+
+.À propos de cette tâche
+Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+
+
+NOTE: Lors de la sauvegarde d'un système de fichiers, SnapCenter ne sauvegarde pas les LUN montés sur un point de montage de volume (VMP) dans le système de fichiers en cours de sauvegarde.
+
+
+IMPORTANT: Si vous travaillez dans un contexte de système de fichiers Windows, ne sauvegardez pas les fichiers de base de données.  Cela crée une sauvegarde incohérente et une possible perte de données lors de la restauration.  Pour protéger les fichiers de base de données, vous devez utiliser le plug-in SnapCenter approprié pour la base de données (par exemple, le plug-in SnapCenter pour Microsoft SQL Server ou le plug-in SnapCenter pour Microsoft Exchange Server).
+
+[role="tabbed-block"]
+====
+.Interface utilisateur de SnapCenter
+--
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez le type de ressource Système de fichiers, puis sélectionnez la ressource que vous souhaitez sauvegarder.
+. Si l'assistant Système de fichiers - Protéger ne démarre pas automatiquement, cliquez sur *Protéger* pour démarrer l'assistant.
++
+Spécifiez les paramètres de protection, comme décrit dans les tâches Création de groupes de ressources.
+
+. Facultatif : dans la page Ressource de l’assistant, saisissez un format de nom personnalisé pour l’instantané.
++
+Par exemple, customtext_resourcegroup_policy_hostname ou resourcegroup_hostname.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+. Dans la page Politiques, effectuez les tâches suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+Vous pouvez sélectionner n’importe quelle politique existante, puis cliquer sur *Détails* pour déterminer si vous pouvez utiliser cette politique.
+
++
+Si aucune politique existante ne répond à vos besoins, vous pouvez copier une politique existante et la modifier ou vous pouvez créer une nouvelle politique en cliquant surimage:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] pour démarrer l'assistant de stratégie.  Si aucune politique existante ne répond à vos besoins, vous pouvez copier une politique existante et la modifier ou vous pouvez créer une nouvelle politique en cliquant surimage:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] pour démarrer l'assistant de stratégie.
+
++
+Les stratégies sélectionnées sont répertoriées dans la colonne Stratégie de la section Configurer les planifications pour les stratégies sélectionnées.
+
+.. Dans la section Configurer les planifications pour les politiques sélectionnées, cliquez surimage:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer la planification.
+.. Dans la boîte de dialogue Ajouter des planifications pour la stratégie _policy_name_, configurez la planification en spécifiant la date de début, la date d'expiration et la fréquence, puis cliquez sur *Terminer*.
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées de la section Configurer les planifications pour les stratégies sélectionnées.
+
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Scheduled_data_protection_operations_fail_if_the_number_of_operations_running_reaches_maximum_limit["Les opérations planifiées peuvent échouer"]
+
+
+
+. Dans la page Notification, effectuez les tâches suivantes :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Préférence de courrier électronique
+ a| 
+Sélectionnez *Toujours*, ou *En cas d'échec*, ou *En cas d'échec ou d'avertissement*, pour envoyer des e-mails aux destinataires après avoir créé des groupes de ressources de sauvegarde, joint des politiques et configuré des planifications.
+
+Saisissez les informations du serveur SMTP, la ligne d'objet de l'e-mail par défaut et les adresses e-mail « À » et « De ».
+
+
+
+ a| 
+Depuis
+ a| 
+Adresse email
+
+
+
+ a| 
+À
+ a| 
+Adresse e-mail
+
+
+
+ a| 
+Sujet
+ a| 
+Objet de l'e-mail par défaut
+
+|===
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+La page de topologie de la base de données s'affiche.
+
+. Cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez appliqué plusieurs politiques à la ressource, dans la liste déroulante Politique, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+
+
+--
+.applets de commande PowerShell
+--
+.Étapes
+. Lancez une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié à l’aide de l’applet de commande Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+L'invite de saisie du nom d'utilisateur et du mot de passe s'affiche.
+
+. Créez une stratégie de sauvegarde à l’aide de l’applet de commande Add-SmPolicy.
++
+Cet exemple crée une nouvelle politique de sauvegarde avec un type de sauvegarde SQL FullBackup :
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+Cet exemple crée une nouvelle politique de sauvegarde avec un type de sauvegarde du système de fichiers Windows CrashConsistent :
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Découvrez les ressources de l’hôte à l’aide de l’applet de commande Get-SmResources.
++
+Cet exemple découvre les ressources du plug-in Microsoft SQL sur l’hôte spécifié :
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+Cet exemple découvre les ressources des systèmes de fichiers Windows sur l’hôte spécifié :
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Ajoutez un nouveau groupe de ressources à SnapCenter à l’aide de l’applet de commande Add-SmResourceGroup.
++
+Cet exemple crée un nouveau groupe de ressources de sauvegarde de base de données SQL avec la politique et les ressources spécifiées :
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+Cet exemple crée un nouveau groupe de ressources de sauvegarde du système de fichiers Windows avec la stratégie et les ressources spécifiées :
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. Lancez une nouvelle tâche de sauvegarde à l’aide de l’applet de commande New-SmBackup.
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Affichez l’état de la tâche de sauvegarde à l’aide de l’applet de commande Get-SmBackupReport.
++
+Cet exemple affiche un rapport récapitulatif de tous les travaux exécutés à la date spécifiée :
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_. Alternativement, vous pouvez également vous référer à la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+--
+====

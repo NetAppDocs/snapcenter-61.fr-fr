@@ -1,0 +1,48 @@
+---
+permalink: protect-azure/restore-recover-sql-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, restore, recover 
+summary: Vous pouvez utiliser SnapCenter pour restaurer et récupérer des données à partir d’une ou plusieurs sauvegardes. 
+---
+= Restaurer et récupérer les bases de données SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser SnapCenter pour restaurer des bases de données SQL Server sauvegardées.  La restauration de base de données est un processus en plusieurs phases qui copie toutes les données et les pages de journal d’une sauvegarde SQL Server spécifiée vers une base de données spécifiée.
+
+.À propos de cette tâche
+Vous devez vous assurer que l'instance cible pour la restauration est configurée avec un utilisateur Active Directory qui appartient au domaine SMB ADactive Directory et dispose des autorisations nécessaires pour définir les autorisations de fichier de manière appropriée.  Vous devez configurer les informations d’identification dans SnapCenter au niveau de l’instance.
+
+L'authentification SQL pour l'instance cible ne sera pas prise en charge pour les configurations SMB.  L'instance cible doit être configurée dans SnapCenter avec l'utilisateur Active Directory disposant des autorisations requises.
+
+Si le compte de service des services du plug-in SnapCenter n'est pas un utilisateur Active Directory, lors de l'exécution de la restauration sur un autre hôte, l'utilisateur qui a le contrôle total sur les volumes sources est requis pour pouvoir être emprunté et effectuer l'opération requise.
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de ressources* dans la liste Affichage.
+. Sélectionnez la base de données ou le groupe de ressources dans la liste.
+. Dans la vue Gérer les copies, sélectionnez *Sauvegardes* à partir du système de stockage.
+. Sélectionnez la sauvegarde dans le tableau, puis cliquez sur le boutonimage:../media/restore_icon.gif["icône de restauration"] icône.
+. Dans la page Restaurer l’étendue, sélectionnez l’une des options suivantes :
++
+.. Sélectionnez *Restaurer la base de données sur le même hôte où la sauvegarde a été créée* si vous souhaitez restaurer la base de données sur le même serveur SQL où les sauvegardes sont effectuées.
+.. Sélectionnez *Restaurer la base de données sur un autre hôte* si vous souhaitez que la base de données soit restaurée sur un autre serveur SQL dans le même hôte ou sur un hôte différent où les sauvegardes sont effectuées.
+
+
+. Dans la page Étendue de la récupération, sélectionnez l’une des options suivantes :
++
+.. Sélectionnez *Aucun* lorsque vous devez restaurer uniquement la sauvegarde complète sans aucun journal.
+.. Sélectionnez l'opération de restauration de sauvegarde à la minute près *Toutes les sauvegardes de journaux* pour restaurer toutes les sauvegardes de journaux disponibles après la sauvegarde complète.
+.. Sélectionnez *Par sauvegardes de journaux* pour effectuer une opération de restauration à un instant T, qui restaure la base de données en fonction des journaux de sauvegarde jusqu'au journal de sauvegarde avec la date sélectionnée.
+.. Sélectionnez *Par date spécifique jusqu'à* pour spécifier la date et l'heure après lesquelles les journaux de transactions ne sont pas appliqués à la base de données restaurée.
+.. Si vous avez sélectionné *Toutes les sauvegardes de journaux*, *Par sauvegardes de journaux* ou *Par date spécifique jusqu'à* et que les journaux sont situés à un emplacement personnalisé, sélectionnez *Utiliser le répertoire de journaux personnalisé*, puis spécifiez l'emplacement du journal.
+
+
+. Dans la page Pré-opérations et Post-opérations, spécifiez les détails requis.
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
+. Consultez le résumé, puis cliquez sur *Terminer*.
+. Surveillez le processus de restauration en utilisant la page *Surveillance* > *Tâches*.
+

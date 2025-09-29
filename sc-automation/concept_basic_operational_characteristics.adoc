@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_basic_operational_characteristics.html 
+keywords: request and response, object identifiers, synchronous, asynchronous 
+summary: Bien que REST établisse un ensemble commun de technologies et de bonnes pratiques, les détails de chaque API peuvent varier en fonction des choix de conception. 
+---
+= Caractéristiques opérationnelles de base
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bien que REST établisse un ensemble commun de technologies et de bonnes pratiques, les détails de chaque API peuvent varier en fonction des choix de conception.
+
+
+
+== Transaction API de demande et de réponse
+
+Chaque appel d'API REST est effectué sous la forme d'une requête HTTP adressée au système SnapCenter Server qui génère une réponse associée au client.  Cette paire de requête et de réponse est considérée comme une transaction API.
+
+Avant d’utiliser l’API, vous devez vous familiariser avec les variables d’entrée disponibles pour contrôler une demande et le contenu de la sortie de réponse.
+
+
+
+== Prise en charge des opérations CRUD
+
+Chacune des ressources disponibles via l'API REST SnapCenter est accessible en fonction du modèle CRUD :
+
+* Créer
+* Lire
+* Mise à jour
+* Supprimer
+
+
+Pour certaines ressources, seul un sous-ensemble des opérations est pris en charge.
+
+
+
+== Identifiants d'objet
+
+Chaque instance ou objet de ressource se voit attribuer un identifiant unique lors de sa création. Dans la plupart des cas, l’identifiant est un UUID 128 bits.  Ces identifiants sont uniques à l’échelle mondiale au sein d’un serveur SnapCenter spécifique.
+
+Après avoir émis un appel d'API qui crée une nouvelle instance d'objet, une URL avec l'ID associé est renvoyée à l'appelant dans l'en-tête d'emplacement de la réponse HTTP. Vous pouvez extraire l'identifiant et l'utiliser lors des appels ultérieurs pour faire référence à l'instance de ressource.
+
+
+IMPORTANT: Le contenu et la structure interne des identifiants d'objet peuvent changer à tout moment. Vous ne devez utiliser les identifiants que dans les appels d'API applicables, lorsque cela est nécessaire, pour faire référence aux objets associés.
+
+
+
+== Instances et collections d'objets
+
+Selon le chemin de la ressource et la méthode HTTP, un appel d'API peut s'appliquer à une instance d'objet spécifique ou à une collection d'objets.
+
+
+
+== Opérations synchrones et asynchrones
+
+SnapCenter exécute une requête HTTP reçue d'un client de manière synchrone ou asynchrone.
+
+
+
+=== Traitement synchrone
+
+SnapCenter exécute la requête immédiatement et répond avec un code d'état HTTP de 200 ou 201 si elle réussit.
+
+Chaque requête utilisant la méthode GET est toujours exécutée de manière synchrone.  De plus, les requêtes qui utilisent POST sont conçues pour s'exécuter de manière synchrone si elles doivent se terminer en moins de deux secondes.
+
+
+
+=== Traitement asynchrone
+
+Si une demande asynchrone est valide, SnapCenter crée une tâche en arrière-plan pour traiter la demande et un objet de travail pour ancrer la tâche.  Le code d'état HTTP 202 est renvoyé à l'appelant avec l'objet de travail.  Vous devez récupérer l’état du travail pour déterminer la réussite ou l’échec.
+
+Les requêtes qui utilisent les méthodes POST et DELETE sont conçues pour s'exécuter de manière asynchrone si elles doivent prendre plus de deux secondes.
+
+
+
+== Sécurité
+
+La sécurité fournie avec l'API REST repose principalement sur les fonctionnalités de sécurité existantes disponibles avec SnapCenter.  La sécurité suivante est utilisée par l'API :
+
+
+
+=== Sécurité de la couche de transport
+
+Tout le trafic envoyé sur le réseau entre le serveur SnapCenter et le client est généralement chiffré à l'aide de TLS, en fonction des paramètres de configuration de SnapCenter .
+
+
+
+=== Authentification HTTP
+
+Au niveau HTTP, l’authentification de base est utilisée pour les transactions API.  Un en-tête HTTP avec le nom d'utilisateur et le mot de passe dans une chaîne base64 est ajouté à chaque requête.

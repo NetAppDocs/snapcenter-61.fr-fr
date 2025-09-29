@@ -1,0 +1,90 @@
+---
+permalink: admin/concept_manage_policies.html 
+sidebar: sidebar 
+keywords: Manage policies 
+summary: 'Vous pouvez détacher des politiques d"une ressource ou d"un groupe de ressources, les modifier, les supprimer, les afficher et les copier.' 
+---
+= Gérer les politiques
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez détacher des politiques d'une ressource ou d'un groupe de ressources, les modifier, les supprimer, les afficher et les copier.
+
+
+
+== Modifier les politiques
+
+Vous pouvez modifier les options de réplication, les paramètres de conservation des instantanés, le nombre de tentatives d'erreur ou les informations de scripts lorsqu'une stratégie est attachée à une ressource ou à un groupe de ressources.  Vous ne pouvez modifier le type de planification (fréquence) qu'après avoir détaché une politique.
+
+*À propos de cette tâche*
+
+La modification du type de planification dans une stratégie nécessite des étapes supplémentaires, car SnapCenter Server enregistre le type de planification uniquement au moment où la stratégie est attachée à une ressource ou à un groupe de ressources.
+
+|===
+| Si vous voulez... | Alors... 
+
+
+ a| 
+Ajouter un type de planification supplémentaire
+ a| 
+Créez une nouvelle politique et attachez-la aux ressources ou groupes de ressources nécessaires.
+
+Par exemple, si une stratégie de groupe de ressources spécifie uniquement des sauvegardes horaires et que vous souhaitez également ajouter des sauvegardes quotidiennes, vous pouvez créer une stratégie avec un type de planification quotidienne et l'ajouter au groupe de ressources.  Le groupe de ressources aurait alors deux politiques : horaire et quotidienne.
+
+
+
+ a| 
+Supprimer ou modifier un type de planification
+ a| 
+Procédez comme suit :
+
+. Détachez la politique de chaque ressource et groupe de ressources qui utilise cette politique.
+. Modifier le type de planification.
+. Attachez à nouveau la politique à toutes les ressources et à tous les groupes de ressources.
+
+
+Par exemple, si une politique spécifie des sauvegardes horaires et que vous souhaitez modifier ce paramètre en sauvegardes quotidiennes, vous devez d’abord détacher la politique.
+
+|===
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Politiques*.
+. Sélectionnez la politique, puis cliquez sur *Modifier*.
+. Modifiez les informations, puis cliquez sur *Terminer*.
+
+
+
+
+== Détacher les politiques
+
+Vous pouvez détacher des politiques d'une ressource ou d'un groupe de ressources à tout moment lorsque vous ne souhaitez plus que ces politiques régissent la protection des données des ressources.  Vous devez détacher une politique avant de pouvoir la supprimer ou avant de modifier le type de planification.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Groupe de ressources* dans la liste *Affichage*.
+. Sélectionnez le groupe de ressources, puis cliquez sur *Modifier le groupe de ressources*.
+. Dans la page Stratégies de l’assistant Modifier le groupe de ressources, dans la liste déroulante, décochez la case en regard des stratégies que vous souhaitez détacher.
+. Apportez des modifications supplémentaires au groupe de ressources dans le reste de l’assistant, puis cliquez sur *Terminer*.
+
+
+
+
+== Supprimer les politiques
+
+Si vous n’avez plus besoin de politiques, vous souhaiterez peut-être les supprimer.
+
+.Avant de commencer
+Vous devez détacher la politique de la ressource ou des groupes de ressources si la politique est associée à une ressource ou à des groupes de ressources.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Paramètres*.
+. Dans la page Paramètres, cliquez sur *Politiques*.
+. Sélectionnez la politique, puis cliquez sur *Supprimer*.
+. Cliquez sur *Oui*.
+

@@ -1,0 +1,122 @@
+---
+permalink: protect-sco/task_back_up_oracle_resources.html 
+sidebar: sidebar 
+keywords: backup, Oracle database, policy, schedule, verification, resources 
+summary: Si une ressource ne fait partie d’aucun groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources. 
+---
+= Sauvegarder les ressources Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une ressource ne fait partie d’aucun groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources.
+
+.Étapes
+. Dans le volet de navigation de gauche, sélectionnez *Ressources* et le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* dans la liste Affichage.
+. Cliquezimage:../media/filter_icon.gif["icône de filtre"] , puis sélectionnez le nom d’hôte et le type de base de données pour filtrer les ressources.
++
+Vous pouvez ensuite cliquer surimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Sélectionnez la base de données que vous souhaitez sauvegarder.
++
+La page Protection de la base de données s'affiche.
+
+. Dans la page Ressources, effectuez les étapes suivantes :
++
+.. Cochez la case et entrez un format de nom personnalisé que vous souhaitez utiliser pour le nom de l’instantané.
++
+Par exemple, `customtext_policy_hostname` ou `resource_hostname` .  Un horodatage est ajouté au nom de l'instantané par défaut.
+
+.. Spécifiez les destinations des fichiers journaux d’archive que vous ne souhaitez pas sauvegarder.
+
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+Vous pouvez créer une politique en cliquantimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] .
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] dans la colonne Configurer les planifications pour configurer une planification pour la politique souhaitée.
+.. Dans la fenêtre Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis sélectionnez `OK` .
++
+_policy_name_ est le nom de la politique que vous avez sélectionnée.
+
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
+. Dans la page de vérification, effectuez les étapes suivantes :
++
+.. Cliquez sur *Charger les localisateurs* pour charger les volumes SnapMirror ou SnapVault afin de vérifier le stockage secondaire.
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["ajouter un symbole"] dans la colonne Configurer les planifications pour configurer la planification de vérification pour tous les types de planification de la politique.  + Dans la boîte de dialogue Ajouter des planifications de vérification _policy_name_, vous pouvez effectuer les étapes suivantes :
+.. Sélectionnez *Exécuter la vérification après la sauvegarde*.
+.. Sélectionnez *Exécuter la vérification planifiée* et sélectionnez le type de planification dans la liste déroulante.
++
+
+NOTE: Dans une configuration Flex ASM, vous ne pouvez pas effectuer d'opération de vérification sur les nœuds feuille si la cardinalité est inférieure au nombre de nœuds dans le cluster RAC.
+
+.. Sélectionnez *Vérifier sur un emplacement secondaire* pour vérifier vos sauvegardes sur le stockage secondaire.
+.. Cliquez sur *OK*.
++
+Les planifications de vérification configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
+. Dans la page Notification, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les e-mails dans la liste déroulante *Préférences de courrier électronique*.
++
+Vous devez spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  Si vous souhaitez joindre le rapport de l'opération de sauvegarde effectuée sur la ressource, sélectionnez *Joindre le rapport de travail*.
+
++
+
+NOTE: Pour la notification par e-mail, vous devez avoir spécifié les détails du serveur SMTP à l'aide de l'interface graphique ou de la commande PowerShell. `Set-SmSmtpServer` .
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+La page de topologie de la base de données s'affiche.
+
+. Cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez appliqué plusieurs politiques à la ressource, dans la liste déroulante Politique, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+
+
+.Après avoir terminé
+* Dans la configuration AIX, vous pouvez utiliser le `lkdev` commande pour verrouiller et le `rendev` commande pour renommer les disques sur lesquels résidait la base de données sauvegardée.
++
+Le verrouillage ou le changement de nom des appareils n'affectera pas l'opération de restauration lorsque vous restaurez à l'aide de cette sauvegarde.
+
+* Si l'opération de sauvegarde échoue parce que le temps d'exécution de la requête de base de données a dépassé la valeur du délai d'expiration, vous devez modifier la valeur des paramètres ORACLE_SQL_QUERY_TIMEOUT et ORACLE_PLUGIN_SQL_QUERY_TIMEOUT en exécutant la commande `Set-SmConfigSettings` applet de commande :
++
+Après avoir modifié la valeur des paramètres, redémarrez le service SnapCenter Plug-in Loader (SPL) en exécutant la commande suivante `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+* Si le fichier n'est pas accessible et que le point de montage n'est pas disponible pendant le processus de vérification, l'opération peut échouer avec le code d'erreur DBV-00100 du fichier spécifié.  Vous devez modifier les valeurs des paramètres VERIFICATION_DELAY et VERIFICATION_RETRY_COUNT dans sco.properties.
++
+Après avoir modifié la valeur des paramètres, redémarrez le service SnapCenter Plug-in Loader (SPL) en exécutant la commande suivante `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+* Dans les configurations MetroCluster , SnapCenter peut ne pas être en mesure de détecter une relation de protection après un basculement.
+* Si vous sauvegardez des données d'application sur des VMDK et que la taille du tas Java pour le SnapCenter Plug-in for VMware vSphere n'est pas suffisamment grande, la sauvegarde peut échouer.
++
+Pour augmenter la taille du tas Java, recherchez le fichier de script _/opt/netapp/init_scripts/scvservice_.  Dans ce script, le `do_start method` la commande démarre le service plug-in SnapCenter VMware.  Mettez à jour cette commande comme suit : `Java -jar -Xmx8192M -Xms4096M` .
+
+
+
+.Trouver plus d'informations
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["Impossible de détecter la relation SnapMirror ou SnapVault après le basculement de MetroCluster"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Oracle_RAC_One_Node_database_is_skipped_for_performing_SnapCenter_operations["La base de données Oracle RAC One Node est ignorée pour l'exécution des opérations SnapCenter"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Failed_to_change_the_state_of_an_Oracle_12c_ASM_database_from_shutdown_to_mount["Échec de la modification de l'état d'une base de données Oracle 12c ASM"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/What_are_the_customizable_parameters_for_backup_restore_and_clone_operations_on_AIX_systems["Paramètres personnalisables pour les opérations de sauvegarde, de restauration et de clonage sur les systèmes AIX"^](Connexion requise)
+

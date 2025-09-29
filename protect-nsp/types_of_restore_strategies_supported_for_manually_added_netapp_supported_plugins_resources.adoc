@@ -1,0 +1,35 @@
+---
+permalink: protect-nsp/types_of_restore_strategies_supported_for_manually_added_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 'Vous devez définir une stratégie avant de pouvoir effectuer avec succès des opérations de restauration à l"aide de SnapCenter.  Il existe deux types de stratégies de restauration pour les ressources de plug-in prises en charge par NetApp ajoutées manuellement.  Vous ne pouvez pas récupérer les ressources de plug-in prises en charge par NetApp ajoutées manuellement.' 
+---
+= Types de stratégies de restauration prises en charge pour les ressources de plug-in prises en charge par NetApp ajoutées manuellement
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez définir une stratégie avant de pouvoir effectuer avec succès des opérations de restauration à l'aide de SnapCenter.  Il existe deux types de stratégies de restauration pour les ressources de plug-in prises en charge par NetApp ajoutées manuellement.
+
+
+NOTE: Vous ne pouvez pas récupérer les ressources de plug-in prises en charge par NetApp ajoutées manuellement.
+
+
+
+== Restauration complète des ressources
+
+* Restaure tous les volumes, qtrees et LUN d'une ressource
+
+
+
+NOTE: Si la ressource contient des volumes ou des qtrees, les instantanés pris après l'instantané sélectionné pour la restauration sur ces volumes ou qtrees sont supprimés et ne peuvent pas être récupérés.  De plus, si une autre ressource est hébergée sur les mêmes volumes ou qtrees, cette ressource est également supprimée.
+
+
+
+== Restauration au niveau du fichier
+
+* Restaure les fichiers à partir de volumes, de qtrees ou de répertoires
+* Restaure uniquement les LUN sélectionnés
+

@@ -1,0 +1,133 @@
+= 
+:allow-uri-read: 
+
+
+SnapCenter prend en charge une large gamme de types de stockage sur les machines physiques et virtuelles.  Vous devez vérifier si le support est disponible pour votre type de stockage avant d'installer le package pour votre hôte.
+
+La prise en charge du provisionnement et de la protection des données de SnapCenter est disponible sur Windows Server.  Pour obtenir les dernières informations sur les versions prises en charge, consultez lehttps://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"^] .
+
+|===
+| Machine | Type de stockage | Provision utilisant | Notes d'assistance 
+
+
+ a| 
+Serveur physique
+ a| 
+LUN connectés au FC
+ a| 
+Interface utilisateur graphique (GUI) de SnapCenter ou applets de commande PowerShell
+ a| 
+
+
+
+ a| 
+Serveur physique
+ a| 
+LUN connectés à iSCSI
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+
+
+
+ a| 
+Serveur physique
+ a| 
+Partages SMB3 (CIFS) résidant sur une machine virtuelle de stockage (SVM)
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+Prise en charge du provisionnement uniquement.
+
+
+
+ a| 
+VMware VM
+ a| 
+LUN RDM connectés par un HBA FC ou iSCSI
+ a| 
+applets de commande PowerShell
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+LUN iSCSI connectés directement au système invité par l'initiateur iSCSI
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+Systèmes de fichiers de machines virtuelles (VMFS) ou banques de données NFS
+ a| 
+VMware vSphere
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+Un système invité connecté aux partages SMB3 résidant sur une SVM
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+Prise en charge du provisionnement uniquement.
+
+
+
+ a| 
+VMware VM
+ a| 
+Banques de données vVol sur NFS et SAN
+ a| 
+Outils ONTAP pour VMware vSphere
+ a| 
+
+
+
+ a| 
+Machine virtuelle Hyper-V
+ a| 
+LUN FC virtuels (vFC) connectés par un commutateur Fibre Channel virtuel
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+Vous devez utiliser Hyper-V Manager pour provisionner les LUN Virtual FC (vFC) connectés par un commutateur Fibre Channel virtuel.
+
+
+NOTE: Les disques de transfert Hyper-V et la sauvegarde des bases de données sur VHD(x) provisionnés sur le stockage NetApp ne sont pas pris en charge.
+
+
+
+ a| 
+Machine virtuelle Hyper-V
+ a| 
+LUN iSCSI connectés directement au système invité par l'initiateur iSCSI
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+
+NOTE: Les disques de transfert Hyper-V et la sauvegarde des bases de données sur VHD(x) provisionnés sur le stockage NetApp ne sont pas pris en charge.
+
+
+
+ a| 
+Machine virtuelle Hyper-V
+ a| 
+Un système invité connecté aux partages SMB3 résidant sur une SVM
+ a| 
+Interface graphique SnapCenter ou applets de commande PowerShell
+ a| 
+Prise en charge du provisionnement uniquement.
+
+
+NOTE: Les disques de transfert Hyper-V et la sauvegarde des bases de données sur VHD(x) provisionnés sur le stockage NetApp ne sont pas pris en charge.
+
+|===

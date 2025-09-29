@@ -1,0 +1,47 @@
+---
+permalink: protect-db2/storage-types-supported-by-snapcenter-plug-in-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: storage types, 
+summary: 'SnapCenter prend en charge une large gamme de types de stockage sur les machines physiques et les machines virtuelles (VM).  Vous devez vérifier la prise en charge de votre type de stockage avant d"installer SnapCenter Plug-in pour IBM Db2.' 
+---
+= Types de stockage pris en charge par le plug-in SnapCenter pour IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter prend en charge une large gamme de types de stockage sur les machines physiques et les machines virtuelles (VM).  Vous devez vérifier la prise en charge de votre type de stockage avant d'installer SnapCenter Plug-in pour IBM Db2.
+
+|===
+| Machine | Type de stockage 
+
+
+ a| 
+Serveur physique
+ a| 
+* LUN connectés au FC
+* LUN connectés à iSCSI
+* Volumes connectés NFS
+
+
+
+
+ a| 
+VMware ESXi
+ a| 
+* L'analyse des adaptateurs de bus hôte (HBA) peut prendre beaucoup de temps, car SnapCenter analyse tous les adaptateurs de bus hôte présents dans l'hôte.
++
+Vous pouvez modifier le fichier *LinuxConfig.pm* situé dans _/opt/ NetApp/snapcenter/spl/plugins/scu/scucore/modules/SCU/Config_ pour définir la valeur du paramètre *SCSI_HOSTS_OPTIMIZED_RESCAN* sur 1 afin de réanalyser uniquement les HBA répertoriés dans HBA_DRIVER_NAMES.
+
+* LUN iSCSI connectés directement au système invité par l'initiateur iSCSI
+* VMDK sur les banques de données NFS
+* VMDK sur VMFS créés
+* Volumes NFS connectés directement au système invité
+* Banques de données vVol sur NFS et SAN
++
+La banque de données vVol ne peut être provisionnée qu'avec ONTAP Tools pour VMware vSphere.
+
+
+
+|===

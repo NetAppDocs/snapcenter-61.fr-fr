@@ -1,0 +1,226 @@
+---
+permalink: protect-nsp/back_up_individual_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: backup, NetApp supported plug-ins, NetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: 'Si une ressource de plug-ins prise en charge par NetApp ne fait partie d"aucun groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources.  Vous pouvez sauvegarder la ressource à la demande ou, si la ressource est associée à une politique et à une planification configurée, les sauvegardes se produisent automatiquement selon la planification.' 
+---
+= Sauvegarder les ressources individuelles des plug-ins pris en charge par NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une ressource de plug-ins prise en charge par NetApp ne fait partie d'aucun groupe de ressources, vous pouvez sauvegarder la ressource à partir de la page Ressources.  Vous pouvez sauvegarder la ressource à la demande ou, si la ressource est associée à une politique et à une planification configurée, les sauvegardes se produisent automatiquement selon la planification.
+
+.Avant de commencer
+* Vous devez avoir créé une politique de sauvegarde.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle ONTAP attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+
+
+[role="tabbed-block"]
+====
+.Interface utilisateur de SnapCenter
+--
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, filtrez les ressources de la liste déroulante *Afficher* en fonction du type de ressource.
++
+Cliquezimage:../media/filter_icon.gif["icône de filtre"] , puis sélectionnez le nom de l'hôte et le type de ressource pour filtrer les ressources.  Vous pouvez ensuite cliquer surimage:../media/filter_icon.gif["icône de filtre"] pour fermer le volet de filtre.
+
+. Cliquez sur la ressource que vous souhaitez sauvegarder.
+. Dans la page Ressource, si vous souhaitez utiliser un nom personnalisé, cochez la case *Utiliser un format de nom personnalisé pour la copie d'instantané*, puis entrez un format de nom personnalisé pour le nom d'instantané.
++
+Par exemple, _customtext_policy_hostname_ ou _resource_hostname_.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+. Dans la page Paramètres de l’application, procédez comme suit :
++
+.. Cliquez sur la flèche *Sauvegardes* pour définir des options de sauvegarde supplémentaires :
++
+Activez la sauvegarde du groupe de cohérence, si nécessaire, et effectuez les tâches suivantes :
+
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Prévoir le temps d'attendre que l'opération de capture instantanée du groupe de cohérence soit terminée
+ a| 
+Sélectionnez Urgent, Moyen ou Détendu pour spécifier le temps d’attente avant la fin de l’opération Snapshot.
+
+Urgent = 5 secondes, Moyen = 7 secondes et Détendu = 20 secondes.
+
+
+
+ a| 
+Désactiver la synchronisation WAFL
+ a| 
+Sélectionnez cette option pour éviter de forcer un point de cohérence WAFL .
+
+|===
++
+image:../media/application_settings.gif["Page des paramètres de l'application"]
+
+.. Cliquez sur la flèche *Scripts* pour exécuter les commandes pré et post pour les opérations de mise en veille, de capture instantanée et de reprise.  Vous pouvez également exécuter des commandes préalables avant de quitter l'opération de sauvegarde.
++
+Les prescripts et les post-scripts sont exécutés dans le serveur SnapCenter .
+
+.. Cliquez sur la flèche *Configurations personnalisées*, puis entrez les paires de valeurs personnalisées requises pour tous les travaux utilisant cette ressource.
+.. Cliquez sur la flèche *Snapshot Copy Tool* pour sélectionner l'outil permettant de créer des instantanés :
++
+|===
+| Si tu veux... | Alors... 
+
+
+ a| 
+SnapCenter pour prendre un instantané du niveau de stockage
+ a| 
+Sélectionnez * SnapCenter sans cohérence du système de fichiers*.
+
+
+
+ a| 
+SnapCenter pour utiliser le plug-in pour Windows pour mettre le système de fichiers dans un état cohérent, puis prendre un instantané
+ a| 
+Sélectionnez * SnapCenter avec cohérence du système de fichiers*.
+
+
+
+ a| 
+Pour entrer la commande pour créer un instantané
+ a| 
+Sélectionnez *Autre*, puis entrez la commande pour créer un instantané.
+
+|===
+
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+
+NOTE: Vous pouvez également créer une politique en cliquant surimage:../media/add_policy_from_resourcegroup.gif["Ajouter une icône"] .
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
+.. Cliquezimage:../media/add_policy_from_resourcegroup.gif["Ajouter une icône"] dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer une planification.
+.. Dans la boîte de dialogue Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis cliquez sur *OK*.
++
+Où, _policy_name_ est le nom de la politique que vous avez sélectionnée.
+
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  SMTP doit également être configuré dans *Paramètres* > *Paramètres globaux*.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+La page de topologie des ressources s'affiche.
+
+. Cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez appliqué plusieurs politiques à la ressource, dans la liste déroulante *Politique*, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de l'opération en cliquant sur *Surveiller* > *Tâches*.
+
+
+--
+.applets de commande PowerShell
+--
+.Étapes
+. Lancez une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié à l’aide de l’applet de commande Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146\
+----
++
+L'invite de saisie du nom d'utilisateur et du mot de passe s'affiche.
+
+. Ajoutez des ressources à l’aide de l’applet de commande Add-SmResources.
++
+Cet exemple ajoute des ressources :
+
++
+[listing]
+----
+Add-SmResource -HostName 'scc55.sccore.test.com' -PluginCode 'DummyPlugin' -ResourceName QDBVOL1 -ResourceType Database -StorageFootPrint ( @{"VolumeName"="qtree_vol1_scc55_sccore_test_com";"QTREENAME"="qtreeVol1";"StorageSystem"="vserver_scauto_primary"}) -Instance QTREE1
+----
+. Créez une stratégie de sauvegarde à l’aide de l’applet de commande Add-SmPolicy.
++
+Cet exemple crée une nouvelle politique de sauvegarde :
+
++
+[listing]
+----
+Add-SMPolicy -PolicyName 'test2' -PolicyType 'Backup' -PluginPolicyType DummyPlugin  -description 'testPolicy'
+----
+. Ajoutez un nouveau groupe de ressources à SnapCenter à l’aide de l’applet de commande Add-SmResourceGroup.
++
+Cet exemple crée un nouveau groupe de ressources avec la politique et les ressources spécifiées :
+
++
+[listing]
+----
+Add-SmResourceGroup -ResourceGroupName 'Verify_Backup_on_Multiple_Qtree_different_vserver_windows' -Resources @(@{"Host"="scc55.sccore.test.com";"Uid"="QTREE2";"PluginName"="DummyPlugin"},@{"Host"="scc55.sccore.test.com";"Uid"="QTREE";"PluginName"="DummyPlugin"}) -Policies test2 -plugincode 'DummyPlugin' -usesnapcenterwithoutfilesystemconsistency
+----
+. Lancez une nouvelle tâche de sauvegarde à l’aide de l’applet de commande New-SmBackup.
++
+[listing]
+----
+New-SMBackup -DatasetName Verify_Backup_on_Multiple_Qtree_different_vserver_windows -Policy test2
+----
+. Affichez l’état de la tâche de sauvegarde à l’aide de l’applet de commande Get-SmBackupReport.
++
+Cet exemple affiche un rapport récapitulatif de tous les travaux exécutés à la date spécifiée :
+
++
+[listing]
+----
+Get-SmBackupReport -JobId 149
+
+BackedUpObjects           : {QTREE2, QTREE}
+FailedObjects             : {}
+IsScheduled               : False
+HasMetadata               : False
+SmBackupId                : 1
+SmJobId                   : 149
+StartDateTime             : 1/15/2024 1:35:17 AM
+EndDateTime               : 1/15/2024 1:36:19 AM
+Duration                  : 00:01:02.4265750
+CreatedDateTime           : 1/15/2024 1:35:51 AM
+Status                    : Completed
+ProtectionGroupName       : Verify_Backup_on_Multiple_Qtree_different_vserver_windows
+SmProtectionGroupId       : 1
+PolicyName                : test2
+SmPolicyId                : 4
+BackupName                : Verify_Backup_on_Multiple_Qtree_different_vserver_windows_scc55_01-15-2024_01.35.17.4467
+VerificationStatus        : NotApplicable
+VerificationStatuses      :
+SmJobError                :
+BackupType                : SCC_BACKUP
+CatalogingStatus          : NotApplicable
+CatalogingStatuses        :
+ReportDataCreatedDateTime :
+PluginCode                : SCC
+PluginName                : DummyPlugin
+PluginDisplayName         : DummyPlugin
+JobTypeId                 :
+JobHost                   : scc55.sccore.test.com
+----
+
+
+--
+====

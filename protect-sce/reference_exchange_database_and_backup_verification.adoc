@@ -1,0 +1,23 @@
+---
+permalink: protect-sce/reference_exchange_database_and_backup_verification.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: Le plug-in SnapCenter pour Microsoft Exchange Server ne fournit pas de vérification de sauvegarde ; toutefois, vous pouvez utiliser l’outil Eseutil fourni avec Exchange pour vérifier les bases de données et les sauvegardes Exchange. 
+---
+= Vérification de la base de données Exchange et de la sauvegarde
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le plug-in SnapCenter pour Microsoft Exchange Server ne fournit pas de vérification de sauvegarde ; toutefois, vous pouvez utiliser l’outil Eseutil fourni avec Exchange pour vérifier les bases de données et les sauvegardes Exchange.
+
+L'outil Microsoft Exchange Eseutil est un utilitaire de ligne de commande inclus avec votre serveur Exchange.  L'utilitaire vous permet d'effectuer des contrôles de cohérence pour vérifier l'intégrité des bases de données et des sauvegardes Exchange.
+
+|===
+
+
+| *Meilleure pratique :* il n'est pas nécessaire d'effectuer des vérifications de cohérence sur les bases de données qui font partie d'une configuration de groupe de disponibilité de base de données (DAG) avec au moins deux réplicas. 
+|===
+Pour plus d'informations, voir https://docs.microsoft.com/en-us/exchange/exchange-server?view=exchserver-2019["Documentation de Microsoft Exchange Server"^] .

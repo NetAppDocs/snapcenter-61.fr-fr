@@ -1,0 +1,46 @@
+---
+permalink: protect-mysql/monitor-mysql-restore-operations.html 
+sidebar: sidebar 
+keywords: SnapCenter Server 
+summary: 'Vous pouvez surveiller la progression des différentes opérations de restauration de SnapCenter à l"aide de la page Tâches.  Vous souhaiterez peut-être vérifier la progression d’une opération pour déterminer quand elle est terminée ou s’il y a un problème.' 
+---
+= Surveiller les opérations de restauration MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez surveiller la progression des différentes opérations de restauration de SnapCenter à l'aide de la page Tâches.  Vous souhaiterez peut-être vérifier la progression d’une opération pour déterminer quand elle est terminée ou s’il y a un problème.
+
+.À propos de cette tâche
+Les états post-restauration décrivent les conditions de la ressource après une opération de restauration et toutes les autres actions de restauration que vous pouvez entreprendre.
+
+Les icônes suivantes apparaissent sur la page Tâches et indiquent l’état de l’opération :
+
+* image:../media/progress_icon.gif["Icône en cours"]En cours
+* image:../media/success_icon.gif["Icône terminée"]Terminé avec succès
+* image:../media/failed_icon.gif["Icône d'échec"]Échoué
+* image:../media/warning_icon.gif["Terminé avec l'icône d'avertissement"]Terminé avec des avertissements ou n'a pas pu démarrer en raison d'avertissements
+* image:../media/verification_job_in_queue.gif["La tâche de vérification est en file d'attente"]En file d'attente
+* image:../media/cancel_icon.gif["Icône Annuler"]Annulé
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Moniteur*.
+. Dans la page *Moniteur*, cliquez sur *Tâches*.
+. Dans la page *Emplois*, effectuez les étapes suivantes :
++
+.. Cliquezimage:../media/filter_icon.gif["icône de filtre"] pour filtrer la liste afin que seules les opérations de restauration soient répertoriées.
+.. Précisez les dates de début et de fin.
+.. Dans la liste déroulante *Type*, sélectionnez *Restaurer*.
+.. Dans la liste déroulante *État*, sélectionnez l’état de restauration.
+.. Cliquez sur *Appliquer* pour afficher les opérations qui ont été effectuées avec succès.
+
+
+. Sélectionnez la tâche de restauration, puis cliquez sur *Détails* pour afficher les détails de la tâche.
+. Dans la page *Détails du travail*, cliquez sur *Afficher les journaux*.
++
+Le bouton *Afficher les journaux* affiche les journaux détaillés de l'opération sélectionnée.
+
+

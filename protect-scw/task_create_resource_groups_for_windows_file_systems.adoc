@@ -1,0 +1,136 @@
+---
+permalink: protect-scw/task_create_resource_groups_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: resource groups 
+summary: Un groupe de ressources est le conteneur auquel vous pouvez ajouter plusieurs systèmes de fichiers que vous souhaitez protéger.  Vous devez également attacher une ou plusieurs stratégies au groupe de ressources pour définir le type de tâche de protection des données que vous souhaitez effectuer, puis spécifier la planification de sauvegarde. 
+---
+= Créer des groupes de ressources pour les systèmes de fichiers Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un groupe de ressources est le conteneur auquel vous pouvez ajouter plusieurs systèmes de fichiers que vous souhaitez protéger.  Vous devez également attacher une ou plusieurs stratégies au groupe de ressources pour définir le type de tâche de protection des données que vous souhaitez effectuer, puis spécifier la planification de sauvegarde.
+
+.À propos de cette tâche
+* Pour ONTAP 9.12.1 et les versions antérieures, les clones créés à partir des instantanés SnapLock Vault dans le cadre de la restauration hériteront du délai d'expiration de SnapLock Vault. L'administrateur de stockage doit nettoyer manuellement les clones après l'expiration de SnapLock .
+* L'ajout de nouveaux systèmes de fichiers sans synchronisation active SnapMirror à un groupe de ressources existant contenant des ressources avec synchronisation active SnapMirror n'est pas pris en charge.
+* L'ajout de nouveaux systèmes de fichiers à un groupe de ressources existant en mode de basculement de SnapMirror Active Sync n'est pas pris en charge.  Vous pouvez ajouter des ressources au groupe de ressources uniquement dans un état normal ou de restauration automatique.
+
+
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez *Systèmes de fichiers* dans la liste.
++
+
+NOTE: Si vous avez récemment ajouté un système de fichiers à SnapCenter, cliquez sur *Actualiser les ressources* pour afficher la ressource nouvellement ajoutée.
+
+. Cliquez sur *Nouveau groupe de ressources*.
+. Dans la page Nom de l’assistant, procédez comme suit :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Nom
+ a| 
+Entrez le nom du groupe de ressources.
+
+
+NOTE: Le nom du groupe de ressources ne doit pas dépasser 250 caractères.
+
+
+
+ a| 
+Utiliser un format de nom personnalisé pour la copie instantanée
+ a| 
+Facultatif : saisissez un nom et un format d’instantané personnalisés.
+
+Par exemple, customtext_resourcegroup_policy_hostname ou resourcegroup_hostname.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+
+
+ a| 
+Étiqueter
+ a| 
+Saisissez une balise descriptive pour vous aider à trouver un groupe de ressources.
+
+|===
+. Dans la page Ressources, effectuez les tâches suivantes :
++
+.. Sélectionnez l'hôte pour filtrer la liste des ressources.
++
+Si vous avez récemment ajouté des ressources, elles apparaîtront dans la liste des ressources disponibles uniquement après avoir actualisé votre liste de ressources.
+
+.. Dans la section Ressources disponibles, cliquez sur les systèmes de fichiers que vous souhaitez sauvegarder, puis cliquez sur la flèche droite pour les déplacer vers la section Ajouté.
++
+Si vous sélectionnez l'option *Sélectionner automatiquement toutes les ressources sur le même volume de stockage*, toutes les ressources sur le même volume sont sélectionnées.  Lorsque vous les déplacez vers la section Ajouté, toutes les ressources de ce volume sont déplacées ensemble.
+
++
+Pour ajouter un seul système de fichiers, décochez l'option *Sélectionner automatiquement toutes les ressources sur le même volume de stockage*, puis sélectionnez les systèmes de fichiers que vous souhaitez déplacer vers la section Ajouté.
+
+
+
+. Dans la page Politiques, effectuez les tâches suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+Vous pouvez sélectionner n’importe quelle politique existante et cliquer sur *Détails* pour déterminer si vous pouvez utiliser cette politique.
+
++
+Si aucune politique existante ne répond à vos besoins, vous pouvez créer une nouvelle politique en cliquant sur *image:../media/add_policy_from_resourcegroup.gif["icône plus"] * pour démarrer l'assistant de stratégie.
+
++
+Les stratégies sélectionnées sont répertoriées dans la colonne Stratégie de la section Configurer les planifications pour les stratégies sélectionnées.
+
+.. Dans la section Configurer les planifications pour les politiques sélectionnées, cliquez sur *image:../media/add_policy_from_resourcegroup.gif["icône plus"] * dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer la planification.
+.. Si la politique est associée à plusieurs types de planification (fréquences), sélectionnez la fréquence que vous souhaitez configurer.
+.. Dans la boîte de dialogue Ajouter des planifications pour la stratégie _policy_name_, configurez la planification en spécifiant la date de début, la date d'expiration et la fréquence, puis cliquez sur *Terminer*.
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées de la section Configurer les planifications pour les stratégies sélectionnées.
+
+
+
++
+Les planifications de sauvegarde tierces ne sont pas prises en charge lorsqu'elles chevauchent les planifications de sauvegarde SnapCenter .  Vous ne devez pas modifier les planifications du planificateur de tâches Windows et de l’agent SQL Server.
+
+. Dans la page Notification, fournissez les informations de notification, comme suit :
++
+|===
+| Pour ce domaine... | Fais ceci... 
+
+
+ a| 
+Préférence de courrier électronique
+ a| 
+Sélectionnez *Toujours*, *En cas d'échec* ou *En cas d'échec ou d'avertissement* pour envoyer des e-mails aux destinataires après avoir créé des groupes de ressources de sauvegarde, joint des politiques et configuré des planifications.  Saisissez le serveur SMTP, la ligne d'objet de l'e-mail par défaut et les adresses e-mail À et De.
+
+
+
+ a| 
+Depuis
+ a| 
+Adresse email
+
+
+
+ a| 
+À
+ a| 
+Adresse e-mail
+
+
+
+ a| 
+Sujet
+ a| 
+Objet de l'e-mail par défaut
+
+|===
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+Vous pouvez effectuer une sauvegarde à la demande ou attendre que la sauvegarde planifiée se produise.
+
+

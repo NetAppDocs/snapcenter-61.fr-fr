@@ -1,0 +1,50 @@
+---
+permalink: admin/task_delete_clones.html 
+sidebar: sidebar 
+keywords: Delete clones 
+summary: Vous pouvez supprimer les clones si vous ne les trouvez plus nécessaires. 
+---
+= Supprimer les clones
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez supprimer les clones si vous ne les trouvez plus nécessaires.
+
+*À propos de cette tâche*
+
+Vous ne pouvez pas supprimer les clones qui agissent comme source pour d'autres clones.
+
+Par exemple, si la base de données de production est db1, la base de données clone1 est clonée à partir de la sauvegarde de db1 et par la suite clone1 est protégé.  La base de données clone2 est clonée à partir de la sauvegarde de clone1.  Si vous décidez de supprimer clone1, vous devez d'abord supprimer clone2, puis supprimer clone1.
+
+*Mesures*
+
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le plug-in approprié dans la liste.
+. Dans la page Ressources, sélectionnez la ressource ou le groupe de ressources dans la liste déroulante *Afficher*.
+. Sélectionnez la ressource ou le groupe de ressources dans la liste.
++
+La page de topologie de la ressource ou du groupe de ressources s'affiche.
+
+. Dans la vue Gérer les copies, sélectionnez *Clones* à partir des systèmes de stockage principal ou secondaire (en miroir ou répliqués).
+. Sélectionnez le clone, puis cliquez surimage:../media/delete_icon.gif["icône de suppression"] .
++
+Si vous supprimez des clones de base de données SAP HANA, dans la page Supprimer le clone, effectuez les actions suivantes :
+
++
+.. Dans le champ *Suppression avant clonage*, saisissez les commandes qui doivent être exécutées avant de supprimer le clone.
+.. Dans le champ *Démonter*, entrez la commande pour démonter le clone avant de supprimer le clone.
+
+
+. Cliquez sur *OK*.
+
+
+*Après avoir fini*
+
+Parfois, les systèmes de fichiers ne sont pas supprimés.  Vous devez augmenter la valeur du paramètre CLONE_DELETE_DELAY en exécutant la commande suivante :``./sccli Set-SmConfigSettings``
+
+
+NOTE: Le paramètre CLONE_DELETE_DELAY spécifie le nombre de secondes à attendre après avoir terminé la suppression du clone d'application et avant de commencer la suppression du système de fichiers.
+
+Après avoir modifié la valeur du paramètre, redémarrez le service SnapCenter Plug-in Loader (SPL).

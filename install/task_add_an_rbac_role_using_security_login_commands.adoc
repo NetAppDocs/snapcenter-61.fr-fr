@@ -1,0 +1,85 @@
+---
+permalink: install/task_add_an_rbac_role_using_security_login_commands.html 
+sidebar: sidebar 
+keywords: RBAC roles, add, NetApp ONTAP RBAC role, storage system 
+summary: Vous pouvez utiliser les commandes de connexion de sécurité pour ajouter un rôle RBAC NetApp ONTAP lorsque vos systèmes de stockage exécutent NetApp ONTAP en cluster. 
+---
+= Ajouter un rôle RBAC NetApp ONTAP à l'aide des commandes de connexion de sécurité
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez utiliser les commandes de connexion de sécurité pour ajouter un rôle RBAC NetApp ONTAP lorsque vos systèmes de stockage exécutent ONTAP en cluster.
+
+.Avant de commencer
+* Identifiez la tâche (ou les tâches) que vous souhaitez effectuer et les privilèges requis pour effectuer ces tâches.
+* Accorder des privilèges aux commandes et/ou aux répertoires de commandes.
++
+Il existe deux niveaux d'accès pour chaque commande/répertoire de commandes : accès total et lecture seule.
+
++
+Vous devez toujours attribuer d’abord les privilèges d’accès complet.
+
+* Attribuer des rôles aux utilisateurs.
+* Identifiez votre configuration selon que vos plug-ins SnapCenter sont connectés à l'IP de l'administrateur de cluster pour l'ensemble du cluster ou directement connectés à une SVM au sein du cluster.
+
+
+.À propos de cette tâche
+Pour simplifier la configuration de ces rôles sur les systèmes de stockage, vous pouvez utiliser l'outil RBAC User Creator pour NetApp ONTAP , publié sur le forum des communautés NetApp .
+
+Cet outil gère automatiquement la configuration correcte des privilèges ONTAP .  Par exemple, l’outil RBAC User Creator pour NetApp ONTAP ajoute automatiquement les privilèges dans l’ordre correct afin que les privilèges d’accès complet apparaissent en premier.  Si vous ajoutez d’abord les privilèges en lecture seule, puis les privilèges d’accès complet, ONTAP marque les privilèges d’accès complet comme des doublons et les ignore.
+
+
+NOTE: Si vous mettez à niveau ultérieurement SnapCenter ou ONTAP, vous devez réexécuter l'outil RBAC User Creator pour NetApp ONTAP pour mettre à jour les rôles d'utilisateur que vous avez créés précédemment.  Les rôles d’utilisateur créés pour une version antérieure de SnapCenter ou ONTAP ne fonctionnent pas correctement avec les versions mises à niveau.  Lorsque vous réexécutez l’outil, il gère automatiquement la mise à niveau.  Vous n’avez pas besoin de recréer les rôles.
+
+Pour plus d'informations sur la configuration des rôles ONTAP RBAC, consultez le http://docs.netapp.com/ontap-9/topic/com.netapp.doc.pow-adm-auth-rbac/home.html["Guide d'authentification de l'administrateur ONTAP 9 et d'alimentation RBAC"^] .
+
+.Étapes
+. Sur le système de stockage, créez un nouveau rôle en entrant la commande suivante :
++
+`security login role create <role_name\> -cmddirname "command" -access all –vserver <svm_name\>`
+
++
+** svm_name est le nom du SVM.  Si vous laissez ce champ vide, la valeur par défaut est l'administrateur du cluster.
+** role_name est le nom que vous spécifiez pour le rôle.
+** la commande est la capacité ONTAP .
++
+
+NOTE: Vous devez répéter cette commande pour chaque autorisation.  N'oubliez pas que toutes les commandes d'accès doivent être répertoriées avant les commandes en lecture seule.
+
++
+Pour plus d'informations sur la liste des autorisations, voirlink:../install/task_create_an_ontap_cluster_role_with_minimum_privileges.html#ontap-cli-commands-for-creating-cluster-roles-and-assigning-permissions["Commandes CLI ONTAP pour la création de rôles et l'attribution d'autorisations"^] .
+
+
+
+. Créez un nom d’utilisateur en entrant la commande suivante :
++
+`security login create -username <user_name\> -application ontapi -authmethod <password\> -role <name_of_role_in_step_1\> –vserver <svm_name\> -comment "user_description"`
+
++
+** user_name est le nom de l'utilisateur que vous créez.
+** <password> est votre mot de passe.  Si vous ne spécifiez pas de mot de passe, le système vous en demandera un.
+** svm_name est le nom du SVM.
+
+
+. Attribuez le rôle à l’utilisateur en entrant la commande suivante :
++
+`security login modify username <user_name\> –vserver <svm_name\> -role <role_name\> -application ontapi -application console -authmethod <password\>`
+
++
+** <user_name> est le nom de l’utilisateur que vous avez créé à l’étape 2.  Cette commande vous permet de modifier l'utilisateur pour l'associer au rôle.
+** <svm_name> est le nom du SVM.
+** <role_name> est le nom du rôle que vous avez créé à l’étape 1.
+** <password> est votre mot de passe.  Si vous ne spécifiez pas de mot de passe, le système vous en demandera un.
+
+
+. Vérifiez que l'utilisateur a été créé correctement en entrant la commande suivante :
++
+`security login show –vserver <svm_name\> -user-or-group-name <user_name\>`
+
++
+user_name est le nom de l'utilisateur que vous avez créé à l'étape 3.
+
+

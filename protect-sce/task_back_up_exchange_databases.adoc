@@ -1,0 +1,223 @@
+---
+permalink: protect-sce/task_back_up_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 'Si une base de données ne fait partie d"aucun groupe de ressources, vous pouvez sauvegarder la base de données ou le groupe de disponibilité de base de données à partir de la page Ressources.' 
+---
+= Sauvegarder les bases de données Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si une base de données ne fait partie d'aucun groupe de ressources, vous pouvez sauvegarder la base de données ou le groupe de disponibilité de base de données à partir de la page Ressources.
+
+.Avant de commencer
+* Vous devez avoir créé une politique de sauvegarde.
+* Vous devez avoir affecté l’agrégat utilisé par l’opération de sauvegarde au SVM utilisé par la base de données.
+* Si vous souhaitez sauvegarder une ressource qui a une relation SnapMirror avec un stockage secondaire, le rôle attribué à l'utilisateur de stockage doit inclure le privilège « snapmirror all ».  Cependant, si vous utilisez le rôle « vsadmin », le privilège « snapmirror all » n'est pas requis.
+* Si vous souhaitez effectuer la sauvegarde d'une base de données ou d'un groupe de disponibilité de base de données qui possède une copie de base de données active/passive sur un stockage NetApp et non NetApp , et que vous avez sélectionné l'option *Sauvegarder les copies actives* ou *Sauvegarder les copies sur les serveurs à sélectionner pendant la création de la tâche de sauvegarde* dans la politique, les tâches de sauvegarde passeront à l'état d'avertissement.  La sauvegarde réussira pour la copie de base de données active/passive sur le stockage NetApp et la sauvegarde échouera pour la copie de base de données active/passive sur le stockage non NetApp .
++
+|===
+
+
+| *Meilleure pratique :* n’exécutez pas de sauvegardes de bases de données actives et passives en même temps.  Une condition de concurrence peut se produire et l’une des sauvegardes peut échouer. 
+|===
+
+
+[role="tabbed-block"]
+====
+.Interface utilisateur de SnapCenter
+--
+.Étapes
+. Dans le volet de navigation de gauche, cliquez sur *Ressources*, puis sélectionnez le *plug-in Microsoft Exchange Server* dans la liste.
+. Dans la page Ressources, sélectionnez *Base de données* ou *Groupe de disponibilité de la base de données* dans la liste *Affichage*.
++
+Dans la page Ressources, leimage:../media/not_supported_icon.gif["icône non prise en charge"] l'icône indique que la base de données se trouve sur un stockage non NetApp .
+
++
+
+NOTE: Dans un DAG, si une copie de base de données active se trouve sur un stockage non NetApp et qu'au moins une copie de base de données passive réside sur un stockage NetApp , vous pouvez protéger la base de données.
+
++
+Cliquez sur *image:../media/filter_icon.gif["icône de filtre"] *, puis sélectionnez le nom d'hôte et le type de base de données pour filtrer les ressources.  Vous pouvez ensuite cliquer sur *image:../media/filter_icon.gif["icône de filtre"] * pour fermer le volet de filtre.
+
++
+** Si vous souhaitez sauvegarder une base de données, cliquez sur le nom de la base de données.
++
+... Si la vue Topologie est affichée, cliquez sur *Protéger*.
+... Si l’assistant Base de données – Protéger la ressource s’affiche, passez à l’étape 3.
+
+
+** Si vous souhaitez sauvegarder un groupe de disponibilité de base de données, cliquez sur le nom du groupe de disponibilité de base de données.
+
+
+. Si vous souhaitez spécifier un nom d'instantané personnalisé, dans la page Ressources, cochez la case *Utiliser un format de nom personnalisé pour la copie d'instantané*, puis entrez un format de nom personnalisé que vous souhaitez utiliser pour le nom d'instantané.
++
+Par exemple, _customtext_policy_hostname_ ou _resource_hostname_.  Par défaut, un horodatage est ajouté au nom de l'instantané.
+
+. Dans la page Politiques, effectuez les étapes suivantes :
++
+.. Sélectionnez une ou plusieurs politiques dans la liste déroulante.
++
+
+NOTE: Vous pouvez également créer une politique en cliquant sur *image:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] *.
+
++
+
+NOTE: Si une politique contient l'option *Sauvegarder les copies sur les serveurs à sélectionner au moment de la création de la tâche de sauvegarde*, une option de sélection de serveur s'affiche pour sélectionner un ou plusieurs serveurs.  L'option de sélection du serveur répertorie uniquement le serveur sur lequel se trouve la base de données sélectionnée sur un stockage NetApp .
+
+
+
++
+Dans la section Configurer les planifications pour les stratégies sélectionnées, les stratégies sélectionnées sont répertoriées.
+
++
+.. Cliquez sur *image:../media/add_policy_from_resourcegroup.gif["ajouter un groupe de ressources de formulaire de politique"] * dans la colonne Configurer les planifications pour la politique pour laquelle vous souhaitez configurer une planification.
+.. Dans la fenêtre Ajouter des planifications pour la stratégie _policy_name_, configurez la planification, puis cliquez sur *OK*.
++
+Où, _policy_name_ est le nom de la politique que vous avez sélectionnée.
+
++
+Les planifications configurées sont répertoriées dans la colonne Planifications appliquées.
+
+
+
+. Dans la page Notification, dans la liste déroulante *Préférence de courrier électronique*, sélectionnez les scénarios dans lesquels vous souhaitez envoyer les courriers électroniques.
++
+Vous devez également spécifier les adresses e-mail de l'expéditeur et du destinataire, ainsi que l'objet de l'e-mail.  Si vous souhaitez joindre le rapport de l'opération de sauvegarde effectuée sur la ressource, sélectionnez *Joindre le rapport de travail*.
+
++
+
+NOTE: Pour la notification par e-mail, vous devez avoir spécifié les détails du serveur SMTP à l’aide de l’interface graphique ou de la commande PowerShell Set-SmSmtpServer.
+
+. Consultez le résumé, puis cliquez sur *Terminer*.
++
+La page de topologie de la base de données s'affiche.
+
+. Cliquez sur *Sauvegarder maintenant*.
+. Dans la page Sauvegarde, effectuez les étapes suivantes :
++
+.. Si vous avez appliqué plusieurs politiques à la ressource, dans la liste déroulante *Politique*, sélectionnez la politique que vous souhaitez utiliser pour la sauvegarde.
++
+Si la politique sélectionnée pour la sauvegarde à la demande est associée à une planification de sauvegarde, les sauvegardes à la demande seront conservées en fonction des paramètres de conservation spécifiés pour le type de planification.
+
+.. Cliquez sur *Sauvegarder*.
+
+
+. Surveillez la progression de la sauvegarde en double-cliquant sur la tâche dans le volet Activité en bas de la page pour afficher la page Détails de la tâche.
++
+** Dans les configurations MetroCluster , SnapCenter peut ne pas être en mesure de détecter une relation de protection après un basculement.
++
+Pour plus d'informations, voir : https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["Impossible de détecter la relation SnapMirror ou SnapVault après le basculement de MetroCluster"^]
+
+** Si vous sauvegardez des données d'application sur des VMDK et que la taille du tas Java pour le SnapCenter Plug-in for VMware vSphere n'est pas suffisamment grande, la sauvegarde peut échouer.
++
+Pour augmenter la taille du tas Java, recherchez le fichier de script _/opt/netapp/init_scripts/scvservice_.  Dans ce script, la commande _do_start method_ démarre le service de plug-in SnapCenter VMware.  Mettez à jour cette commande comme suit : _Java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.applets de commande PowerShell
+--
+.Étapes
+. Lancez une session de connexion avec le serveur SnapCenter pour un utilisateur spécifié à l’aide de l’applet de commande Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
++
+L'invite de saisie du nom d'utilisateur et du mot de passe s'affiche.
+
+. Créez une stratégie de sauvegarde à l’aide de l’applet de commande Add-SmPolicy.
++
+Cet exemple crée une nouvelle politique de sauvegarde avec une sauvegarde complète et une sauvegarde de journal de type Exchange :
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies
+----
++
+Cet exemple crée une nouvelle politique de sauvegarde avec une sauvegarde complète horaire et une sauvegarde de journal de type Exchange :
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Hourly_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies -ScheduleType Hourly -RetentionSettings @{'BackupType'='DATA';'ScheduleType'='Hourly';'RetentionCount'='10'}
+----
++
+Cet exemple crée une nouvelle politique de sauvegarde pour sauvegarder uniquement les journaux Exchange :
+
++
+[listing]
+----
+Add-SmPolicy -PolicyName SCE_w2k12_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType LogBackup -BackupActiveCopies
+----
+. Découvrez les ressources de l’hôte à l’aide de l’applet de commande Get-SmResources.
++
+Cet exemple découvre les ressources du plug-in Microsoft Exchange Server sur l'hôte spécifié :
+
++
+[listing]
+----
+C:\PS> Get-SmResources -HostName vise-f6.sddev.mycompany.com -PluginCode SCE
+----
+. Ajoutez un nouveau groupe de ressources à SnapCenter à l’aide de l’applet de commande Add-SmResourceGroup.
++
+Cet exemple crée un nouveau groupe de ressources de sauvegarde de base de données Exchange Server avec la stratégie et les ressources spécifiées :
+
++
+[listing]
+----
+C:\PS> Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{'Host'='sce-w2k12-exch';'Type'='Exchange Database';'Names'='sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_1,sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2'}
+----
++
+Cet exemple crée un nouveau groupe de ressources de sauvegarde du groupe de disponibilité de base de données Exchange (DAG) avec la politique et les ressources spécifiées :
+
++
+[listing]
+----
+Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{"Host"="DAGSCE0102";"Type"="Database Availability Group";"Names"="DAGSCE0102"}
+----
+. Lancez une nouvelle tâche de sauvegarde à l’aide de l’applet de commande New-SmBackup.
++
+[listing]
+----
+C:\PS> New-SmBackup -ResourceGroupName SCE_w2k12_bkp_RG -Policy SCE_w2k12_Full_Log_bkp_Policy
+----
++
+Cet exemple crée une nouvelle sauvegarde sur un stockage secondaire :
+
++
+[listing]
+----
+New-SMBackup -DatasetName ResourceGroup1 -Policy Secondary_Backup_Policy4
+----
+. Affichez l’état de la tâche de sauvegarde à l’aide de l’applet de commande Get-SmBackupReport.
++
+Cet exemple affiche un rapport récapitulatif de tous les travaux exécutés à la date spécifiée :
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -Date ?1/27/2018?
+----
++
+Cet exemple affiche un rapport récapitulatif de tâche pour un ID de tâche spécifique :
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -JobId 168
+----
+
+
+Les informations concernant les paramètres pouvant être utilisés avec l'applet de commande et leurs descriptions peuvent être obtenues en exécutant _Get-Help command_name_.  Alternativement, voir https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guide de référence de l'applet de commande du logiciel SnapCenter"^] .
+
+--
+====

@@ -1,0 +1,27 @@
+---
+permalink: protect-db2/define-a-backup-strategy-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: 'Définir une stratégie de sauvegarde avant de créer vos tâches de sauvegarde vous aide à disposer des sauvegardes dont vous avez besoin pour restaurer ou cloner avec succès vos ressources.  Votre contrat de niveau de service (SLA), votre objectif de temps de récupération (RTO) et votre objectif de point de récupération (RPO) déterminent en grande partie votre stratégie de sauvegarde.' 
+---
+= Définir une stratégie de sauvegarde pour IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Définir une stratégie de sauvegarde avant de créer vos tâches de sauvegarde vous aide à disposer des sauvegardes dont vous avez besoin pour restaurer ou cloner avec succès vos ressources.  Votre contrat de niveau de service (SLA), votre objectif de temps de récupération (RTO) et votre objectif de point de récupération (RPO) déterminent en grande partie votre stratégie de sauvegarde.
+
+.À propos de cette tâche
+Un SLA définit le niveau de service attendu et aborde de nombreux problèmes liés au service, notamment la disponibilité et les performances du service.  Le RTO est le temps pendant lequel un processus métier doit être restauré après une interruption de service.  Le RPO définit la stratégie relative à l'âge des fichiers qui doivent être récupérés à partir du stockage de sauvegarde pour que les opérations régulières reprennent après une panne.  SLA, RTO et RPO contribuent à la stratégie de protection des données.
+
+.Étapes
+. Déterminez quand vous devez sauvegarder vos ressources.
+. Décidez du nombre de tâches de sauvegarde dont vous avez besoin.
+. Décidez comment nommer vos sauvegardes.
+. Décidez si vous souhaitez créer une stratégie basée sur une copie instantanée pour sauvegarder des instantanés cohérents avec les applications de la base de données.
+. Décidez si vous souhaitez utiliser la technologie NetApp SnapMirror pour la réplication ou la technologie NetApp SnapVault pour la conservation à long terme.
+. Déterminez la période de conservation des snapshots sur le système de stockage source et la destination SnapMirror .
+. Déterminez si vous souhaitez exécuter des commandes avant ou après l’opération de sauvegarde et fournissez un prescript ou un postscript.
+

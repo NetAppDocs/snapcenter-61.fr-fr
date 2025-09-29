@@ -1,0 +1,57 @@
+---
+permalink: protect-hana/reference_host_requirements_to_install_snapcenter_plug_in_package_for_linux.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 'Avant d"installer le package de plug-ins SnapCenter pour Linux, vous devez vous familiariser avec certaines exigences de base en matière d"espace et de taille du système hôte.' 
+---
+= Configuration requise pour l'installation du package de plug-ins SnapCenter pour Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Avant d'installer le package de plug-ins SnapCenter pour Linux, vous devez vous familiariser avec certaines exigences de base en matière d'espace et de taille du système hôte.
+
+|===
+| Article | Exigences 
+
+
+ a| 
+Systèmes d'exploitation
+ a| 
+* Red Hat Enterprise Linux
+* Serveur d'entreprise SUSE Linux (SLES)
+
+
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"] .
+
+
+
+ a| 
+RAM minimale pour le plug-in SnapCenter sur l'hôte
+ a| 
+1 Go
+
+
+
+ a| 
+Espace minimum d'installation et de journalisation pour le plug-in SnapCenter sur l'hôte
+ a| 
+2 Go
+
+
+NOTE: Vous devez allouer suffisamment d’espace disque et surveiller la consommation de stockage par le dossier des journaux.  L'espace journal requis varie en fonction du nombre d'entités à protéger et de la fréquence des opérations de protection des données.  S'il n'y a pas suffisamment d'espace disque, les journaux ne seront pas créés pour les opérations récemment exécutées.
+
+
+
+ a| 
+Logiciels requis
+ a| 
+Java 11 Oracle Java et OpenJDK
+
+Si vous avez mis à niveau JAVA vers la dernière version, vous devez vous assurer que l'option JAVA_HOME située dans /var/opt/snapcenter/spl/etc/spl.properties est définie sur la version JAVA correcte et le chemin correct.
+
+Pour obtenir les dernières informations sur les versions prises en charge, consultez le https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Outil de matrice d'interopérabilité NetApp"] .
+
+|===

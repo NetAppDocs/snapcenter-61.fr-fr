@@ -1,0 +1,37 @@
+---
+permalink: install/task_configure_CA_certificate_with_snapcenter_site.html 
+sidebar: sidebar 
+keywords: SnapCenter, configure, CA certificate 
+summary: Vous devez configurer le certificat CA avec le site SnapCenter sur l’hôte Windows. 
+---
+= Configurer le certificat CA avec le site SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devez configurer le certificat CA avec le site SnapCenter sur l’hôte Windows.
+
+*Mesures*
+
+. Ouvrez le Gestionnaire IIS sur le serveur Windows sur lequel SnapCenter est installé.
+. Dans le volet de navigation de gauche, cliquez sur *Connexions*.
+. Développez le nom du serveur et *Sites*.
+. Sélectionnez le site Web SnapCenter sur lequel vous souhaitez installer le certificat SSL.
+. Accédez à *Actions* > *Modifier le site*, cliquez sur *Liaisons*.
+. Dans la page Liaisons, sélectionnez *liaison pour https*.
+. Cliquez sur *Modifier*.
+. Dans la liste déroulante Certificat SSL, sélectionnez le certificat SSL récemment importé.
+. Cliquez sur *OK*.
++
+
+NOTE: Le site SnapCenter Scheduler (port par défaut : 8154, HTTPS) est configuré avec un certificat auto-signé.  Ce port communique avec l'hôte SnapCenter Server et il n'est pas obligatoire de le configurer avec un certificat CA.  Toutefois, si votre environnement vous oblige à utiliser un certificat CA, répétez les étapes 5 à 9 à l’aide du site SnapCenter Scheduler.
+
+
+
+
+NOTE: Si le certificat CA récemment déployé n’est pas répertorié dans le menu déroulant, vérifiez si le certificat CA est associé à la clé privée.
+
+
+IMPORTANT: Assurez-vous que le certificat est ajouté à l’aide du chemin suivant : *Racine de la console > Certificats – Ordinateur local > Autorités de certification racines de confiance > Certificats*.

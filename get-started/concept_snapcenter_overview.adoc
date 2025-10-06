@@ -35,7 +35,7 @@ Vous pouvez installer SnapCenter sur site ou sur un cloud public pour protéger 
 * Sur site dans un cloud hybride pour protéger les éléments suivants :
 +
 ** Données qui se trouvent sur les systèmes principaux ONTAP FAS, AFF ou ASA et répliquées sur Cloud Volumes ONTAP
-** Données qui se trouvent sur les systèmes primaires et secondaires ONTAP FAS, AFF ou ASA et protégées dans un stockage d'objets et d'archives dans le cloud (à l'aide de l'intégration de BlueXP backup and recovery )
+** Données qui se trouvent sur les systèmes primaires et secondaires ONTAP FAS, AFF ou ASA et protégées dans le stockage d'objets et d'archives dans le cloud à l'aide de l'intégration de sauvegarde et de récupération NetApp
 
 
 * Dans un cloud public pour protéger les éléments suivants :

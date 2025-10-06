@@ -13,7 +13,7 @@ summary: Vous pouvez utiliser un plug-in SnapCenter avec les technologies ONTAP 
 [role="lead"]
 Vous pouvez utiliser un plug-in SnapCenter avec la technologie ONTAP SnapMirror pour créer des copies miroir de jeux de sauvegarde sur un autre volume et avec la technologie ONTAP SnapVault pour effectuer une réplication de sauvegarde de disque à disque à des fins de conformité aux normes et à d'autres fins liées à la gouvernance.  Avant d’effectuer ces tâches, vous devez configurer une relation de protection des données entre les volumes source et de destination et initialiser la relation.
 
-SnapCenter exécute les mises à jour de SnapMirror et SnapVault une fois l'opération Snapshot terminée. Les mises à jour de SnapMirror et SnapVault sont effectuées dans le cadre du travail SnapCenter ; ne créez pas de planification ONTAP distincte.
+SnapCenter exécute les mises à jour de SnapMirror et SnapVault une fois l'opération Snapshot terminée. Les mises à jour de SnapMirror et SnapVault sont effectuées dans le cadre du travail SnapCenter . Si vous utilisez la synchronisation active SnapMirror , utilisez les planifications SnapMirror ou SnapVault par défaut pour la synchronisation active SnapMirror et les relations asynchrones.
 
 
 NOTE: Si vous accédez à SnapCenter à partir d'un produit NetApp SnapManager et que vous êtes satisfait des relations de protection des données que vous avez configurées, vous pouvez ignorer cette section.

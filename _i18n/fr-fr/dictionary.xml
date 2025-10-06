@@ -1231,7 +1231,6 @@
   <block id="6e13f804ad8be111cf6ad70744afe388" category="list-text">Données présentes sur les systèmes primaires et secondaires ONTAP ASA r2</block>
   <block id="67387428a7e5d4e4205f94627d948f8a" category="list-text">Sur site dans un cloud hybride pour protéger les éléments suivants :</block>
   <block id="f5c37d824040662f50cbb8a32d77182d" category="list-text">Données qui se trouvent sur les systèmes principaux ONTAP FAS, AFF ou ASA et répliquées sur Cloud Volumes ONTAP</block>
-  <block id="f7b38c62b0e74d318a255bc3094cf531" category="list-text">Données qui se trouvent sur les systèmes primaires et secondaires ONTAP FAS, AFF ou ASA et protégées dans un stockage d'objets et d'archives dans le cloud (à l'aide de l'intégration de BlueXP backup and recovery )</block>
   <block id="ca5570a253e3c0a27562c65c06bb6125" category="list-text">Dans un cloud public pour protéger les éléments suivants :</block>
   <block id="b340c2b4a7a978a510c8ebb351622143" category="list-text">Données qui se trouvent sur les systèmes principaux Cloud Volumes ONTAP (anciennement ONTAP Cloud)</block>
   <block id="b380e442ff5c6e48e283af8b6f99806f" category="list-text">Données présentes sur Amazon FSX pour ONTAP</block>
@@ -9557,4 +9556,6 @@
   <block id="60bea4969590084ae9e74b765b209fad" category="sidebar">Désinstaller les packages de plug-ins SnapCenter</block>
   <block id="fdcd3d6f45be97e0e24b4e793a81fac0" category="sidebar">Mettre à niveau SnapCenter Server et les plug-ins</block>
   <block id="8693aef17f2d371968a29ad0e0dff726" category="sidebar">Flux de travail de mise à niveau</block>
+  <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenter exécute les mises à jour de SnapMirror et SnapVault une fois l'opération Snapshot terminée. Les mises à jour de SnapMirror et SnapVault sont effectuées dans le cadre du travail SnapCenter . Si vous utilisez la synchronisation active SnapMirror , utilisez les planifications SnapMirror ou SnapVault par défaut pour la synchronisation active SnapMirror et les relations asynchrones.</block>
+  <block id="ea1c96f839915f73d25b910bbc92b734" category="list-text">Données qui se trouvent sur les systèmes primaires et secondaires ONTAP FAS, AFF ou ASA et protégées dans le stockage d'objets et d'archives dans le cloud à l'aide de l'intégration de sauvegarde et de récupération NetApp</block>
 </blocks>

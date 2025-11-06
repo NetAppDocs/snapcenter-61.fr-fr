@@ -160,24 +160,9 @@ Pour obtenir des informations de dépannage spécifiques à .NET, consultez http
 
 
  a| 
-File d'attente des messages
- a| 
-* Services de mise en file d'attente de messages
-+
-
-NOTE: Assurez-vous qu'aucune autre application n'utilise le service MSMQ que SnapCenter crée et gère.
-
-* LapinMQ
-* Erlang
-
-
-
-
- a| 
 Service d'activation des processus Windows
  a| 
-* Modèle de processus
-
+Modèle de processus
 
 
 

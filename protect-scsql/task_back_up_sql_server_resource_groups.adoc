@@ -41,6 +41,4 @@ link:task_create_backup_policies_for_sql_server_databases.html["Créer des polit
 
 link:task_create_resource_groups_and_attach_policies_for_sql_server.html["Créer des groupes de ressources et attacher des stratégies pour SQL Server"]
 
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["Les opérations de sauvegarde échouent avec une erreur de connexion MySQL en raison du retard dans TCP_TIMEOUT"]
-
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["La sauvegarde échoue avec une erreur du planificateur Windows"]
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["La sauvegarde échoue avec une erreur du planificateur Windows"^]
